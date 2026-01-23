@@ -35,7 +35,7 @@ def importar_teatros(json_file):
             coordenadas = fields.get("coordenadas", [None, None])
             
             # Generar capacidad máxima aleatoria entre 0 y 50
-            capacidad_random = random.randint(0, 50)
+            capacidad_random = random.randint(10, 50)
 
             # Preparar los valores para la fila
             valores = (
