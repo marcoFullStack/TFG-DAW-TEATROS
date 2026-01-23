@@ -1,0 +1,867 @@
+[
+   {
+      "datasetid":"red_teatros",
+      "recordid":"bf74c7ec5d0c22f8be4b17ad601063348c182aed",
+      "fields":{
+         "coordenadas":[
+            40.6600661,
+            -4.6924474
+         ],
+         "entidad":"AYUNTAMIENTO DE AVILA",
+         "fax":"920-225697",
+         "provincia":"Avila",
+         "sala":"AUDITORIO SAN FRANCISCO",
+         "municipio":"Avila",
+         "responsables":"Anunciación Pérez / Carmen Jiménez",
+         "cp":"05001",
+         "email":"aperezg@ayuntavila.com; mcjimenez@ayuntavila.com",
+         "direccion":"Pza. del Mercado chico, 1",
+         "telefono_s":"920-354015"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.6924474,
+            40.6600661
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"d595ac341379d847672c336ff59fc60fa4587201",
+      "fields":{
+         "coordenadas":[
+            40.6603995,
+            -4.706222599999999
+         ],
+         "entidad":"AYUNTAMIENTO DE AVILA",
+         "fax":"920-225697",
+         "provincia":"Avila",
+         "sala":"PALACIO DE CONGRESOS Y EXPOSICIONES LIENZO NORTE",
+         "municipio":"Avila",
+         "responsables":"Anunciación Pérez / Carmen Jiménez",
+         "cp":"05001",
+         "email":"aperezg@ayuntavila.com; mcjimenez@ayuntavila.com",
+         "direccion":"Pza. del Mercado chico, 1",
+         "telefono_s":"920-354015"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.706222599999999,
+            40.6603995
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"961a52c7fdbae473bc318b32d00dca8b25f6f374",
+      "fields":{
+         "coordenadas":[
+            42.3403123,
+            -3.7089036
+         ],
+         "entidad":"AYUNTAMIENTO DE BURGOS",
+         "provincia":"Burgos",
+         "sala":"TEATRO CLUNIA",
+         "municipio":"Burgos",
+         "responsables":"Ignacio J. de Miguel Gallo",
+         "cp":"09003",
+         "email":"imc@aytoburgos.es",
+         "direccion":"Paseo del Espolón, s/n.",
+         "telefono_s":"947-288840"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -3.7089036,
+            42.3403123
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"e4cc6ee55a5a87189ff88530ce751966ef7366de",
+      "fields":{
+         "coordenadas":[
+            41.6712181,
+            -3.687718899999999
+         ],
+         "entidad":"AYUNTAMIENTO DE ARANDA DE DUERO",
+         "fax":"947-511513",
+         "provincia":"Burgos",
+         "sala":"AUDITORIO DE LA CASA DE CULTURA",
+         "municipio":"Aranda de Duero",
+         "responsables":"Julia Miranda Benito",
+         "cp":"09400",
+         "email":"cultura@arandadeduero.es",
+         "direccion":"Pza. del Trigo, 9",
+         "telefono_s":"947-511275"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -3.687718899999999,
+            41.6712181
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"ddb088de1ad4fab10393bd85d1b56c4c43756c08",
+      "fields":{
+         "coordenadas":[
+            42.6837893,
+            -2.9531086
+         ],
+         "entidad":"AYUNTAMIENTO DE MIRANDA DE EBRO",
+         "fax":"947-349152",
+         "provincia":"Burgos",
+         "sala":"TEATRO APOLO",
+         "municipio":"Miranda de Ebro",
+         "responsables":"Fernando Cardero",
+         "cp":"09200",
+         "email":"fcardero@mirandadeebro.es",
+         "direccion":"Pza. de España, 8",
+         "telefono_s":"947-349138 / 947-349100"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -2.9531086,
+            42.6837893
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"a0e5164d82b28e114558f32bb45c7ae397eab56a",
+      "fields":{
+         "coordenadas":[
+            41.695246,
+            -3.930036
+         ],
+         "entidad":"AYUNTAMIENTO DE ROA DE DUERO",
+         "fax":"947 54 1806",
+         "provincia":"Burgos",
+         "sala":"AUDITORIO CENTRO CÍVICO",
+         "municipio":"Roa de Duero",
+         "responsables":"Patricia Portillo",
+         "cp":"09300",
+         "email":"cultura@roadeduero.es",
+         "direccion":"Pza. Mayor de Santa María 24,",
+         "telefono_s":"947 54 01 61"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -3.930036,
+            41.695246
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"6dce6f3d5b7a6c48e8d2881bee5babdcd07c8032",
+      "fields":{
+         "coordenadas":[
+            42.6819345,
+            -2.9439634
+         ],
+         "entidad":"AYUNTAMIENTO DE MIRANDA DE EBRO",
+         "fax":"947-349152",
+         "provincia":"Burgos",
+         "sala":"CASA MUNICIPAL DE CULTURA",
+         "municipio":"Miranda de Ebro",
+         "responsables":"Fernando Cardero",
+         "cp":"09200",
+         "email":"fcardero@mirandadeebro.es",
+         "direccion":"Pza. de España, 8",
+         "telefono_s":"947-349138 / 947-349100"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -2.9439634,
+            42.6819345
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"5b630fab17e81650c44f0280627e179e42f7ed75",
+      "fields":{
+         "coordenadas":[
+            42.3406399,
+            -3.6999119
+         ],
+         "entidad":"AYUNTAMIENTO DE BURGOS",
+         "provincia":"Burgos",
+         "sala":"TEATRO PRINCIPAL DE BURGOS",
+         "municipio":"Burgos",
+         "responsables":"Ignacio J. de Miguel Gallo",
+         "cp":"09003",
+         "email":"imc@aytoburgos.es",
+         "direccion":"Paseo del Espolón, s/n.",
+         "telefono_s":"947-288840"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -3.6999119,
+            42.3406399
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"67539718d7351726d57d909ad84e950e4c91d47d",
+      "fields":{
+         "coordenadas":[
+            41.6601959,
+            -3.693276
+         ],
+         "entidad":"AYUNTAMIENTO DE ARANDA DE DUERO",
+         "fax":"947-511513",
+         "provincia":"Burgos",
+         "sala":"CAJA DE BURGOS",
+         "municipio":"Aranda de Duero",
+         "responsables":"Julia Miranda Benito",
+         "cp":"09400",
+         "email":"cultura@arandadeduero.es",
+         "direccion":"Pza. del Trigo, 9",
+         "telefono_s":"947-511275"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -3.693276,
+            41.6601959
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"b5e840f416642f00291242b04651ea00699e9fb5",
+      "fields":{
+         "coordenadas":[
+            42.2999398,
+            -5.897157
+         ],
+         "entidad":"AYUNTAMIENTO DE LA BAÑEZA",
+         "fax":"987642056",
+         "provincia":"León",
+         "sala":"TEATRO MUNICIPAL DE LA BAÑEZA",
+         "municipio":"La Bañeza",
+         "responsables":"José Luís. Concejal de Cultura",
+         "cp":"24750",
+         "email":"jdelriego@aytobaneza.es",
+         "direccion":"Plaza Mayor,1",
+         "telefono_s":"987 641268"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.897157,
+            42.2999398
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"33d8480556ccac1e55374335ecdd6663bb0c80a2",
+      "fields":{
+         "coordenadas":[
+            42.455167032056885,
+            -6.052110564691291
+         ],
+         "entidad":"AYUNTAMIENTO DE ASTORGA",
+         "provincia":"León",
+         "sala":"TEATRO GULLÓN",
+         "municipio":"Astorga",
+         "responsables":"Manuel González Villalibre / Antonio Morales",
+         "cp":"24700",
+         "email":"cultura@astorga.es",
+         "direccion":"Pza. Mayor, s/n.",
+         "telefono_s":"987616838"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -6.052110564691291,
+            42.455167032056885
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"17c53156721952fb41c0ca4a58d0ae405a17d4db",
+      "fields":{
+         "coordenadas":[
+            42.5465503,
+            -6.589185199999999
+         ],
+         "entidad":"AYUNTAMIENTO DE PONFERRADA",
+         "fax":"987-456524",
+         "provincia":"León",
+         "sala":"TEATRO BERGIDUM",
+         "municipio":"Ponferrada",
+         "responsables":"Miguel Angel Varela Gorgojo",
+         "cp":"24400",
+         "email":"teatro@ponferrada.org",
+         "direccion":"C/ Ancha, nº 15",
+         "telefono_s":"987-429774"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -6.589185199999999,
+            42.5465503
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"a8c19e503cc63bcb054ee1a048399d49bed5dc92",
+      "fields":{
+         "coordenadas":[
+            42.602434,
+            -5.5793251
+         ],
+         "entidad":"AYUNTAMIENTO DE LEON",
+         "fax":"987-878345",
+         "provincia":"León",
+         "sala":"AUDITORIO CIUDAD DE LEÓN",
+         "municipio":"León",
+         "responsables":"Senador González Puente",
+         "cp":"24001",
+         "email":"senador.gonzalez@aytoleon.es",
+         "direccion":"Avda. Ordoño II, nº 10",
+         "telefono_s":"987-878337"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.5793251,
+            42.602434
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"24a92bb8c8bd1dd0f7c1a6c99996892e33e445df",
+      "fields":{
+         "coordenadas":[
+            42.009776,
+            -4.5307714
+         ],
+         "entidad":"AYUNTAMIENTO DE PALENCIA",
+         "fax":"979-718138",
+         "provincia":"Palencia",
+         "sala":"TEATRO PRINCIPAL",
+         "municipio":"Palencia",
+         "responsables":"Pilar Alcalde",
+         "cp":"34001",
+         "email":"palcalde@aytopalencia.es",
+         "direccion":"Pza. Mayor, 1.",
+         "telefono_s":"979-718100 / 979-718179"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.5307714,
+            42.009776
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"c96a82562555e040b0dbf62a1e6c96203c10a6fa",
+      "fields":{
+         "coordenadas":[
+            42.337559,
+            -4.603637
+         ],
+         "entidad":"AYUNTAMIENTO DE CARRIÓN DE LOS CONDES",
+         "fax":"979-880631",
+         "provincia":"Palencia",
+         "sala":"TEATRO SARABIA",
+         "municipio":"Carrión de los Condes",
+         "responsables":"Dolores Calleja",
+         "cp":"34120",
+         "email":"cultura@carriondeloscondes.es",
+         "direccion":"Pza. Mayor, 1",
+         "telefono_s":"979-880932"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.603637,
+            42.337559
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"03a6db288750f7c5144ebd68d3004100ebc9dacb",
+      "fields":{
+         "coordenadas":[
+            40.9662752,
+            -5.662528099999999
+         ],
+         "entidad":"FUNDACIÓN SALAMANCA CIUDAD DE CULTURA Y SABERES",
+         "fax":"923-272331",
+         "provincia":"Salamanca",
+         "sala":"TEATRO LICEO",
+         "municipio":"Salamanca",
+         "responsables":"Ignacio Gallego Macías",
+         "cp":"37002",
+         "email":"igallego@ciudaddecultura.org",
+         "direccion":"Plaza del Liceo s/n",
+         "telefono_s":"923-281716"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.662528099999999,
+            40.9662752
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"9e093326541c4435801433411849a5e4a92fe77f",
+      "fields":{
+         "coordenadas":[
+            40.5971274,
+            -6.532475499999999
+         ],
+         "entidad":"AYUNTAMIENTO DE CIUDAD RODRIGO",
+         "fax":"923-498401",
+         "provincia":"Salamanca",
+         "sala":"TEATRO NUEVO FERNANDO ARRABAL",
+         "municipio":"Ciudad Rodrigo",
+         "responsables":"Socorro",
+         "cp":"37500",
+         "email":"teatronuevo@aytociudadrodrigo.es",
+         "direccion":"Pza. del Conde, 2. Aptdo. de Correos, 59",
+         "telefono_s":"923-461862"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -6.532475499999999,
+            40.5971274
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"737525c160a8376d5ab10955b84a74deeedbf991",
+      "fields":{
+         "coordenadas":[
+            40.9013306,
+            -5.1991108
+         ],
+         "entidad":"AYUNTAMIENTO DE PEÑARANDA DE BRACAMONTE",
+         "fax":"923-541687",
+         "provincia":"Salamanca",
+         "sala":"TEATRO CALDERÓN",
+         "municipio":"Peñaranda de Bracamonte",
+         "responsables":"Mª Jesús Rodríguez Macias",
+         "cp":"37300",
+         "email":"dinamizacion.cultura@bracamonte.es",
+         "direccion":"Pza. Constitución, 17",
+         "telefono_s":"923-541200"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.1991108,
+            40.9013306
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"3934eb82fb42f46cc4975fa5b94e96555f90ec5c",
+      "fields":{
+         "coordenadas":[
+            40.3875427,
+            -5.7703942
+         ],
+         "entidad":"AYUNTAMIENTO DE BEJAR",
+         "fax":"923-400115",
+         "provincia":"Salamanca",
+         "sala":"TEATRO CERVANTES",
+         "municipio":"Bejar",
+         "responsables":"Manuel Garrote Prieto",
+         "cp":"37700",
+         "email":"teatrocervantes@aytobejar.com",
+         "direccion":"C/ Ronda de Navarra, 7",
+         "telefono_s":"923-400115"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.7703942,
+            40.3875427
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"ec8e8a70b1c4a3cfb2c9cde36167fb1196fb3061",
+      "fields":{
+         "coordenadas":[
+            40.9010512,
+            -5.2003773
+         ],
+         "entidad":"AYUNTAMIENTO DE PEÑARANDA DE BRACAMONTE",
+         "fax":"923-541687",
+         "provincia":"Salamanca",
+         "sala":"TEATRO DE LA FUNDACIÓN GERMÁN SÁNCHEZ RUIPEREZ",
+         "municipio":"Peñaranda de Bracamonte",
+         "responsables":"Mª Jesús Rodríguez Macias",
+         "cp":"37300",
+         "email":"dinamizacion.cultura@bracamonte.es",
+         "direccion":"Pza. Constitución, 17",
+         "telefono_s":"923-541200"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.2003773,
+            40.9010512
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"eda5ece3af20fcba80b91721bfa4129b7954d958",
+      "fields":{
+         "coordenadas":[
+            40.9598445,
+            -5.652691099999999
+         ],
+         "entidad":"FUNDACIÓN SALAMANCA CIUDAD DE CULTURA Y SABERES",
+         "fax":"923-272331",
+         "provincia":"Salamanca",
+         "sala":"CAEM (SALA B)",
+         "municipio":"Salamanca",
+         "responsables":"Ignacio Gallego Macías",
+         "cp":"37002",
+         "email":"igallego@ciudaddecultura.org",
+         "direccion":"Plaza del Liceo s/n",
+         "telefono_s":"923-281716"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.652691099999999,
+            40.9598445
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"6ba2c99efdba4b2c638a6accef1cd61f86abfefd",
+      "fields":{
+         "coordenadas":[
+            40.9505424,
+            -4.1234622
+         ],
+         "entidad":"DIPUTACION DE SEGOVIA",
+         "fax":"921-460040",
+         "provincia":"Segovia",
+         "sala":"TEATRO JUAN BRAVO",
+         "direccion_web":"www.teatrojuanbravo.org",
+         "municipio":"Segovia",
+         "responsables":"Marco Antonio Costa Herranz",
+         "cp":"40001",
+         "email":"direccion@teatrojuanbravo.org / informacion@teatrojuanbravo.org",
+         "direccion":"Pza. Mayor, 6",
+         "telefono_s":"921-460036/39"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.1234622,
+            40.9505424
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"4597cd78e11f66096af5dab75ef974c2e730d19f",
+      "fields":{
+         "coordenadas":[
+            40.71512832424537,
+            -4.246882028966157
+         ],
+         "entidad":"AYUNTAMIENTO DE EL ESPINAR",
+         "provincia":"Segovia",
+         "sala":"TEATRO AUDITORIO GONZALO MENÉNDEZ PIDAL",
+         "municipio":"El Espinar",
+         "responsables":"Mª Ángeles Mercado Romano",
+         "cp":"40400",
+         "email":"cultura@aytoelespinar.com",
+         "direccion":"Pza. de la Constitución, 1",
+         "telefono_s":"921181342"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.246882028966157,
+            40.71512832424537
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"de35fda2501726813a3c7470ea5ddb1b7a5c3a76",
+      "fields":{
+         "coordenadas":[
+            41.7632775,
+            -2.4637344
+         ],
+         "entidad":"AYUNTAMIENTO DE SORIA",
+         "fax":"975-229718",
+         "provincia":"Soria",
+         "sala":"CENTRO CULTURAL PALACIO DE LA AUDIENCIA",
+         "municipio":"Soria",
+         "responsables":"Departamento de Cultura",
+         "cp":"42071",
+         "email":"cultura@soria.es",
+         "direccion":"Pza. Mayor, s/n.",
+         "telefono_s":"975-234114 / 975-234117"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -2.4637344,
+            41.7632775
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"01bbad1cc7853af10ff4bbe19d948aa3e55b1b92",
+      "fields":{
+         "coordenadas":[
+            41.6540122,
+            -4.7246868
+         ],
+         "entidad":"AYUNTAMIENTO DE VALLADOLID / FUNDACIÓN MUNICIPAL DE CULTURA",
+         "fax":"983-426254",
+         "provincia":"Valladolid",
+         "sala":"TEATRO CALDERÓN. SALA MIGUEL DELIBES",
+         "municipio":"Valladolid",
+         "responsables":"Juan I. Herrero Fernández",
+         "cp":"47003",
+         "email":"jherrero@fmcva.org",
+         "direccion":"C/ Torrecilla, 5.",
+         "telefono_s":"983-426246"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.7246868,
+            41.6540122
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"7bbc1b1bbb333a3df16b6b045751502fca173b7b",
+      "fields":{
+         "coordenadas":[
+            41.5883848,
+            -4.727312299999999
+         ],
+         "entidad":"AYUNTAMIENTO DE LAGUNA DE DUERO",
+         "fax":"983-542312",
+         "provincia":"Valladolid",
+         "sala":"TEATRO CASA DE LAS ARTES",
+         "municipio":"Laguna de Duero",
+         "responsables":"María Cortijo Calvo",
+         "cp":"47140",
+         "email":"casadelasartes@lagunadeduero.org",
+         "direccion":"Avda. Juan de Austria, s/n",
+         "telefono_s":"983-542403"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.727312299999999,
+            41.5883848
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"dae7d940a32dbcf1222dd956853b7f638ecdd68f",
+      "fields":{
+         "coordenadas":[
+            41.306237,
+            -4.9146639
+         ],
+         "entidad":"AYUNTAMIENTO DE MEDINA DEL CAMPO",
+         "fax":"983-812365",
+         "provincia":"Valladolid",
+         "sala":"AUDITORIO MUNICIPAL DE MEDINA DEL CAMPO",
+         "municipio":"Medina del Campo",
+         "responsables":"Eduardo Lopez Velasco",
+         "cp":"47400",
+         "email":"cultura@ayto-medinadelcampo.es",
+         "direccion":"Plaza Mayor 1",
+         "telefono_s":"983-802467"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.9146639,
+            41.306237
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"bf8801e4858b6cfd4e1ab5a084aa451e56f886b9",
+      "fields":{
+         "coordenadas":[
+            41.6311546,
+            -4.7396536
+         ],
+         "entidad":"AYUNTAMIENTO DE VALLADOLID / FUNDACIÓN MUNICIPAL DE CULTURA",
+         "fax":"983-426254",
+         "provincia":"Valladolid",
+         "sala":"ESPACIO LAVA. SALA CONCHA VELASCO",
+         "municipio":"Valladolid",
+         "responsables":"Juan I. Herrero Fernández",
+         "cp":"47003",
+         "email":"jherrero@fmcva.org",
+         "direccion":"C/ Torrecilla, 5.",
+         "telefono_s":"983-426246"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -4.7396536,
+            41.6311546
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"d7f7c46663ae1d1e0e849385c79cdd17ce8bc452",
+      "fields":{
+         "coordenadas":[
+            41.522241,
+            -5.388985
+         ],
+         "entidad":"AYUNTAMIENTO DE TORO",
+         "fax":"980-694725",
+         "provincia":"Zamora",
+         "sala":"TEATRO LATORRE",
+         "municipio":"Toro",
+         "responsables":"Antonio Domingo Pelayo",
+         "cp":"49800",
+         "email":"alcaldia@toroayto.es/sambateatro@hotmail.com / teatrolatorretoro@hotmail.com",
+         "direccion":"Pza. San Francisco, 16",
+         "telefono_s":"980-692754"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.388985,
+            41.522241
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"18b0ef85820260768fd977a161a805a3498da61b",
+      "fields":{
+         "coordenadas":[
+            41.5045405,
+            -5.7464134
+         ],
+         "entidad":"AYUNTAMIENTO DE ZAMORA",
+         "fax":"980-530785",
+         "provincia":"Zamora",
+         "sala":"TEATRO PRINCIPAL",
+         "municipio":"Zamora",
+         "responsables":"José Maria Esbec",
+         "cp":"49001",
+         "email":"josemaria.esbec@zamora.es",
+         "direccion":"Pza. Mayor, 1",
+         "telefono_s":"980-534719"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.7464134,
+            41.5045405
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   },
+   {
+      "datasetid":"red_teatros",
+      "recordid":"496b1d2e7056fc571a8d8a70e7d338af42265912",
+      "fields":{
+         "coordenadas":[
+            42.0020646,
+            -5.6794753
+         ],
+         "entidad":"AYUNTAMIENTO DE BENAVENTE",
+         "fax":"980-636108",
+         "provincia":"Zamora",
+         "sala":"TEATRO REINA SOFÍA",
+         "municipio":"Benavente",
+         "responsables":"Celia Escudero",
+         "cp":"49600",
+         "email":"cultura@benavente.es",
+         "direccion":"Pza. del Grano, 3",
+         "telefono_s":"980-633332"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -5.6794753,
+            42.0020646
+         ]
+      },
+      "record_timestamp":"2024-07-22T16:13:00.636+02:00"
+   }
+]

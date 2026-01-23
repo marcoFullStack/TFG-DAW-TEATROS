@@ -97,19 +97,3 @@ CREATE TABLE `galeria_revision` (
 
 -- --------------------------------------------------------
 -- VOLCADO DE DATOS (Basado en el JSON proporcionado)
--- Nota: La CapacidadMax se genera con FLOOR(RAND()*(50-0+1)+0)
--- --------------------------------------------------------
-
-INSERT INTO `teatros` (`Sala`, `Entidad`, `Provincia`, `Municipio`, `Direccion`, `CP`, `Telefono`, `Email`, `CapacidadMax`, `Latitud`, `Longitud`) VALUES
-('AUDITORIO SAN FRANCISCO', 'AYUNTAMIENTO DE AVILA', 'Avila', 'Avila', 'Pza. del Mercado chico, 1', '05001', '920-354015', 'aperezg@ayuntavila.com', FLOOR(RAND()*51), 40.6600661, -4.6924474),
-('PALACIO DE CONGRESOS Y EXPOSICIONES LIENZO NORTE', 'AYUNTAMIENTO DE AVILA', 'Avila', 'Avila', 'Pza. del Mercado chico, 1', '05001', '920-354015', 'aperezg@ayuntavila.com', FLOOR(RAND()*51), 40.6603995, -4.7062226),
-('TEATRO CLUNIA', 'AYUNTAMIENTO DE BURGOS', 'Burgos', 'Burgos', 'Paseo del Espolón, s/n.', '09003', '947-288840', 'imc@aytoburgos.es', FLOOR(RAND()*51), 42.3403123, -3.7089036),
-('AUDITORIO DE LA CASA DE CULTURA', 'AYUNTAMIENTO DE ARANDA DE DUERO', 'Burgos', 'Aranda de Duero', 'Pza. del Trigo, 9', '09400', '947-511275', 'cultura@arandadeduero.es', FLOOR(RAND()*51), 41.6712181, -3.6877189),
-('TEATRO APOLO', 'AYUNTAMIENTO DE MIRANDA DE EBRO', 'Burgos', 'Miranda de Ebro', 'Pza. de España, 8', '09200', '947-349138', 'fcardero@mirandadeebro.es', FLOOR(RAND()*51), 42.6837893, -2.9531086),
-('TEATRO BERGIDUM', 'AYUNTAMIENTO DE PONFERRADA', 'León', 'Ponferrada', 'C/ Ancha, nº 15', '24400', '987-429774', 'teatro@ponferrada.org', FLOOR(RAND()*51), 42.5465503, -6.5891852),
-('AUDITORIO CIUDAD DE LEÓN', 'AYUNTAMIENTO DE LEON', 'León', 'León', 'Avda. Ordoño II, nº 10', '24001', '987-878337', 'senador.gonzalez@aytoleon.es', FLOOR(RAND()*51), 42.6024340, -5.5793251),
-('TEATRO PRINCIPAL', 'AYUNTAMIENTO DE PALENCIA', 'Palencia', 'Palencia', 'Pza. Mayor, 1.', '34001', '979-718100', 'palcalde@aytopalencia.es', FLOOR(RAND()*51), 42.0097760, -4.5307714),
-('TEATRO LICEO', 'FUNDACIÓN SALAMANCA CIUDAD DE CULTURA', 'Salamanca', 'Salamanca', 'Plaza del Liceo s/n', '37002', '923-281716', 'igallego@ciudaddecultura.org', FLOOR(RAND()*51), 40.9662752, -5.6625281),
-('TEATRO JUAN BRAVO', 'DIPUTACION DE SEGOVIA', 'Segovia', 'Segovia', 'Pza. Mayor, 6', '40001', '921-460036', 'direccion@teatrojuanbravo.org', FLOOR(RAND()*51), 40.9505424, -4.1234622);
-
-COMMIT;
