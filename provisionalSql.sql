@@ -1,14 +1,7 @@
---
--- Base de datos: `red_teatros_regional`
---
 CREATE DATABASE IF NOT EXISTS red_teatros_regional;
 USE red_teatros_regional;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para `admins`
---
+-- Estructura original (sin cambios)
 CREATE TABLE `admins` (
   `idAdmin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(160) NOT NULL,
@@ -20,15 +13,9 @@ CREATE TABLE `admins` (
   UNIQUE KEY `uq_admins_email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Admin por defecto
 INSERT INTO `admins` (`Nombre`, `Email`, `PasswordHash`) VALUES
 ('jaime', 'jaime@jaime.es', '$2y$10$49n..yHt5JZwc38d6T81Gu5QjkTuPe7BV.OGcmh/Vh3peEqQc29ha');
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para `usuarios` (Anteriormente socios)
---
 CREATE TABLE `usuarios` (
   `idUsuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(160) NOT NULL,
@@ -41,11 +28,6 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `uq_usuarios_email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para `teatros`
---
 CREATE TABLE `teatros` (
   `idTeatro` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Sala` varchar(255) NOT NULL,
@@ -62,12 +44,6 @@ CREATE TABLE `teatros` (
   PRIMARY KEY (`idTeatro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para `visitas_ranking`
--- (Permite al usuario marcar dónde ha estado y ganar puntos)
--- --------------------------------------------------------
 CREATE TABLE `visitas_ranking` (
   `idUsuario` int(10) UNSIGNED NOT NULL,
   `idTeatro` int(10) UNSIGNED NOT NULL,
@@ -77,12 +53,6 @@ CREATE TABLE `visitas_ranking` (
   CONSTRAINT `fk_visitas_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para `galeria_revision`
--- (Imágenes subidas por usuarios que el admin debe aprobar)
--- --------------------------------------------------------
 CREATE TABLE `galeria_revision` (
   `idImagen` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `idUsuario` int(10) UNSIGNED NOT NULL,
@@ -96,4 +66,25 @@ CREATE TABLE `galeria_revision` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
--- VOLCADO DE DATOS (Basado en el JSON proporcionado)
+-- NUEVAS TABLAS
+-- --------------------------------------------------------
+
+CREATE TABLE `obras` (
+  `idObra` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Titulo` varchar(255) NOT NULL,
+  `Autor` varchar(255) DEFAULT NULL,
+  `Subtitulo` text DEFAULT NULL,
+  `Anio` int(4) DEFAULT NULL,
+  `UrlDracor` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idObra`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `horarios` (
+  `idHorario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idTeatro` int(10) UNSIGNED NOT NULL,
+  `idObra` int(10) UNSIGNED NOT NULL,
+  `FechaHora` datetime NOT NULL,
+  PRIMARY KEY (`idHorario`),
+  CONSTRAINT `fk_horarios_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE,
+  CONSTRAINT `fk_horarios_obras` FOREIGN KEY (`idObra`) REFERENCES `obras` (`idObra`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
