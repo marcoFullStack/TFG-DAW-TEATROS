@@ -1,0 +1,193 @@
+/* --- Variables de Diseño --- */
+:root {
+    --gold: #c5a059;
+    --gold-bright: #e2c08d;
+    --dark-velvet: #2c0b0e;
+    --deep-red: #4a0e0e;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* --- Animaciones de Entrada --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes goldGlow {
+    0% { box-shadow: 0 0 5px var(--gold); }
+    50% { box-shadow: 0 0 20px var(--gold-bright); }
+    100% { box-shadow: 0 0 5px var(--gold); }
+}
+
+/* --- General --- */
+body {
+    background: #fdfcfb;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* --- Navegación Premium --- */
+.navbar {
+    backdrop-filter: blur(10px);
+    background-color: rgba(44, 11, 14, 0.95) !important;
+    padding: 1rem 0;
+    transition: all 0.4s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold) !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* --- Hero Section Mejorada --- */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, #fdfcfb, transparent);
+}
+
+.hero-section h1 {
+    animation: fadeInUp 1s ease-out;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* --- Tarjetas de Obras (Glassmorphism & Elevación) --- */
+.card-obra {
+    background: #ffffff;
+    border: 1px solid #eee !important;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+.card-obra:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    border-color: var(--gold) !important;
+}
+
+.card-obra .btn-outline-dark:hover {
+    background-color: var(--dark-velvet);
+    color: var(--gold);
+    border-color: var(--dark-velvet);
+}
+
+/* --- Sección de Horarios / Cartelera --- */
+.schedule-item {
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+}
+
+.schedule-item:hover {
+    background: #fff;
+    transform: translateX(10px);
+    box-shadow: var(--shadow-soft);
+}
+
+.schedule-item::before {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.05), transparent);
+    transition: 0.5s;
+}
+
+.schedule-item:hover::before {
+    left: 100%;
+}
+
+/* --- Ranking de Usuarios (Efecto Oro) --- */
+.card.shadow-sm.p-4 {
+    border-top: 4px solid var(--gold) !important;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+}
+
+.text-gold {
+    color: var(--gold) !important;
+    font-size: 1.2rem;
+}
+
+.progress-bar.bg-warning {
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright)) !important;
+}
+
+/* --- Teatros (Estilo Moderno) --- */
+#teatros .card {
+    border-radius: 20px;
+    border: none;
+    background: white;
+}
+
+#teatros i.fa-landmark {
+    background: linear-gradient(135deg, var(--dark-velvet), var(--deep-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+}
+
+.badge-capacity {
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* --- Botones Especiales --- */
+.btn-gold {
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    animation: none;
+}
+
+.btn-gold:hover {
+    animation: goldGlow 1.5s infinite;
+}
+
+/* --- Footer Elegante --- */
+footer {
+    background: radial-gradient(circle at top, var(--deep-red), var(--dark-velvet));
+}
+
+footer h2 {
+    letter-spacing: 5px;
+    color: var(--gold);
+}
+
+footer .fab:hover {
+    color: var(--gold) !important;
+    transform: translateY(-5px) rotate(360deg);
+    transition: 0.6s;
+}
+
+/* --- Scrollbar Personalizada --- */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--dark-velvet);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}

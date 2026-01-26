@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS red_teatros_regional;
 USE red_teatros_regional;
 
--- Estructura original (sin cambios)
+-- 1. Administradores
 CREATE TABLE `admins` (
   `idAdmin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(160) NOT NULL,
@@ -16,6 +16,7 @@ CREATE TABLE `admins` (
 INSERT INTO `admins` (`Nombre`, `Email`, `PasswordHash`) VALUES
 ('jaime', 'jaime@jaime.es', '$2y$10$49n..yHt5JZwc38d6T81Gu5QjkTuPe7BV.OGcmh/Vh3peEqQc29ha');
 
+-- 2. Usuarios
 CREATE TABLE `usuarios` (
   `idUsuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(160) NOT NULL,
@@ -28,6 +29,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `uq_usuarios_email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 3. Teatros y sus imágenes
 CREATE TABLE `teatros` (
   `idTeatro` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Sala` varchar(255) NOT NULL,
@@ -42,6 +44,44 @@ CREATE TABLE `teatros` (
   `Latitud` decimal(10, 8) DEFAULT NULL,
   `Longitud` decimal(11, 8) DEFAULT NULL,
   PRIMARY KEY (`idTeatro`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `imagenes_teatros` (
+  `idImagenTeatro` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idTeatro` int(10) UNSIGNED NOT NULL,
+  `RutaImagen` varchar(255) NOT NULL,
+  PRIMARY KEY (`idImagenTeatro`),
+  CONSTRAINT `fk_img_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 4. Obras y sus imágenes
+CREATE TABLE `obras` (
+  `idObra` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Titulo` varchar(255) NOT NULL,
+  `Autor` varchar(255) DEFAULT NULL,
+  `Subtitulo` text DEFAULT NULL,
+  `Anio` int(4) DEFAULT NULL,
+  `UrlDracor` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idObra`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `imagenes_obras` (
+  `idImagenObra` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idObra` int(10) UNSIGNED NOT NULL,
+  `RutaImagen` varchar(255) NOT NULL,
+  PRIMARY KEY (`idImagenObra`),
+  CONSTRAINT `fk_img_obras` FOREIGN KEY (`idObra`) REFERENCES `obras` (`idObra`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 5. Horarios, Visitas y Galerías de Usuario
+CREATE TABLE `horarios` (
+  `idHorario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idTeatro` int(10) UNSIGNED NOT NULL,
+  `idObra` int(10) UNSIGNED NOT NULL,
+  `FechaHora` datetime NOT NULL,
+  PRIMARY KEY (`idHorario`),
+  CONSTRAINT `fk_horarios_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE,
+  CONSTRAINT `fk_horarios_obras` FOREIGN KEY (`idObra`) REFERENCES `obras` (`idObra`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `visitas_ranking` (
@@ -63,28 +103,4 @@ CREATE TABLE `galeria_revision` (
   PRIMARY KEY (`idImagen`),
   CONSTRAINT `fk_galeria_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE CASCADE,
   CONSTRAINT `fk_galeria_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
--- NUEVAS TABLAS
--- --------------------------------------------------------
-
-CREATE TABLE `obras` (
-  `idObra` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `Titulo` varchar(255) NOT NULL,
-  `Autor` varchar(255) DEFAULT NULL,
-  `Subtitulo` text DEFAULT NULL,
-  `Anio` int(4) DEFAULT NULL,
-  `UrlDracor` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`idObra`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `horarios` (
-  `idHorario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `idTeatro` int(10) UNSIGNED NOT NULL,
-  `idObra` int(10) UNSIGNED NOT NULL,
-  `FechaHora` datetime NOT NULL,
-  PRIMARY KEY (`idHorario`),
-  CONSTRAINT `fk_horarios_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE,
-  CONSTRAINT `fk_horarios_obras` FOREIGN KEY (`idObra`) REFERENCES `obras` (`idObra`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
