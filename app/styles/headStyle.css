@@ -1,0 +1,186 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #F9F4E8; /* Crema */
+            color: #1E1B18; /* Negro */
+        }
+        
+        /* Header principal */
+        .main-header {
+            background-color: #630E16; /* Granate */
+            color: #F9F4E8; /* Crema */
+            padding: 0 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        /* Contenedor del header */
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        /* Logo y nombre del sitio */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            height: 50px;
+            width: 50px;
+            background-color: #C5A059; /* Dorado */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #630E16; /* Granate */
+            font-size: 24px;
+        }
+        
+        .site-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #F9F4E8; /* Crema */
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Navegación principal */
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .main-nav a {
+            color: #F9F4E8; /* Crema */
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .main-nav a:hover {
+            background-color: rgba(197, 160, 89, 0.2); /* Dorado con transparencia */
+            color: #C5A059; /* Dorado */
+        }
+        
+        .main-nav a.active {
+            color: #C5A059; /* Dorado */
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background-color: #C5A059; /* Dorado */
+        }
+        
+        /* Botón de acción */
+        .header-action {
+            padding: 10px 22px;
+            background-color: #C5A059; /* Dorado */
+            color: #630E16; /* Granate */
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .header-action:hover {
+            background-color: #F9F4E8; /* Crema */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Menú hamburguesa para móviles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: #F9F4E8; /* Crema */
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .main-nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #630E16; /* Granate */
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease;
+            }
+            
+            .main-nav.active {
+                max-height: 300px;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .main-nav a {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 12px 20px;
+            }
+            
+            .header-action {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .site-name {
+                font-size: 24px;
+            }
+            
+            .logo {
+                height: 40px;
+                width: 40px;
+                font-size: 20px;
+            }
+        }
