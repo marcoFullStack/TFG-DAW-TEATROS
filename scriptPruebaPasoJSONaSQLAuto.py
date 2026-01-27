@@ -3,6 +3,67 @@ import mysql.connector
 import random
 import requests
 from datetime import datetime
+import os
+import re
+from difflib import SequenceMatcher
+
+def normalizar_nombre(nombre):
+    """Normaliza un nombre para comparación: elimina extensiones, convierte a minúsculas y limpia caracteres especiales"""
+    if not nombre:
+        return ""
+    # Eliminar extensión
+    nombre_sin_ext = os.path.splitext(nombre)[0]
+    
+    # Decodificar entidades HTML como #U00cd -> Í, #U00d3 -> Ó, etc.
+    # Reemplazar secuencias #U00XX por su carácter correspondiente
+    def reemplazar_unicode(match):
+        try:
+            codigo = match.group(1)
+            return chr(int(codigo, 16))
+        except:
+            return match.group(0)
+    
+    nombre_sin_ext = re.sub(r'#U([0-9A-Fa-f]{4})', reemplazar_unicode, nombre_sin_ext)
+    
+    # Convertir a minúsculas y limpiar espacios
+    return nombre_sin_ext.lower().strip()
+
+def similitud_cadenas(a, b):
+    """Calcula la similitud entre dos cadenas (0.0 a 1.0)"""
+    return SequenceMatcher(None, a, b).ratio()
+
+def buscar_imagen_local(nombre_busqueda, carpeta_imagenes, umbral_similitud=0.7):
+    """
+    Busca una imagen en la carpeta local que coincida con el nombre dado.
+    Retorna la ruta relativa de la imagen si la encuentra, None si no.
+    """
+    if not os.path.exists(carpeta_imagenes):
+        return None
+    
+    nombre_normalizado = normalizar_nombre(nombre_busqueda)
+    mejor_coincidencia = None
+    mejor_similitud = 0
+    
+    for archivo in os.listdir(carpeta_imagenes):
+        if archivo.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')):
+            nombre_archivo_normalizado = normalizar_nombre(archivo)
+            similitud = similitud_cadenas(nombre_normalizado, nombre_archivo_normalizado)
+            
+            if similitud > mejor_similitud and similitud >= umbral_similitud:
+                mejor_similitud = similitud
+                mejor_coincidencia = archivo
+    
+    if mejor_coincidencia:
+        # Convertir ruta para que funcione desde index2.php
+        # De "app/images/teatros/nombre.png" a "./images/teatros/nombre.png"
+        ruta_completa = os.path.join(carpeta_imagenes, mejor_coincidencia)
+        # Normalizar las barras a forward slashes para web
+        ruta_completa = ruta_completa.replace('\\', '/')
+        # Eliminar "app/" del inicio si existe
+        if ruta_completa.startswith("app/"):
+            ruta_completa = "./" + ruta_completa[4:]
+        return ruta_completa
+    return None
 
 # Configuración de la conexión
 db_config = {
@@ -38,10 +99,18 @@ def importar_todo(json_teatros):
             t_id = cursor.lastrowid
             teatro_ids.append(t_id)
 
-            # Insertar 3 imágenes aleatorias por teatro
-            for i in range(3):
-                img_url = f"https://picsum.photos/seed/teatro_{t_id}_{i}/1200/800"
-                cursor.execute(sql_img_teatro, (t_id, img_url))
+            # Buscar imagen local del teatro por nombre
+            nombre_teatro = fld.get("sala")
+            img_local = buscar_imagen_local(nombre_teatro, "app/images/teatros")
+            
+            if img_local:
+                # Si encontramos imagen local, la insertamos
+                cursor.execute(sql_img_teatro, (t_id, img_local))
+            else:
+                # Si no hay imagen local, insertamos 3 imágenes aleatorias como fallback
+                for i in range(3):
+                    img_url = f"https://picsum.photos/seed/teatro_{t_id}_{i}/1200/800"
+                    cursor.execute(sql_img_teatro, (t_id, img_url))
 
         # --- 2. IMPORTAR OBRAS (Desde API Dracor) ---
         print("Descargando obras de Dracor y asignando posters...")
@@ -63,10 +132,18 @@ def importar_todo(json_teatros):
             o_id = cursor.lastrowid
             obra_ids.append(o_id)
 
-            # Insertar 2 imágenes (posters) por obra
-            for i in range(2):
-                img_url = f"https://picsum.photos/seed/obra_{o_id}_{i}/800/1200"
-                cursor.execute(sql_img_obra, (o_id, img_url))
+            # Buscar imagen local de la obra por título
+            titulo_obra = play.get("title")
+            img_local = buscar_imagen_local(titulo_obra, "app/images/obras")
+            
+            if img_local:
+                # Si encontramos imagen local, la insertamos
+                cursor.execute(sql_img_obra, (o_id, img_local))
+            else:
+                # Si no hay imagen local, insertamos 2 imágenes aleatorias como fallback
+                for i in range(2):
+                    img_url = f"https://picsum.photos/seed/obra_{o_id}_{i}/800/1200"
+                    cursor.execute(sql_img_obra, (o_id, img_url))
 
         # --- 3. GENERAR HORARIOS ---
         print("Sincronizando cartelera...")
@@ -96,5 +173,81 @@ def importar_todo(json_teatros):
             cursor.close()
             conn.close()
 
+def actualizar_imagenes_existentes():
+    """Actualiza las imágenes de teatros y obras que ya existen en la base de datos"""
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        
+        print("\n" + "="*50)
+        print("ACTUALIZANDO IMÁGENES EXISTENTES")
+        print("="*50)
+        
+        # --- ACTUALIZAR IMÁGENES DE TEATROS ---
+        print("\n🎭 Procesando teatros...")
+        cursor.execute("SELECT idTeatro, Sala FROM teatros")
+        teatros = cursor.fetchall()
+        
+        teatros_actualizados = 0
+        for idTeatro, nombreTeatro in teatros:
+            img_local = buscar_imagen_local(nombreTeatro, "app/images/teatros")
+            
+            if img_local:
+                # Eliminar imágenes antiguas
+                cursor.execute("DELETE FROM imagenes_teatros WHERE idTeatro = %s", (idTeatro,))
+                # Insertar nueva imagen
+                cursor.execute(
+                    "INSERT INTO imagenes_teatros (idTeatro, RutaImagen) VALUES (%s, %s)",
+                    (idTeatro, img_local)
+                )
+                print(f"  ✅ {nombreTeatro} -> {img_local}")
+                teatros_actualizados += 1
+            else:
+                print(f"  ⚠️  {nombreTeatro} -> No se encontró imagen")
+        
+        # --- ACTUALIZAR IMÁGENES DE OBRAS ---
+        print(f"\n🎬 Procesando obras...")
+        cursor.execute("SELECT idObra, Titulo FROM obras")
+        obras = cursor.fetchall()
+        
+        obras_actualizadas = 0
+        for idObra, tituloObra in obras:
+            img_local = buscar_imagen_local(tituloObra, "app/images/obras")
+            
+            if img_local:
+                # Eliminar imágenes antiguas
+                cursor.execute("DELETE FROM imagenes_obras WHERE idObra = %s", (idObra,))
+                # Insertar nueva imagen
+                cursor.execute(
+                    "INSERT INTO imagenes_obras (idObra, RutaImagen) VALUES (%s, %s)",
+                    (idObra, img_local)
+                )
+                print(f"  ✅ {tituloObra} -> {img_local}")
+                obras_actualizadas += 1
+            else:
+                print(f"  ⚠️  {tituloObra} -> No se encontró imagen")
+        
+        conn.commit()
+        
+        print("\n" + "="*50)
+        print("ACTUALIZACIÓN COMPLETADA")
+        print(f"Teatros actualizados: {teatros_actualizados}/{len(teatros)}")
+        print(f"Obras actualizadas: {obras_actualizadas}/{len(obras)}")
+        print("="*50)
+        
+    except Exception as e:
+        print(f"Error durante la actualización: {e}")
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+
 if __name__ == "__main__":
-    importar_todo("red_teatros.json")
+    import sys
+    
+    # Si se pasa el argumento "actualizar", solo actualiza imágenes
+    if len(sys.argv) > 1 and sys.argv[1] == "actualizar":
+        actualizar_imagenes_existentes()
+    else:
+        # Comportamiento normal: importar todo
+        importar_todo("red_teatros.json")

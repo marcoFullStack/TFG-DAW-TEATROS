@@ -7,8 +7,8 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
 // Datos desde DAO
 $provincias = dao_getProvincias($pdo);
-$teatros    = dao_getTeatrosDestacados($pdo, 12);
-$cartelera  = dao_getCartelera($pdo, 12);
+$teatros    = dao_getTeatrosDestacados($pdo, null);
+$cartelera  = dao_getCartelera($pdo, null);
 
 $totalTeatros = dao_countTeatros($pdo);
 $totalObras   = dao_countObras($pdo);

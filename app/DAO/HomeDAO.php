@@ -12,7 +12,7 @@ function dao_getProvincias(PDO $pdo): array {
     }
 }
 
-function dao_getTeatrosDestacados(PDO $pdo, int $limit = 12): array {
+function dao_getTeatrosDestacados(PDO $pdo, ?int $limit = null): array {
     try {
         $sql = "
             SELECT
@@ -24,18 +24,24 @@ function dao_getTeatrosDestacados(PDO $pdo, int $limit = 12): array {
                LIMIT 1) AS img
             FROM teatros t
             ORDER BY t.Provincia, t.Municipio, t.Sala
-            LIMIT :lim
         ";
-        $st = $pdo->prepare($sql);
-        $st->bindValue(':lim', $limit, PDO::PARAM_INT);
-        $st->execute();
-        return $st->fetchAll();
+
+        if ($limit !== null) {
+            $sql .= " LIMIT :lim";
+            $st = $pdo->prepare($sql);
+            $st->bindValue(':lim', $limit, PDO::PARAM_INT);
+            $st->execute();
+            return $st->fetchAll();
+        }
+
+        return $pdo->query($sql)->fetchAll();
     } catch (Throwable $e) {
         return [];
     }
 }
 
-function dao_getCartelera(PDO $pdo, int $limit = 12): array {
+
+function dao_getCartelera(PDO $pdo, ?int $limit = null): array {
     try {
         $sql = "
             SELECT
@@ -52,12 +58,17 @@ function dao_getCartelera(PDO $pdo, int $limit = 12): array {
             INNER JOIN teatros t ON t.idTeatro = h.idTeatro
             INNER JOIN obras o   ON o.idObra   = h.idObra
             ORDER BY h.FechaHora ASC
-            LIMIT :lim
         ";
-        $st = $pdo->prepare($sql);
-        $st->bindValue(':lim', $limit, PDO::PARAM_INT);
-        $st->execute();
-        return $st->fetchAll();
+
+        if ($limit !== null) {
+            $sql .= " LIMIT :lim";
+            $st = $pdo->prepare($sql);
+            $st->bindValue(':lim', $limit, PDO::PARAM_INT);
+            $st->execute();
+            return $st->fetchAll();
+        }
+
+        return $pdo->query($sql)->fetchAll();
     } catch (Throwable $e) {
         return [];
     }

@@ -1,0 +1,70 @@
+<?php
+declare(strict_types=1);
+
+session_start();
+
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../DAO/UsuarioDAO.php';
+
+$dao = new UsuarioDAO($pdo);
+$error = null;
+
+if (!empty($_POST['btnLogin'])) {
+  $Email = trim($_POST['Email'] ?? '');
+  $Password = (string)($_POST['Password'] ?? '');
+
+  $u = $dao->buscarPorEmail($Email);
+
+  if ($u && password_verify($Password, (string)$u['PasswordHash'])) {
+    $_SESSION['user_id'] = (int)$u['idUsuario'];
+    header('Location: ' . BASE_URL . 'views/user/indexUsuario.php');
+    exit;
+  } else {
+    $error = "Credenciales incorrectas";
+  }
+}
+
+function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+?>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Login usuario</title>
+  <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
+</head>
+<body>
+<main>
+  <div class="form-box">
+    <h1>Login usuario</h1>
+
+    <?php if ($error): ?>
+      <div class="notice"><?= h($error) ?></div>
+    <?php endif; ?>
+
+    <form id="formUserLogin" method="post" novalidate>
+      <div class="form-row">
+        <label>Email</label>
+        <input name="Email" type="email" value="<?= h($_POST['Email'] ?? '') ?>">
+      </div>
+      <div class="form-row">
+        <label>Contraseña</label>
+        <input name="Password" type="password">
+      </div>
+
+      <input type="submit" name="btnLogin" value="🔓 Entrar">
+      <a href="<?= h(BASE_URL) ?>views/user/register.php">➕ Registrarme</a>
+    </form>
+  </div>
+</main>
+
+<script src="<?= h(BASE_URL) ?>js/formAuth.js"></script>
+<script>
+  AuthForms.enhanceForm(document.getElementById("formUserLogin"), [
+    { selector: 'input[name="Email"]', required:true, email:true, message:"Email no válido" },
+    { selector: 'input[name="Password"]', required:true, minLength:4, message:"Contraseña mínimo 4 caracteres" }
+  ]);
+</script>
+</body>
+</html>
