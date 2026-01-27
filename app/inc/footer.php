@@ -6,8 +6,9 @@
             <!-- Sección de información -->
             <div class="footer-section">
                 <div class="footer-logo">
-                    <div class="footer-logo-icon">N</div>
-                    <a href="index.php" class="footer-site-name">Naregador</a>
+                    <a href="index.php" class="footer-site-name">
+                        <div class="logo"><img src="images/logo/Logo.png" alt="Logo" class="logo"></div>Teatros Nova
+                    </a>
                 </div>
                 <p class="footer-description">
                     Una plataforma innovadora diseñada para ofrecer la mejor experiencia de navegación y servicios digitales de calidad.
