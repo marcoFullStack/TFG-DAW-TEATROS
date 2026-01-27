@@ -9,8 +9,9 @@
 <header class="main-header">
         <div class="header-container">
             <div class="logo-section">
-                <div class="logo">N</div>
-                <a href="index.php" class="site-name">Naregador</a>
+                <a href="index.php" class="site-name">
+                    <div class="logo"><img src="images/logo/Logo.png" alt="Logo" class="logo"></div>Teatros Nova
+                </a>
             </div>
             
             <div class="menu-toggle" id="menuToggle">

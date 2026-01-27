@@ -49,6 +49,9 @@
         font-weight: 700;
         color: #F9F4E8; /* Crema */
         text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 20px;
     }
     
     .footer-description {
