@@ -1,168 +1,389 @@
 <?php
-require_once './config/db.php'; 
+// index.php
+require_once __DIR__ . '/config/db.php'; // crea $pdo con getConexion()
 
+function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+
+// Provincias para filtro
+$provincias = [];
 try {
-    // 1. Obras destacadas con su primera imagen
-    $stmtObras = $pdo->query("
-        SELECT o.*, 
-        (SELECT RutaImagen 
-         FROM imagenes_obras 
-         WHERE idObra = o.idObra 
-         LIMIT 1) AS Imagen 
-        FROM obras o 
-        ORDER BY RAND() 
-        LIMIT 3
-    ");
-    $obrasDestacadas = $stmtObras->fetchAll();
+  $provincias = $pdo->query("SELECT DISTINCT Provincia FROM teatros ORDER BY Provincia")->fetchAll(PDO::FETCH_COLUMN);
+} catch (Throwable $e) { $provincias = []; }
 
-    // 2. Teatros recientes con su primera imagen
-    $stmtTeatros = $pdo->query("
-        SELECT t.*, 
-        (SELECT RutaImagen 
-         FROM imagenes_teatros 
-         WHERE idTeatro = t.idTeatro 
-         LIMIT 1) AS Imagen 
-        FROM teatros t 
-        ORDER BY idTeatro DESC 
-        LIMIT 4
-    ");
-    $teatrosRecientes = $stmtTeatros->fetchAll();
+// Teatros destacados (con 1 imagen si existe)
+$teatros = [];
+try {
+$sql = "
+  SELECT
+    t.idTeatro AS id, t.Sala, t.Provincia, t.Municipio, t.Direccion, t.CapacidadMax,
+    (SELECT RutaImagen
+     FROM imagenes_teatros it
+     WHERE it.idTeatro = t.idTeatro
+     ORDER BY it.idImagenTeatro ASC
+     LIMIT 1) AS img
+  FROM teatros t
+  ORDER BY t.Provincia, t.Municipio, t.Sala
+  LIMIT 12
+";
+$teatros = $pdo->query($sql)->fetchAll();
 
-    // 3. Próximas funciones
-    $sqlFunciones = "
-        SELECT h.FechaHora, 
-               o.Titulo AS Obra, 
-               t.Sala AS Teatro, 
-               t.Municipio
-        FROM horarios h
-        JOIN obras o ON h.idObra = o.idObra
-        JOIN teatros t ON h.idTeatro = t.idTeatro
-        WHERE h.FechaHora >= NOW()
-        ORDER BY h.FechaHora ASC
-        LIMIT 5
-    ";
-    $proximasFunciones = $pdo->query($sqlFunciones)->fetchAll();
+} catch (Throwable $e) { $teatros = []; }
 
-    // 4. Ranking de usuarios
-    $rankingUsuarios = $pdo->query("
-        SELECT Nombre, Puntos, FotoPerfil 
-        FROM usuarios 
-        ORDER BY Puntos DESC 
-        LIMIT 5
-    ")->fetchAll();
+// Cartelera próxima (join horarios + teatros + obras + imagen obra)
+$cartelera = [];
+try {
+ $sql = "
+  SELECT
+    h.idHorario,
+    h.FechaHora,
+    t.idTeatro AS idTeatro, t.Sala AS teatro, t.Provincia, t.Municipio,
+    o.idObra AS idObra, o.Titulo AS titulo, o.Autor AS autor, o.Anio AS anio, o.UrlDracor AS url,
+    (SELECT RutaImagen
+     FROM imagenes_obras io
+     WHERE io.idObra = o.idObra
+     ORDER BY io.idImagenObra ASC
+     LIMIT 1) AS img
+  FROM horarios h
+  INNER JOIN teatros t ON t.idTeatro = h.idTeatro
+  INNER JOIN obras o   ON o.idObra   = h.idObra
+  ORDER BY h.FechaHora ASC
+  LIMIT 12
+";
+$cartelera = $pdo->query($sql)->fetchAll();
 
-} catch (PDOException $e) {
-    die("Error al cargar la página: " . $e->getMessage());
-}
+  $cartelera = $pdo->query($sql)->fetchAll();
+} catch (Throwable $e) { $cartelera = []; }
 
-// Imágenes por defecto
-$imgDefaultObra = "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=1000";
-$imgDefaultTeatro = "https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=1000";
+// Contadores (para numeritos animados)
+$totalTeatros = 0;
+$totalObras   = 0;
+try { $totalTeatros = (int)$pdo->query("SELECT COUNT(*) FROM teatros")->fetchColumn(); } catch (Throwable $e) {}
+try { $totalObras   = (int)$pdo->query("SELECT COUNT(*) FROM obras")->fetchColumn(); } catch (Throwable $e) {}
 ?>
+<?php include_once __DIR__ . '/inc/header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Teatral | Gran Escenario</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/styleIndex.css">
-    <link rel="stylesheet" href="style.css">
+<main class="page">
+  <!-- Fondo teatral -->
+  <div class="bg" aria-hidden="true">
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
+    <div class="spot s1"></div>
+    <div class="spot s2"></div>
+    <div class="grain"></div>
+  </div>
 
-    <style>
-        .card-img-container {
-            height: 250px;
-            overflow: hidden;
-        }
-        .card-img-top-custom {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        .card-obra:hover .card-img-top-custom {
-            transform: scale(1.1);
-        }
-    </style>
-</head>
+  <!-- HERO (mockup: hero + panel derecho) -->
+  <section class="hero" id="inicio">
+    <div class="container hero-grid">
+      <!-- HERO izquierdo -->
+      <div class="hero-left reveal">
+        <div class="kicker">
+          <span class="mask">🎭</span>
+          <span>Red de Teatros · Castilla y León</span>
+        </div>
 
-<body>
+        <h1 class="title">
+          Un inicio clásico para una
+          <span class="gold">experiencia cultural</span> moderna
+        </h1>
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <p class="lead">
+          Descubre teatros por provincia y consulta la cartelera. Filtra al instante, guarda ideas y
+          navega con una interfaz cuidada, tradicional y elegante.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="num" data-count="<?= (int)$totalTeatros ?>" data-fallback="120">0</div>
+            <div class="lbl">Teatros</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-count="<?= (int)$totalObras ?>" data-fallback="300">0</div>
+            <div class="lbl">Obras</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-count="9" data-fallback="9">0</div>
+            <div class="lbl">Provincias</div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <a class="btn primary" href="#explorar">Explorar</a>
+          <a class="btn ghost" href="#cartelera">Ver cartelera</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Filtros (preferencia del usuario) -->
+        <div class="filters glass">
+          <div class="f-group">
+            <label for="provincia">Provincia</label>
+            <select id="provincia">
+              <option value="">Todas</option>
+              <?php foreach ($provincias as $p): ?>
+                <option value="<?= h($p) ?>"><?= h($p) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+          <div class="f-group">
+            <label for="buscar">Buscar</label>
+            <input id="buscar" type="text" placeholder="Teatro, municipio, obra, autor…">
+          </div>
+
+          <button class="btn small" id="btnReset" type="button">Reset</button>
+        </div>
+      </div>
+
+      <!-- Panel derecho (en vez de login: “Destacados de hoy”) -->
+      <aside class="hero-right reveal" id="cartelera">
+        <div class="panel glass">
+          <div class="panel-head">
+            <h2>Destacados</h2>
+            <p>Próximas funciones (según horarios)</p>
+          </div>
+
+          <div class="panel-list" id="listDestacados">
+            <?php if (count($cartelera) === 0): ?>
+              <div class="empty">
+                <strong>Aún no hay cartelera cargada.</strong>
+                <span>En cuanto tengas datos en <code>horarios</code> aparecerán aquí.</span>
+              </div>
+            <?php else: ?>
+              <?php foreach ($cartelera as $c): ?>
+                <?php
+                  $img = $c['img'] ?: '';
+                  $fecha = date('d/m/Y H:i', strtotime($c['FechaHora']));
+                ?>
+                <a class="mini-card"
+   href="index2.php?obra=<?= (int)$c['idObra'] ?>&teatro=<?= (int)$c['idTeatro'] ?>"
+
+                   data-provincia="<?= h($c['Provincia']) ?>"
+                   data-search="<?= h(mb_strtolower($c['titulo'].' '.$c['autor'].' '.$c['teatro'].' '.$c['Municipio'].' '.$c['Provincia'])) ?>">
+                  <div class="thumb" style="<?= $img ? "background-image:url('".h($img)."')" : "" ?>"></div>
+                  <div class="mini-body">
+                    <div class="mini-top">
+                      <span class="tag"><?= h($c['Provincia']) ?></span>
+                      <span class="time"><?= h($fecha) ?></span>
+                    </div>
+                    <div class="mini-title"><?= h($c['titulo']) ?></div>
+                    <div class="mini-sub"><?= h($c['teatro']) ?> · <?= h($c['Municipio']) ?></div>
+                  </div>
+                </a>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </div>
+
+          <div class="panel-foot">
+            <a class="btn ghost w-100" href="#explorar">Ver todo abajo</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- SECCIÓN GRANDE “cards, info, etc” (mockup) -->
+  <section class="cards" id="explorar">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-masks-theater me-2"></i>RED TEATROS
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link" href="#obras">Obras</a></li>
-                <li class="nav-item"><a class="nav-link" href="#teatros">Teatros</a></li>
-                <li class="nav-item"><a class="nav-link" href="#horarios">Cartelera</a></li>
-                <li class="nav-item"><a class="btn btn-gold ms-lg-3" href="#">Área VIP</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+      <div class="section-head reveal">
+        <h2>Explorar catálogo</h2>
+        <p>Alterna entre teatros y cartelera. Filtra sin recargar la página.</p>
+      </div>
 
-<div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image:url('https://images.unsplash.com/photo-1503095394537-f25d16bd7d5b?q=80&w=2000');">
-            <div class="carousel-overlay"></div>
-            <div class="container h-100 d-flex align-items-center">
-                <div class="carousel-caption">
-                    <h1 class="display-1">El Gran Teatro</h1>
-                    <p class="lead fs-3">Vive la experiencia única del arte en vivo.</p>
-                    <a href="#obras" class="btn btn-gold btn-lg mt-3">Ver Cartelera</a>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item" style="background-image:url('https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=2000');">
-            <div class="carousel-overlay"></div>
-            <div class="container h-100 d-flex align-items-center">
-                <div class="carousel-caption">
-                    <h1 class="display-1">Luces y Sombras</h1>
-                    <p class="lead fs-3">Los mejores actores de la región en un solo lugar.</p>
-                    <a href="#teatros" class="btn btn-gold btn-lg mt-3">Nuestras Salas</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+      <!-- Tabs -->
+      <div class="tabs reveal" role="tablist" aria-label="Explorar">
+        <button class="tab active" data-tab="teatros" role="tab" aria-selected="true">Teatros</button>
+        <button class="tab" data-tab="cartelera" role="tab" aria-selected="false">Cartelera</button>
+      </div>
 
-<section id="obras" class="py-5 container">
-    <div class="text-center my-5">
-        <h2 class="display-4" style="color: var(--dorado)">Obras en Escena</h2>
-        <p style="color: var(--crema); opacity: 0.7;">Selección exclusiva de arte dramático</p>
-    </div>
-    <div class="row g-4">
-        <?php foreach ($obrasDestacadas as $obra): ?>
-        <div class="col-md-4">
-            <div class="card h-100 card-obra">
-                <div class="card-img-container">
-                    <img src="<?= $obra['Imagen'] ?? $imgDefaultObra ?>" class="card-img-top-custom" alt="<?= $obra['Titulo'] ?>">
+      <!-- TEATROS -->
+      <div class="grid tab-panel active" data-panel="teatros" id="gridTeatros">
+        <?php if (count($teatros) === 0): ?>
+          <div class="empty big">
+            <strong>No hay teatros listados.</strong>
+            <span>Revisa que exista la tabla <code>teatros</code> y que `app/config/db.php` conecte bien.</span>
+          </div>
+        <?php else: ?>
+          <?php foreach ($teatros as $t): ?>
+            <?php
+              $img = $t['img'] ?: '';
+              $search = mb_strtolower(($t['Sala'] ?? '').' '.($t['Municipio'] ?? '').' '.($t['Provincia'] ?? ''));
+            ?>
+            <article class="card reveal"
+              data-provincia="<?= h($t['Provincia'] ?? '') ?>"
+              data-search="<?= h($search) ?>">
+              <div class="cover" style="<?= $img ? "background-image:url('".h($img)."')" : "" ?>">
+                <div class="cover-overlay"></div>
+                <div class="chip"><?= h($t['Provincia'] ?? '') ?></div>
+              </div>
+              <div class="body">
+                <h3><?= h($t['Sala'] ?? 'Teatro') ?></h3>
+                <p class="meta"><?= h($t['Municipio'] ?? '') ?> · <?= h($t['Direccion'] ?? '') ?></p>
+                <div class="row">
+                  <span class="pill2">Aforo: <?= h($t['CapacidadMax'] ?? '—') ?></span>
+                  <a class="link" href="index2.php?teatro=<?= (int)$t['id'] ?>">Ver detalles →</a>
                 </div>
-                <div class="card-body d-flex flex-column">
-                    <span style="color: var(--dorado); font-weight: bold;"><?= $obra['Autor'] ?></span>
-                    <h3 class="h4 mt-2"><?= $obra['Titulo'] ?></h3>
-                    <p class="small opacity-75 flex-grow-1"><?= substr($obra['Subtitulo'], 0, 100) ?>...</p>
-                    <a href="<?= $obra['UrlDracor'] ?>" target="_blank" class="btn btn-outline-light btn-sm mt-3">
-                        Explorar en Dracor
-                    </a>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
-    </div>
-</section>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
 
-<!-- EL RESTO DEL HTML (horarios, ranking, teatros y footer) ESTÁ BIEN TAL COMO LO TENÍAS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+      <!-- CARTELERA -->
+      <div class="grid tab-panel" data-panel="cartelera" id="gridCartelera">
+        <?php if (count($cartelera) === 0): ?>
+          <div class="empty big">
+            <strong>Sin funciones próximas.</strong>
+            <span>Cuando insertes sesiones en <code>horarios</code> (idTeatro, idObra, FechaHora) se mostrará aquí.</span>
+          </div>
+        <?php else: ?>
+          <?php foreach ($cartelera as $c): ?>
+            <?php
+              $img = $c['img'] ?: '';
+              $fecha = date('d/m/Y H:i', strtotime($c['FechaHora']));
+              $search = mb_strtolower(($c['titulo'] ?? '').' '.($c['autor'] ?? '').' '.($c['teatro'] ?? '').' '.($c['Municipio'] ?? '').' '.($c['Provincia'] ?? ''));
+            ?>
+            <article class="card reveal"
+              data-provincia="<?= h($c['Provincia'] ?? '') ?>"
+              data-search="<?= h($search) ?>">
+              <div class="cover poster" style="<?= $img ? "background-image:url('".h($img)."')" : "" ?>">
+                <div class="cover-overlay"></div>
+                <div class="chip"><?= h($c['Provincia'] ?? '') ?></div>
+              </div>
+              <div class="body">
+                <h3><?= h($c['titulo'] ?? 'Obra') ?></h3>
+                <p class="meta"><?= h($c['autor'] ?? 'Autor desconocido') ?><?= $c['anio'] ? ' · '.h($c['anio']) : '' ?></p>
+                <p class="meta2"><?= h($c['teatro'] ?? '') ?> · <?= h($c['Municipio'] ?? '') ?></p>
+                <div class="row">
+                  <span class="pill2">🗓 <?= h($fecha) ?></span>
+                 <a class="link" href="<?= h($c['url'] ?? '#') ?>" target="_blank" rel="noopener">Ficha →</a>
+
+                </div>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
+
+      <!-- Bloque “info” -->
+      <div class="info reveal">
+        <div class="info-card glass">
+          <h3>Experiencia “tradicional”</h3>
+          <p>
+            Inspirada en carteleras clásicas: tipografía elegante, tonos terciopelo y detalles dorados,
+            con transiciones suaves y filtros rápidos.
+          </p>
+        </div>
+        <div class="info-card glass">
+          <h3>Interacción moderna</h3>
+          <p>
+            Filtrado instantáneo en cliente (sin recargar), animaciones al scroll y microinteracciones
+            en cards y botones.
+          </p>
+        </div>
+        <div class="info-card glass">
+          <h3>Lista para crecer</h3>
+          <p>
+            Puedes conectar un endpoint con <code>fetch()</code> para paginar o cargar más datos (cuando quieras te lo monto).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button class="toTop" id="toTop" aria-label="Volver arriba">↑</button>
+</main>
+
+<script>
+(() => {
+  // --- Reveal on scroll ---
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // --- Parallax suave (solo decor) ---
+  const spots = document.querySelectorAll('.spot');
+  window.addEventListener('mousemove', (ev) => {
+    const x = (ev.clientX / window.innerWidth) - 0.5;
+    const y = (ev.clientY / window.innerHeight) - 0.5;
+    spots.forEach((s, i) => {
+      const k = (i+1) * 10;
+      s.style.transform = `translate(${x*k}px, ${y*k}px)`;
+    });
+  }, { passive: true });
+
+  // --- Contadores animados ---
+  const counters = document.querySelectorAll('.num');
+  const animateCount = (el) => {
+    const target = parseInt(el.dataset.count || el.dataset.fallback || "0", 10);
+    const start = 0;
+    const duration = 900;
+    const t0 = performance.now();
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / duration);
+      const val = Math.floor(start + (target - start) * (1 - Math.pow(1 - p, 3)));
+      el.textContent = val.toLocaleString('es-ES');
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const ioCount = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.done) {
+        e.target.dataset.done = "1";
+        animateCount(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(c => ioCount.observe(c));
+
+  // --- Tabs (Teatros / Cartelera) ---
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tab-panel');
+  tabs.forEach(btn => btn.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const name = btn.dataset.tab;
+    panels.forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+  }));
+
+  // --- Filtro instantáneo ---
+  const provincia = document.getElementById('provincia');
+  const buscar = document.getElementById('buscar');
+  const btnReset = document.getElementById('btnReset');
+
+  const applyFilter = () => {
+    const p = (provincia.value || "").toLowerCase();
+    const q = (buscar.value || "").trim().toLowerCase();
+
+    const filterNode = (node) => {
+      const np = (node.dataset.provincia || "").toLowerCase();
+      const ns = (node.dataset.search || "").toLowerCase();
+      const okP = !p || np === p;
+      const okQ = !q || ns.includes(q);
+      node.style.display = (okP && okQ) ? "" : "none";
+    };
+
+    document.querySelectorAll('#gridTeatros .card, #gridCartelera .card, #listDestacados .mini-card')
+      .forEach(filterNode);
+  };
+
+  [provincia, buscar].forEach(el => el && el.addEventListener('input', applyFilter));
+  btnReset?.addEventListener('click', () => {
+    provincia.value = "";
+    buscar.value = "";
+    applyFilter();
+  });
+
+  // --- Botón arriba ---
+  const toTop = document.getElementById('toTop');
+  const toggleTop = () => toTop.classList.toggle('show', window.scrollY > 600);
+  window.addEventListener('scroll', toggleTop, { passive: true });
+  toggleTop();
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+</script>
+
+<?php include_once __DIR__ . '/inc/footer.php'; ?>
