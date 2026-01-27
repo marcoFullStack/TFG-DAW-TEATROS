@@ -13,7 +13,7 @@ require_once __DIR__ . '/../config/config.php';
 
   <link rel="stylesheet" href="<?= BASE_URL ?>styles/headStyle.css?v=1">
   <link rel="stylesheet" href="<?= BASE_URL ?>styles/styleIndex.css?v=1">
-
+  <script src="js/headScript.js"></script>
   <title>Navegador</title>
 </head>
 <body>
@@ -21,8 +21,7 @@ require_once __DIR__ . '/../config/config.php';
 <header class="main-header">
   <div class="header-container">
     <div class="logo-section">
-      <div class="logo">N</div>
-      <a href="<?= BASE_URL ?>index.php" class="site-name">Naregador</a>
+      <a href="<?= BASE_URL ?>index.php" class="site-name"><img src="images/logo/Logo.png" class="logo">Teatros Nova</a>
     </div>
 
     <div class="menu-toggle" id="menuToggle">
