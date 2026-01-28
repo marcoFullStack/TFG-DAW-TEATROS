@@ -37,6 +37,8 @@ require_once __DIR__ . '/../config/config.php';
       </ul>
     </nav>
 
-    <button class="header-action" id="actionButton">Acceder</button>
+    <a href="/views/login_admin.php"><button class="header-action" id="actionButton">Acceso Admin</button></a>
+    <a href="/views/login.php"><button class="header-action" id="actionButton">Acceso Usuario</button></a>
+
   </div>
 </header>
