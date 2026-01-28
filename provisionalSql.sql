@@ -79,10 +79,14 @@ CREATE TABLE `horarios` (
   `idTeatro` int(10) UNSIGNED NOT NULL,
   `idObra` int(10) UNSIGNED NOT NULL,
   `FechaHora` datetime NOT NULL,
+  `Precio` decimal(6,2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`idHorario`),
+  KEY `idx_horarios_teatro` (`idTeatro`),
+  KEY `idx_horarios_obra` (`idObra`),
   CONSTRAINT `fk_horarios_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE,
   CONSTRAINT `fk_horarios_obras` FOREIGN KEY (`idObra`) REFERENCES `obras` (`idObra`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `visitas_ranking` (
   `idUsuario` int(10) UNSIGNED NOT NULL,
@@ -103,4 +107,17 @@ CREATE TABLE `galeria_revision` (
   PRIMARY KEY (`idImagen`),
   CONSTRAINT `fk_galeria_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE CASCADE,
   CONSTRAINT `fk_galeria_teatros` FOREIGN KEY (`idTeatro`) REFERENCES `teatros` (`idTeatro`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `compras_entradas` (
+  `idCompra` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idUsuario` int(10) UNSIGNED NOT NULL,
+  `idHorario` int(10) UNSIGNED NOT NULL,
+  `Entradas` smallint(5) UNSIGNED NOT NULL,
+  `FechaCompra` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idCompra`),
+  KEY `idx_compras_horario` (`idHorario`),
+  KEY `idx_compras_usuario` (`idUsuario`),
+  CONSTRAINT `fk_compras_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE CASCADE,
+  CONSTRAINT `fk_compras_horario` FOREIGN KEY (`idHorario`) REFERENCES `horarios` (`idHorario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
