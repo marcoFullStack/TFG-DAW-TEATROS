@@ -33,6 +33,7 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
   <meta charset="utf-8">
   <title>Login usuario</title>
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
+  <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/login.css?v=1">
 </head>
 <body>
 <main>
