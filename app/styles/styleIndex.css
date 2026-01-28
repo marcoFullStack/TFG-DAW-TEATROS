@@ -382,3 +382,16 @@ select:focus, input:focus{ border-color: rgba(214,181,109,.38); box-shadow: 0 0 
   .grid{ grid-template-columns: 1fr; }
   .title{ font-size: 34px; }
 }
+
+.map-wrap{ padding: 18px 0 60px; }
+  .map-card{ padding: 16px; }
+  #mapTeatros{
+    width: 100%;
+    height: 520px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.14);
+    overflow: hidden;
+  }
+  @media (max-width: 980px){
+    #mapTeatros{ height: 420px; }
+  }
