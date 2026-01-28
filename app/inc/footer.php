@@ -34,9 +34,9 @@
                 <h3 class="footer-heading">Enlaces Rápidos</h3>
                 <ul class="footer-links">
                     <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
-                    <li><a href="nosotros.php"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
-                    <li><a href="servicios.php"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
-                    <li><a href="contacto.php"><i class="fas fa-envelope"></i> Contacto</a></li>
+                    <li><a href="http://iesgalileo.centros.educa.jcyl.es/sitio/" target="_blank"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
+                    <li><a href="https://www.w3schools.com/" target="_blank"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li><a href="http://iesgalileo.centros.educa.jcyl.es/sitio/index.cgi?wid_form=1" target="_blank"><i class="fas fa-envelope"></i> Contacto</a></li>
                 </ul>
             </div>
             
@@ -45,21 +45,14 @@
                 <h3 class="footer-heading">Información Legal</h3>
                 <ul class="footer-links">
                     <li><a href="#" id="cookies-link"><i class="fas fa-cookie-bite"></i> Política de Cookies</a></li>
-                    <li><a href="privacidad.php"><i class="fas fa-user-shield"></i> Privacidad de Datos</a></li>
+                    <li><a href="https://www.aepd.es/" target="_blank"><i class="fas fa-user-shield"></i> Privacidad de Datos</a></li>
                     <li><a href="terminos.php"><i class="fas fa-file-contract"></i> Términos de Uso</a></li>
-                    <li><a href="aviso-legal.php"><i class="fas fa-balance-scale"></i> Aviso Legal</a></li>
+                    <li><a href="https://www.aepd.es/" target="_blank"><i class="fas fa-balance-scale"></i> Aviso Legal</a></li>
                 </ul>
             </div>
         </div>
         
-        <!-- Enlaces legales en línea -->
-        <div class="legal-links">
-            <a href="#" id="accept-cookies">Aceptar Cookies</a>
-            <a href="#" id="manage-cookies">Gestionar Cookies</a>
-            <a href="privacidad.php">Privacidad de Datos</a>
-            <a href="nosotros.php">Sobre Nosotros</a>
-            <a href="contacto.php">Contacto</a>
-        </div>
+        
         
         <!-- Copyright -->
         <div class="copyright">
@@ -70,12 +63,41 @@
 </footer>
 
 <!-- Banner de cookies -->
-<div class="cookie-consent" id="cookieConsent">
-    <p>Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias. Al continuar con la navegación entendemos que acepta nuestra <a href="privacidad.php" style="color:#C5A059;">Política de Cookies</a>.</p>
-    <div class="cookie-buttons">
-        <button class="cookie-btn cookie-accept" id="acceptAllCookies">Aceptar todas</button>
-        <button class="cookie-btn cookie-reject" id="rejectCookies">Rechazar</button>
-        <button class="cookie-btn cookie-reject" id="customizeCookies">Personalizar</button>
+<div id="cookieConsent" class="cookie-consent">
+    <div class="cookie-content">
+        <p>Utilizamos cookies propias y de terceros para mejorar su experiencia. Al continuar navegando, acepta nuestra política de cookies.</p>
+        <div class="cookie-buttons">
+            <button id="acceptCookies" class="cookie-btn cookie-accept">Aceptar todas</button>
+            <button id="rejectCookies" class="cookie-btn cookie-reject">Rechazar</button>
+        </div>
+    </div>
+</div>
+
+<div id="modalTerminos" class="modal-terminos">
+    <div class="modal-content glass">
+        <div class="modal-header">
+            <h2><i class="fas fa-file-contract"></i> Términos de Uso - Teatros Nova</h2>
+            <button class="close-modal" id="closeTerms">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h3>1. Aceptación de los Términos</h3>
+            <p>Al acceder a Teatros Nova, el usuario acepta cumplir con estas normas. Nuestra plataforma es un espacio cultural destinado a la difusión de las artes escénicas en la región.</p>
+
+            <h3>2. Uso de la Galería de Usuarios</h3>
+            <p>Al subir fotografías de teatros, el usuario garantiza que es el autor de la imagen. Teatros Nova se reserva el derecho de moderar y eliminar cualquier contenido inapropiado, ofensivo o que no guarde relación con la temática teatral.</p>
+
+            <h3>3. Sistema de Puntos y Reseñas</h3>
+            <p>Los puntos obtenidos por interacción no tienen valor monetario. Las reseñas deben ser constructivas. El spam o las críticas malintencionadas resultarán en la pérdida de puntos o baneo de la cuenta.</p>
+
+            <h3>4. Propiedad Intelectual</h3>
+            <p>El diseño, logotipos y contenidos propios de la web son propiedad de Teatros Nova. Las fotos de los usuarios pertenecen a sus autores, pero nos ceden el derecho de exhibición en el portal.</p>
+
+            <h3>5. Limitación de Responsabilidad</h3>
+            <p>No nos hacemos responsables de cambios de última hora en las programaciones de los teatros externos, aunque nos esforzamos por mantener los datos actualizados.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-aceptar" id="acceptTerms">Entendido</button>
+        </div>
     </div>
 </div>
 
@@ -83,74 +105,83 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <script>
+
+    
     document.addEventListener('DOMContentLoaded', function() {
-        // Control del banner de cookies
+        // --- LÓGICA DE COOKIES ---
         const cookieConsent = document.getElementById('cookieConsent');
-        const acceptAllCookies = document.getElementById('acceptAllCookies');
+        const acceptCookies = document.getElementById('acceptCookies');
         const rejectCookies = document.getElementById('rejectCookies');
-        const customizeCookies = document.getElementById('customizeCookies');
-        const cookiesLink = document.getElementById('cookies-link');
-        const acceptCookiesLink = document.getElementById('accept-cookies');
-        const manageCookiesLink = document.getElementById('manage-cookies');
-        
-        // Mostrar banner de cookies si no se ha aceptado/rechazado
-        if (!localStorage.getItem('cookieConsent')) {
-            setTimeout(() => {
+
+        // Solo ejecutamos si los elementos existen en el HTML actual
+        if (cookieConsent && acceptCookies) {
+            // Comprobar si ya aceptó
+            if (!localStorage.getItem('cookieConsent')) {
                 cookieConsent.classList.add('active');
-            }, 1000);
-        }
-        
-        // Aceptar todas las cookies
-        acceptAllCookies.addEventListener('click', function() {
-            localStorage.setItem('cookieConsent', 'accepted');
-            cookieConsent.classList.remove('active');
-            alert('Cookies aceptadas. Gracias por su preferencia.');
-        });
-        
-        // Rechazar cookies
-        rejectCookies.addEventListener('click', function() {
-            localStorage.setItem('cookieConsent', 'rejected');
-            cookieConsent.classList.remove('active');
-            alert('Cookies rechazadas. Algunas funciones pueden no estar disponibles.');
-        });
-        
-        // Personalizar cookies
-        customizeCookies.addEventListener('click', function() {
-            alert('Redirigiendo a la página de configuración de cookies...');
-            // Aquí podrías redirigir a una página específica
-            // window.location.href = 'configurar-cookies.php';
-        });
-        
-        // Enlace de política de cookies
-        cookiesLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Redirigiendo a la política de cookies...');
-            // window.location.href = 'cookies.php';
-        });
-        
-        // Enlace "Aceptar Cookies" en footer
-        acceptCookiesLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.setItem('cookieConsent', 'accepted');
-            alert('Cookies aceptadas. Gracias por su preferencia.');
-        });
-        
-        // Enlace "Gestionar Cookies" en footer
-        manageCookiesLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            cookieConsent.classList.add('active');
-        });
-        
-        // Para el enlace "Sobre Nosotros" en el footer
-        const aboutLinks = document.querySelectorAll('a[href*="nosotros"]');
-        aboutLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (this.getAttribute('href') === '#') {
-                    e.preventDefault();
-                    alert('Redirigiendo a la página "Sobre Nosotros"...');
-                    // window.location.href = 'nosotros.php';
-                }
+            }
+
+            acceptCookies.addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'accepted');
+                cookieConsent.classList.remove('active');
             });
+        }
+
+        if (rejectCookies) {
+            rejectCookies.addEventListener('click', function() {
+                cookieConsent.classList.remove('active');
+            });
+        }
+
+        // --- LÓGICA DE MODAL DE TÉRMINOS ---
+        const modalTerms = document.getElementById('modalTerminos');
+        const closeTerms = document.getElementById('closeTerms');
+        const acceptTerms = document.getElementById('acceptTerms');
+        // Buscamos el enlace que abre los términos (asegúrate de que tu <a> tenga este ID o clase)
+        const openTermsBtn = document.querySelector('.open-terms') || document.getElementById('openTerms');
+
+        if (openTermsBtn && modalTerms) {
+            openTermsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modalTerms.classList.add('active');
+            });
+        }
+
+        // Cerramos el modal de términos si los botones existen
+        [closeTerms, acceptTerms].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', () => modalTerms.classList.remove('active'));
+            }
         });
     });
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modalTerminos');
+    const closeBtn = document.getElementById('closeTerms');
+    const acceptBtn = document.getElementById('acceptTerms');
+    
+    // Buscar el enlace de Términos en el footer (basado en el texto)
+    const termsLink = document.querySelector('a[href*="terminos"]') || 
+                      Array.from(document.querySelectorAll('a')).find(el => el.textContent.includes('Términos'));
+
+    if (termsLink) {
+        termsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.add('active');
+        });
+    }
+
+    // Cerrar al hacer clic en X o en el botón "Entendido"
+    [closeBtn, acceptBtn].forEach(btn => {
+        if(btn) {
+            btn.onclick = () => modal.classList.remove('active');
+        }
+    });
+
+    // Cerrar al hacer clic fuera del contenido
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.classList.remove('active');
+        }
+    };
+});
+    
 </script>

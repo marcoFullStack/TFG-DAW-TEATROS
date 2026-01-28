@@ -89,3 +89,21 @@ function dao_countObras(PDO $pdo): int {
         return 0;
     }
 }
+
+
+//borrar luego
+
+function dao_getGaleriaAleatoria(PDO $pdo, int $limit = 4): array {
+    $sql = "SELECT g.RutaImagen, t.Sala, u.Nombre as NombreUsuario 
+            FROM galeria_revision g
+            JOIN teatros t ON g.idTeatro = t.idTeatro
+            JOIN usuarios u ON g.idUsuario = u.idUsuario
+            WHERE g.Estado = 'aprobada'
+            ORDER BY RAND() 
+            LIMIT :limit";
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

@@ -233,3 +233,91 @@
             max-width: none;
         }
     }
+
+    /* Estilos para el Modal de Términos */
+.modal-terminos {
+    display: none; 
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-terminos.active {
+    display: flex;
+}
+
+.modal-terminos .modal-content {
+    background: #1e1b18;
+    color: #f9f4e8;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    border: 1px solid #c5a059;
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-terminos .modal-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-terminos .modal-header h2 {
+    color: #c5a059;
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.modal-terminos .close-modal {
+    background: none;
+    border: none;
+    color: #f9f4e8;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal-terminos .modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    line-height: 1.6;
+}
+
+.modal-terminos .modal-body h3 {
+    color: #c5a059;
+    font-size: 1.1rem;
+    margin: 15px 0 5px 0;
+}
+
+.modal-terminos .modal-footer {
+    padding: 15px;
+    border-top: 1px solid rgba(197, 160, 89, 0.3);
+    text-align: right;
+}
+
+.modal-terminos .btn-aceptar {
+    background: #c5a059;
+    color: #1e1b18;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-terminos .btn-aceptar:hover {
+    background: #f9f4e8;
+}
