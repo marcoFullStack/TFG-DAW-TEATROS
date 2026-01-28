@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 session_start();
@@ -7,20 +6,18 @@ session_start();
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../config/uploads.php';
-require_once __DIR__ . '/../../DAO/UsuarioDAO.php';
 
-function h($s): string
-{
-  return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
-}
-function clamp_int($v, int $min, int $max, int $fallback): int
-{
+require_once __DIR__ . '/../../models/Usuario.php';
+require_once __DIR__ . '/../../DAO/UsuarioDAO.php';
+require_once __DIR__ . '/../../DAO/UserAreaDAO.php';
+
+function h($s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
+function clamp_int($v, int $min, int $max, int $fallback): int {
   $n = filter_var($v, FILTER_VALIDATE_INT);
   if ($n === false) return $fallback;
   return max($min, min($max, $n));
 }
-function slugify(string $s): string
-{
+function slugify(string $s): string {
   $s = trim($s);
   $s = iconv('UTF-8', 'ASCII//TRANSLIT', $s) ?: $s;
   $s = strtolower($s);
@@ -34,20 +31,22 @@ if (empty($_SESSION['user_id'])) {
   header('Location: ' . BASE_URL . 'views/user/login.php');
   exit;
 }
-
 $idUsuario = (int)$_SESSION['user_id'];
+
 $usuarioDAO = new UsuarioDAO($pdo);
-$perfil = $usuarioDAO->buscarPerfilPorId($idUsuario);
-if (!$perfil) {
+$userAreaDAO = new UserAreaDAO($pdo);
+
+$usuario = $usuarioDAO->obtenerPorId($idUsuario);
+if (!$usuario) {
   session_destroy();
   header('Location: ' . BASE_URL . 'views/auth/login_usuario.php');
   exit;
 }
 
 /* ===================== CONFIG ===================== */
-const POINTS_PER_TICKET = 10; // puntos por entrada comprada (cámbialo si quieres)
+const POINTS_PER_TICKET = 10;
 
-/* ===================== UI / STATE ===================== */
+/* ===================== UI STATE ===================== */
 $tab = (string)($_GET['tab'] ?? 'teatros');
 $validTabs = ['teatros', 'obras', 'mis', 'subir'];
 if (!in_array($tab, $validTabs, true)) $tab = 'teatros';
@@ -60,142 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = (string)($_POST['action'] ?? '');
 
   try {
-    /* ---------- COMPRAR ENTRADAS ---------- */
-    if ($action === 'buy_tickets') {
-      $idHorario = (int)($_POST['idHorario'] ?? 0);
-      $qty = (int)($_POST['qty'] ?? 0);
+    // ✅ CAMBIAR FOTO PERFIL (GUARDA EN /uploads/usuarios/)
+    if ($action === 'user_photo_update') {
+      if (empty($_FILES['FotoPerfil'])) throw new RuntimeException('Falta la imagen.');
+      $file = $_FILES['FotoPerfil'];
 
-      if ($idHorario <= 0) throw new RuntimeException('Horario inválido.');
-      if ($qty <= 0) throw new RuntimeException('Cantidad inválida.');
-
-      // Transacción para evitar sobreventa
-      $pdo->beginTransaction();
-
-      // 1) Datos del horario + capacidad (bloquea fila de horarios)
-   $st = $pdo->prepare("
-  SELECT
-    h.idHorario, h.idTeatro, h.Precio,
-    t.CapacidadMax
-  FROM horarios h
-  INNER JOIN teatros t ON t.idTeatro = h.idTeatro
-  WHERE h.idHorario = ?
-  FOR UPDATE
-");
-
-      $st->execute([$idHorario]);
-      $row = $st->fetch(PDO::FETCH_ASSOC);
-      if (!$row) throw new RuntimeException('Horario no existe.');
-
-      $cap = (int)$row['CapacidadMax'];
-      $idTeatro = (int)$row['idTeatro'];
-      $precioDb = (float)$row['Precio'];
-      // 2) Entradas ya vendidas (bloquea rango de compras del horario)
-      $st2 = $pdo->prepare("
-        SELECT COALESCE(SUM(Entradas), 0) AS vendidas
-        FROM compras_entradas
-        WHERE idHorario = ?
-        FOR UPDATE
-      ");
-      $st2->execute([$idHorario]);
-      $vendidas = (int)$st2->fetchColumn();
-
-      $restantes = $cap - $vendidas;
-      if ($qty > $restantes) {
-        throw new RuntimeException('No quedan suficientes entradas. Quedan: ' . max(0, $restantes));
-      }
-
-      // 3) Insertar compra
-      $st3 = $pdo->prepare("INSERT INTO compras_entradas (idUsuario, idHorario, Entradas) VALUES (?, ?, ?)");
-      $st3->execute([$idUsuario, $idHorario, $qty]);
-
-      // 4) Sumar puntos al usuario
-      $sumPoints = $qty * POINTS_PER_TICKET;
-      $st4 = $pdo->prepare("UPDATE usuarios SET Puntos = Puntos + ? WHERE idUsuario = ?");
-      $st4->execute([$sumPoints, $idUsuario]);
-
-      // 5) (Opcional) marcar visita/ranking por teatro una vez (PK idUsuario,idTeatro)
-      $st5 = $pdo->prepare("INSERT IGNORE INTO visitas_ranking (idUsuario, idTeatro) VALUES (?, ?)");
-      $st5->execute([$idUsuario, $idTeatro]);
-
-      $pdo->commit();
-
-      $notice = "Compra realizada: $qty entradas (+$sumPoints puntos).";
-      header('Location: ' . BASE_URL . 'views/user/indexUsuario.php?tab=mis&ok=1');
-      exit;
-    }
-    /* ---------- CANCELAR COMPRA ---------- */
-    if ($action === 'cancel_ticket') {
-      $idCompra = (int)($_POST['idCompra'] ?? 0);
-
-      if ($idCompra <= 0) throw new RuntimeException('Compra inválida.');
-
-      $pdo->beginTransaction();
-
-      // 1) La compra debe ser del usuario
-      $st = $pdo->prepare("
-        SELECT idCompra, idUsuario, idHorario, Entradas
-        FROM compras_entradas
-        WHERE idCompra = ? AND idUsuario = ?
-        FOR UPDATE
-      ");
-      $st->execute([$idCompra, $idUsuario]);
-      $c = $st->fetch(PDO::FETCH_ASSOC);
-      if (!$c) throw new RuntimeException('No existe esa compra o no es tuya.');
-
-      $entradas = (int)$c['Entradas'];
-
-      // 2) Borrar compra
-      $st2 = $pdo->prepare("DELETE FROM compras_entradas WHERE idCompra = ? AND idUsuario = ?");
-      $st2->execute([$idCompra, $idUsuario]);
-
-      // 3) Restar puntos (sin bajar de 0)
-      $restPoints = $entradas * POINTS_PER_TICKET;
-      $st3 = $pdo->prepare("UPDATE usuarios SET Puntos = GREATEST(Puntos - ?, 0) WHERE idUsuario = ?");
-      $st3->execute([$restPoints, $idUsuario]);
-
-      $pdo->commit();
-
-      header('Location: ' . BASE_URL . 'views/user/indexUsuario.php?tab=mis&ok=1');
-      exit;
-    }
-
-
-    /* ---------- SUBIR FOTO A GALERÍA ---------- */
-    if ($action === 'upload_photo') {
-      $idTeatro = (int)($_POST['idTeatro'] ?? 0);
-      $idObra   = (int)($_POST['idObra'] ?? 0);
-
-      if ($idTeatro <= 0) throw new RuntimeException('Selecciona un teatro.');
-      if ($idObra <= 0) throw new RuntimeException('Selecciona una obra.');
-      if (empty($_FILES['Imagen'])) throw new RuntimeException('Falta la imagen.');
-
-      $file = $_FILES['Imagen'];
-
-      if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-        throw new RuntimeException('Error en la subida.');
-      }
-      if (!is_allowed_image((string)$file['name'])) {
-        throw new RuntimeException('Formato no permitido (jpg/jpeg/png/webp).');
-      }
+      if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) throw new RuntimeException('Error en la subida.');
+      if (!is_allowed_image((string)$file['name'])) throw new RuntimeException('Formato no permitido (jpg/jpeg/png/webp).');
       $size = (int)($file['size'] ?? 0);
       if ($size <= 0 || $size > 5 * 1024 * 1024) throw new RuntimeException('Máximo 5MB.');
 
-      // Obtener nombres para el filename
-      $stT = $pdo->prepare("SELECT Sala FROM teatros WHERE idTeatro=?");
-      $stT->execute([$idTeatro]);
-      $sala = (string)($stT->fetchColumn() ?: '');
-
-      $stO = $pdo->prepare("SELECT Titulo FROM obras WHERE idObra=?");
-      $stO->execute([$idObra]);
-      $titulo = (string)($stO->fetchColumn() ?: '');
-
       $ext = strtolower(pathinfo((string)$file['name'], PATHINFO_EXTENSION));
-      $baseName = slugify($sala) . '__' . slugify($titulo) . '__' . date('Ymd_His') . '_' . bin2hex(random_bytes(3));
-      $finalName = $baseName . '.' . $ext;
+      $finalName = slugify($usuario->getNombre()) . '__' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
 
-      // Guardar en /app/fotosSubidasUsuarios/
-      $subfolder = 'fotosSubidasUsuarios';
-      $absDir = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . $subfolder;
+      // destino físico: /app/uploads/usuarios/
+      $absDir = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'usuarios';
       ensure_dir($absDir);
 
       $destAbs = $absDir . DIRECTORY_SEPARATOR . $finalName;
@@ -203,156 +81,124 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         throw new RuntimeException('No se pudo guardar el archivo.');
       }
 
-      // Ruta relativa desde /app/
+      // en BD guardamos relativo a /uploads/
+      $nuevoRel = 'usuarios/' . $finalName;
+
+      // borrar anterior (si existe)
+      $anterior = $usuario->getFotoPerfil(); // ej "usuarios/old.jpg"
+      if ($anterior) {
+        $absOld = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $anterior);
+        if (is_file($absOld)) @unlink($absOld);
+      }
+
+      if (!$usuarioDAO->actualizarFotoPerfil($idUsuario, $nuevoRel)) {
+        @unlink($destAbs);
+        throw new RuntimeException('No se pudo actualizar la foto en BD.');
+      }
+
+      header('Location: ' . BASE_URL . 'views/user/indexUsuario.php?ok=1');
+      exit;
+    }
+
+    // ✅ COMPRAR
+    if ($action === 'buy_tickets') {
+      $idHorario = (int)($_POST['idHorario'] ?? 0);
+      $qty = (int)($_POST['qty'] ?? 0);
+      if ($idHorario <= 0) throw new RuntimeException('Horario inválido.');
+      if ($qty <= 0) throw new RuntimeException('Cantidad inválida.');
+
+      $userAreaDAO->comprarEntradas($idUsuario, $idHorario, $qty, (int)POINTS_PER_TICKET);
+
+      header('Location: ' . BASE_URL . 'views/user/indexUsuario.php?tab=mis&ok=1');
+      exit;
+    }
+
+    // ✅ CANCELAR
+    if ($action === 'cancel_ticket') {
+      $idCompra = (int)($_POST['idCompra'] ?? 0);
+      if ($idCompra <= 0) throw new RuntimeException('Compra inválida.');
+
+      $userAreaDAO->cancelarCompra($idUsuario, $idCompra, (int)POINTS_PER_TICKET);
+
+      header('Location: ' . BASE_URL . 'views/user/indexUsuario.php?tab=mis&ok=1');
+      exit;
+    }
+
+    // ✅ SUBIR FOTO A GALERÍA (la foto NO va a uploads, va a fotosSubidasUsuarios como ya lo tenías)
+    if ($action === 'upload_photo') {
+      $idTeatro = (int)($_POST['idTeatro'] ?? 0);
+      $idObra   = (int)($_POST['idObra'] ?? 0);
+
+      if ($idTeatro <= 0) throw new RuntimeException('Selecciona un teatro.');
+      if ($idObra <= 0) throw new RuntimeException('Selecciona una obra.');
+      if (empty($_FILES['Imagen'])) throw new RuntimeException('Falta la imagen.');
+      $file = $_FILES['Imagen'];
+
+      if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) throw new RuntimeException('Error en la subida.');
+      if (!is_allowed_image((string)$file['name'])) throw new RuntimeException('Formato no permitido (jpg/jpeg/png/webp).');
+      $size = (int)($file['size'] ?? 0);
+      if ($size <= 0 || $size > 5 * 1024 * 1024) throw new RuntimeException('Máximo 5MB.');
+
+      $sala = $userAreaDAO->getSalaTeatro($idTeatro);
+      $titulo = $userAreaDAO->getTituloObra($idObra);
+
+      $ext = strtolower(pathinfo((string)$file['name'], PATHINFO_EXTENSION));
+      $finalName = slugify($sala) . '__' . slugify($titulo) . '__' . date('Ymd_His') . '_' . bin2hex(random_bytes(3)) . '.' . $ext;
+
+      $subfolder = 'fotosSubidasUsuarios';
+      $absDir = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . $subfolder;
+      ensure_dir($absDir);
+
+      $destAbs = $absDir . DIRECTORY_SEPARATOR . $finalName;
+      if (!move_uploaded_file((string)$file['tmp_name'], $destAbs)) throw new RuntimeException('No se pudo guardar el archivo.');
+
       $rel = $subfolder . '/' . $finalName;
+      $userAreaDAO->insertarGaleriaRevision($idUsuario, $idTeatro, $rel);
 
-      // Insert en galeria_revision (no existe idObra en tu tabla, lo metemos en el nombre del archivo)
-      $stG = $pdo->prepare("INSERT INTO galeria_revision (idUsuario, idTeatro, RutaImagen, Estado) VALUES (?, ?, ?, 'pendiente')");
-      $stG->execute([$idUsuario, $idTeatro, $rel]);
-
-      $notice = "Foto subida correctamente (pendiente de revisión).";
       header('Location: ' . BASE_URL . 'views/user/indexUsuario.php?tab=subir&ok=1');
       exit;
     }
+
   } catch (Throwable $e) {
-    if ($pdo->inTransaction()) $pdo->rollBack();
     $error = $e->getMessage();
   }
 }
 
-/* ===================== DATA QUERIES ===================== */
+/* ===================== GET / DATA ===================== */
 $ok = !empty($_GET['ok']);
 if ($ok && !$notice) $notice = 'Operación realizada correctamente.';
 
-// Foto perfil (default)
-$foto = (string)($perfil['FotoPerfil'] ?? '');
-$fotoUrl = '';
-if ($foto !== '') {
-  // si guardas ruta relativa en BD:
-  $fotoUrl = BASE_URL . 'uploads/' . $foto;
-} else {
-  // pon una imagen real en /app/images/default_user.png (recomendado)
-  $fotoUrl = BASE_URL . 'images/default_user.png';
-}
+// Foto perfil desde objeto (reload simple)
+$usuario = $usuarioDAO->obtenerPorId($idUsuario);
+$foto = (string)($usuario?->getFotoPerfil() ?? '');
+$fotoUrl = $foto !== '' ? (BASE_URL . 'uploads/' . $foto) : (BASE_URL . 'images/default_user.png');
 
-// Listas simples para selects (subir fotos / elegir horarios)
-$sel_teatros = $pdo->query("SELECT idTeatro, Sala, Provincia, Municipio FROM teatros ORDER BY Provincia, Municipio, Sala")
-  ->fetchAll(PDO::FETCH_ASSOC);
-$sel_obras = $pdo->query("SELECT idObra, Titulo FROM obras ORDER BY Titulo")
-  ->fetchAll(PDO::FETCH_ASSOC);
-
-/* ---- filtros ---- */
+// paginación simple
+$pp = 10;
 $teatros_q = trim((string)($_GET['teatros_q'] ?? ''));
 $obras_q   = trim((string)($_GET['obras_q'] ?? ''));
-
 $teatros_page = clamp_int($_GET['teatros_page'] ?? 1, 1, 999999, 1);
 $obras_page   = clamp_int($_GET['obras_page'] ?? 1, 1, 999999, 1);
 
-$pp = 10; // simple
-
-/* ---- teatros list ---- */
-$teatros = []; {
-  $off = ($teatros_page - 1) * $pp;
-  if ($teatros_q !== '') {
-    $like = '%' . $teatros_q . '%';
-    $st = $pdo->prepare("
-      SELECT t.*,
-        (SELECT RutaImagen FROM imagenes_teatros it WHERE it.idTeatro=t.idTeatro ORDER BY it.idImagenTeatro ASC LIMIT 1) AS img
-      FROM teatros t
-      WHERE t.Sala LIKE :q1 OR t.Provincia LIKE :q2 OR t.Municipio LIKE :q3
-      ORDER BY t.Provincia, t.Municipio, t.Sala
-      LIMIT :lim OFFSET :off
-    ");
-    $st->bindValue(':q1', $like, PDO::PARAM_STR);
-    $st->bindValue(':q2', $like, PDO::PARAM_STR);
-    $st->bindValue(':q3', $like, PDO::PARAM_STR);
-  } else {
-    $st = $pdo->prepare("
-      SELECT t.*,
-        (SELECT RutaImagen FROM imagenes_teatros it WHERE it.idTeatro=t.idTeatro ORDER BY it.idImagenTeatro ASC LIMIT 1) AS img
-      FROM teatros t
-      ORDER BY t.Provincia, t.Municipio, t.Sala
-      LIMIT :lim OFFSET :off
-    ");
-  }
-  $st->bindValue(':lim', $pp, PDO::PARAM_INT);
-  $st->bindValue(':off', $off, PDO::PARAM_INT);
-  $st->execute();
-  $teatros = $st->fetchAll(PDO::FETCH_ASSOC);
-}
-
-/* ---- obras list ---- */
-$obras = []; {
-  $off = ($obras_page - 1) * $pp;
-  if ($obras_q !== '') {
-    $like = '%' . $obras_q . '%';
-    $st = $pdo->prepare("
-      SELECT o.*,
-        (SELECT RutaImagen FROM imagenes_obras io WHERE io.idObra=o.idObra ORDER BY io.idImagenObra ASC LIMIT 1) AS img
-      FROM obras o
-      WHERE o.Titulo LIKE :q1 OR o.Autor LIKE :q2
-      ORDER BY o.idObra DESC
-      LIMIT :lim OFFSET :off
-    ");
-    $st->bindValue(':q1', $like, PDO::PARAM_STR);
-    $st->bindValue(':q2', $like, PDO::PARAM_STR);
-  } else {
-    $st = $pdo->prepare("
-      SELECT o.*,
-        (SELECT RutaImagen FROM imagenes_obras io WHERE io.idObra=o.idObra ORDER BY io.idImagenObra ASC LIMIT 1) AS img
-      FROM obras o
-      ORDER BY o.idObra DESC
-      LIMIT :lim OFFSET :off
-    ");
-  }
-  $st->bindValue(':lim', $pp, PDO::PARAM_INT);
-  $st->bindValue(':off', $off, PDO::PARAM_INT);
-  $st->execute();
-  $obras = $st->fetchAll(PDO::FETCH_ASSOC);
-}
-
-/* ---- horarios por obra seleccionada ---- */
 $obra_sel = (int)($_GET['obra_sel'] ?? 0);
-$horarios = [];
-if ($obra_sel > 0) {
- $st = $pdo->prepare("
-  SELECT
-    h.idHorario, h.FechaHora, h.Precio,
-    t.idTeatro, t.Sala, t.Provincia, t.Municipio, t.CapacidadMax,
-    COALESCE((
-      SELECT SUM(c.Entradas)
-      FROM compras_entradas c
-      WHERE c.idHorario = h.idHorario
-    ), 0) AS vendidas
-  FROM horarios h
-  INNER JOIN teatros t ON t.idTeatro = h.idTeatro
-  WHERE h.idObra = ?
-  ORDER BY h.FechaHora ASC
-");
 
-  $st->execute([$obra_sel]);
-  $horarios = $st->fetchAll(PDO::FETCH_ASSOC);
+// ✅ Solo pedimos datos según tab (menos consultas)
+$teatros = $obras = $horarios = $mis = $sel_teatros = $sel_obras = [];
+
+if ($tab === 'teatros') {
+  $teatros = $userAreaDAO->listTeatros($teatros_page, $pp, $teatros_q);
 }
-
-/* ---- mis compras ---- */
-$mis = []; {
-  $st = $pdo->prepare("
-    SELECT
-      c.idCompra, c.Entradas, c.FechaCompra,
-      h.FechaHora,
-      o.Titulo AS obra,
-      t.Sala AS teatro, t.Provincia, t.Municipio
-    FROM compras_entradas c
-    INNER JOIN horarios h ON h.idHorario = c.idHorario
-    INNER JOIN obras o ON o.idObra = h.idObra
-    INNER JOIN teatros t ON t.idTeatro = h.idTeatro
-    WHERE c.idUsuario = ?
-    ORDER BY c.FechaCompra DESC
-  ");
-  $st->execute([$idUsuario]);
-  $mis = $st->fetchAll(PDO::FETCH_ASSOC);
+if ($tab === 'obras') {
+  $obras = $userAreaDAO->listObras($obras_page, $pp, $obras_q);
+  if ($obra_sel > 0) $horarios = $userAreaDAO->listHorariosPorObra($obra_sel);
 }
-
+if ($tab === 'mis') {
+  $mis = $userAreaDAO->listMisCompras($idUsuario);
+}
+if ($tab === 'subir') {
+  $sel_teatros = $userAreaDAO->listTeatrosSimple();
+  $sel_obras   = $userAreaDAO->listObrasSimple();
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -616,12 +462,21 @@ $mis = []; {
       <div class="who">
         <img class="avatar" src="<?= h($fotoUrl) ?>" alt="Foto de perfil"
           onerror="this.src='<?= h(BASE_URL) ?>images/default_user.png'">
+          <form class="form" method="post" enctype="multipart/form-data" style="margin-top:10px; max-width:360px;">
+  <input type="hidden" name="action" value="user_photo_update">
+  <div>
+    <label>Cambiar foto de perfil (jpg/png/webp, máx 5MB)</label>
+    <input type="file" name="FotoPerfil" accept="image/*" required>
+  </div>
+  <button class="btn ok" type="submit">🖼️ Guardar foto</button>
+</form>
+
         <div>
-          <div class="name"><?= h((string)$perfil['Nombre']) ?></div>
-          <div class="meta">
-            <?= h((string)$perfil['Email']) ?> ·
-            Puntos: <b><?= (int)($perfil['Puntos'] ?? 0) ?></b>
-          </div>
+         <div class="name"><?= h($usuario->getNombre()) ?></div>
+<div class="meta">
+  <?= h($usuario->getEmail()) ?> · Puntos: <b><?= (int)$usuario->getPuntos() ?></b>
+</div>
+
         </div>
       </div>
       <div style="display:flex; gap:10px; flex-wrap:wrap;">

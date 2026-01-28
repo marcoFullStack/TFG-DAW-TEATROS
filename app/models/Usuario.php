@@ -37,6 +37,8 @@ final class Usuario
     public function getFotoPerfil(): ?string { return $this->fotoPerfil; }
     public function getPuntos(): int { return $this->puntos; }
     public function getFechaAlta(): ?string { return $this->fechaAlta; }
+public function setFotoPerfil(?string $foto): void { $this->fotoPerfil = $foto; }
+public function setPuntos(int $p): void { $this->puntos = $p; }
 
     public function setIdUsuario(int $id): void { $this->idUsuario = $id; }
 }
