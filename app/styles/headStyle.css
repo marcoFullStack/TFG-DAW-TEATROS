@@ -9,16 +9,22 @@
             background-color: #F9F4E8; /* Crema */
             color: #1E1B18; /* Negro */
         }
-       
+
+        .page {
+            padding-top: 110px; /* ajusta a la altura real del header */
+        }
+
         /* Header principal */
         .main-header {
             background-color: #630E16; /* Granate */
             color: #F9F4E8; /* Crema */
             padding: 0 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
             z-index: 1000;
+            width: 100%;
         }
        
         /* Contenedor del header */
