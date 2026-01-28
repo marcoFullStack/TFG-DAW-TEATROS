@@ -125,6 +125,10 @@
             border-radius: 2px;
             transition: 0.3s;
         }
+
+        .mobile-only {
+            display: none;
+        }
         
         /* Responsive design */
         @media (max-width: 992px) {
@@ -145,7 +149,7 @@
             }
             
             .main-nav.active {
-                max-height: 300px;
+                max-height: 500px;
                 padding: 20px 0;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             }
@@ -162,8 +166,17 @@
                 text-align: center;
                 padding: 12px 20px;
             }
+
+            .mobile-only {
+                display: block;
+            }
             
-            .header-action {
+            .mobile-only .header-action {
+                width: 100%;
+                margin-top: 5px;
+            }
+            
+            .header-container > a {
                 display: none;
             }
         }

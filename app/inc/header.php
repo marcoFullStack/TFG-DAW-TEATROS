@@ -34,11 +34,14 @@ require_once __DIR__ . '/../config/config.php';
         <li><a href="<?= BASE_URL ?>servicios.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'servicios.php') ? 'active' : ''; ?>">Servicios</a></li>
         <li><a href="<?= BASE_URL ?>nosotros.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'nosotros.php') ? 'active' : ''; ?>">Nosotros</a></li>
         <li><a href="<?= BASE_URL ?>contacto.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'contacto.php') ? 'active' : ''; ?>">Contacto</a></li>
+        <li class="mobile-only"><a href="<?= BASE_URL ?>views/auth/login_admin.php"><button class="header-action">Acceso Admin</button></a></li>
+        <li class="mobile-only"><a href="<?= BASE_URL ?>views/user/login.php"><button class="header-action">Acceso Usuario</button></a></li>
       </ul>
     </nav>
 
     <a href="<?= BASE_URL ?>views/auth/login_admin.php"><button class="header-action" id="actionButton">Acceso Admin</button></a>
     <a href="<?= BASE_URL ?>views/user/login.php"><button class="header-action" id="actionButton">Acceso Usuario</button></a>
+
 
   </div>
 </header>
