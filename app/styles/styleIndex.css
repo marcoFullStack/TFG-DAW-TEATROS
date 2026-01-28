@@ -370,6 +370,217 @@ select:focus, input:focus{ border-color: rgba(214,181,109,.38); box-shadow: 0 0 
 }
 .toTop.show{ opacity:1; transform: translateY(0); }
 .toTop:hover{ border-color: rgba(241,212,138,.45); }
+/* ===== DASHBOARD (Gráfico + Ranking) ===== */
+
+/* Contenedor padre al 80% */
+.dash50{
+  width: min(80%, var(--max));
+  margin: 18px auto;          /* centrado */
+  display:flex;
+  gap:16px;
+  align-items:stretch;
+}
+
+/* Columnas 50/50 */
+.dashCol{
+  flex: 0 0 50%;
+  min-width: 0;
+}
+
+.dashTitle{
+  margin: 0 0 10px 0;
+  font-size: 1.05rem;
+}
+
+/* Caja del gráfico */
+.dashBox{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 14px;
+  overflow: hidden;          /* evita que el canvas “se salga” */
+}
+
+/* Canvas del gráfico: control de tamaño */
+#chartEpocas{
+  width: 100% !important;     /* Chart.js respeta responsive, pero esto ayuda */
+  max-width: 360px;           /* ajusta aquí si lo quieres aún más pequeño */
+  height: auto !important;
+  display: block;
+  margin: 0 auto;             /* centrado */
+  aspect-ratio: 1 / 1;        /* mantiene circular y evita deformaciones */
+}
+
+/* Hint */
+.dashHint{
+  margin: 10px 0 0 0;
+  opacity: .85;
+  font-size: .92rem;
+}
+
+/* ===== Podium ===== */
+.podium{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom: 12px;
+}
+
+.podiumCol{
+  flex: 1;
+  text-align:center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 12px 10px;
+}
+
+.podiumCol.first{ transform: translateY(-10px); }
+.podiumCol.first .medal{ font-weight:800; }
+
+.medal{
+  display:inline-flex;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  align-items:center;
+  justify-content:center;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: 8px;
+  font-weight:700;
+}
+
+.avatar{
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+}
+
+.name{
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.points{
+  margin-top: 4px;
+  font-size: .92rem;
+  opacity: .92;
+}
+
+.vibe{
+  margin-top: 6px;
+  font-size: .88rem;
+  opacity: .85;
+  line-height: 1.25;
+}
+
+/* ===== Tools (buscador + botones) ===== */
+.rankTools{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin: 10px 0 10px 0;
+}
+
+.rankSearch{
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.18);
+  color: inherit;
+  outline: none;
+}
+
+.rankSearch::placeholder{
+  opacity: .75;
+}
+
+.rankBtn{
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.rankBtn:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* ===== Tabla ===== */
+.rankTableWrap{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.rankTable{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+}
+
+.rankTable thead th{
+  text-align:left;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.rankTable td{
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.rankTable tbody tr:last-child td{
+  border-bottom: none;
+}
+
+.rankEmpty{
+  text-align:center;
+  opacity: .85;
+  padding: 14px 12px;
+}
+
+/* ===== Pager ===== */
+.rankPager{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top: 10px;
+}
+
+.rankPageInfo{
+  opacity: .9;
+  font-size: .92rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px){
+  .dash50{
+    width: min(92%, var(--max)); /* en móvil más ancho */
+    flex-direction:column;
+  }
+  .dashCol{ flex-basis:auto; }
+  .podiumCol.first{ transform:none; }
+
+  #chartEpocas{
+    max-width: 320px; /* un pelín más pequeño en móvil */
+  }
+}
+
 
 /* Responsive */
 @media (max-width: 980px){

@@ -38,11 +38,14 @@ $jsonUrl = BASE_URL . "../red_teatros.json";
   <?php include_once __DIR__ . '/views/index/hero.php'; ?>
 
   <?php include_once __DIR__ . '/views/index/cards.php'; ?>
+  <?php include_once __DIR__ . '/views/index/estadistics.php'; ?>
 
   <?php include_once __DIR__ . '/views/index/maps.php'; ?>
 
   <button class="toTop" id="toTop" aria-label="Volver arriba">↑</button>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="js/dashboardStats.js?v=1"></script>
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
