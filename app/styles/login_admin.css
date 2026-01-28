@@ -1,0 +1,55 @@
+/* =========================
+   LOGIN ADMIN – layout
+   ========================= */
+
+main{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Contenedor */
+.form-box{
+  width:100%;
+  max-width: 460px; /* un pelín más ancho que usuario */
+  padding: 30px 28px;
+  border-radius: var(--r2);
+}
+
+/* Título */
+.form-box h1{
+  margin:0 0 18px;
+  text-align:center;
+  font-size: 26px;
+  letter-spacing:.02em;
+}
+
+/* Error */
+.notice{
+  margin-bottom:14px;
+  text-align:center;
+  color: var(--gold2);
+  font-weight:600;
+}
+
+/* Espaciado campos */
+.form-row{
+  margin-bottom:16px;
+}
+
+/* Botón */
+input[type="submit"]{
+  margin-top:8px;
+  cursor:pointer;
+}
+
+/* Links inferiores */
+form > div{
+  margin-top:12px;
+}
+
+form a{
+  font-size:14px;
+  opacity:.9;
+}

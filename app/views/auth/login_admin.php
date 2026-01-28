@@ -46,6 +46,7 @@ if (!empty($_POST['btnLoginAdmin'])) {
 
   <!-- Usa tu CSS real -->
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
+  <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/login_admin.css?v=1">
 </head>
 <body>
 <main>
