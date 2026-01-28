@@ -8,6 +8,10 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../config/uploads.php';
 require_once __DIR__ . '/../../DAO/AdminPanelDAO.php';
+require_once __DIR__ . '/../../models/Obra.php';
+require_once __DIR__ . '/../../models/Teatro.php';
+require_once __DIR__ . '/../../models/Horario.php';
+
 
 function h($s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
@@ -92,7 +96,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       if ($titulo === '') throw new RuntimeException('El título es obligatorio.');
 
-      $newId = $dao->createObra($titulo, $autor !== '' ? $autor : null, $sub !== '' ? $sub : null, $anio, $url !== '' ? $url : null);
+      $obra = new Obra(
+  titulo: $titulo,
+  autor: $autor !== '' ? $autor : null,
+  subtitulo: $sub !== '' ? $sub : null,
+  anio: $anio,
+  urlDracor: $url !== '' ? $url : null
+);
+
+$newId = $dao->createObra($obra);
+
       if ($newId <= 0) throw new RuntimeException('No se pudo crear la obra.');
 
       $notice = "Obra creada (ID $newId).";
@@ -111,9 +124,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($id <= 0) throw new RuntimeException('ID de obra inválido.');
       if ($titulo === '') throw new RuntimeException('El título es obligatorio.');
 
-      if (!$dao->updateObra($id, $titulo, $autor !== '' ? $autor : null, $sub !== '' ? $sub : null, $anio, $url !== '' ? $url : null)) {
-        throw new RuntimeException('No se pudo actualizar la obra.');
-      }
+      $obra = new Obra(
+  titulo: $titulo,
+  autor: $autor !== '' ? $autor : null,
+  subtitulo: $sub !== '' ? $sub : null,
+  anio: $anio,
+  urlDracor: $url !== '' ? $url : null,
+  idObra: $id
+);
+
+if (!$dao->updateObra($obra)) {
+  throw new RuntimeException('No se pudo actualizar la obra.');
+}
+
 
       header('Location: ' . qs(['tab' => 'obras', 'obra_edit' => $id, 'ok' => '1']));
       exit;
@@ -165,61 +188,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     /* ---------- TEATROS CRUD ---------- */
-    if ($action === 'teatro_create' || $action === 'teatro_update') {
-      $isUpdate = ($action === 'teatro_update');
-      $idTeatro = (int)($_POST['idTeatro'] ?? 0);
+  /* ---------- TEATROS CRUD ---------- */
+if ($action === 'teatro_create' || $action === 'teatro_update') {
+  $isUpdate = ($action === 'teatro_update');
+  $idTeatro = (int)($_POST['idTeatro'] ?? 0);
 
-      $t = [
-        'Sala'        => trim((string)($_POST['Sala'] ?? '')),
-        'Entidad'     => trim((string)($_POST['Entidad'] ?? '')),
-        'Provincia'   => trim((string)($_POST['Provincia'] ?? '')),
-        'Municipio'   => trim((string)($_POST['Municipio'] ?? '')),
-        'Direccion'   => trim((string)($_POST['Direccion'] ?? '')),
-        'CP'          => trim((string)($_POST['CP'] ?? '')),
-        'Telefono'    => trim((string)($_POST['Telefono'] ?? '')),
-        'Email'       => trim((string)($_POST['Email'] ?? '')),
-        'CapacidadMax'=> safe_int_or_null($_POST['CapacidadMax'] ?? '') ?? 0,
-        'Latitud'     => safe_float_or_null($_POST['Latitud'] ?? ''),
-        'Longitud'    => safe_float_or_null($_POST['Longitud'] ?? ''),
-      ];
+  $t = [
+    'Sala'        => trim((string)($_POST['Sala'] ?? '')),
+    'Entidad'     => trim((string)($_POST['Entidad'] ?? '')),
+    'Provincia'   => trim((string)($_POST['Provincia'] ?? '')),
+    'Municipio'   => trim((string)($_POST['Municipio'] ?? '')),
+    'Direccion'   => trim((string)($_POST['Direccion'] ?? '')),
+    'CP'          => trim((string)($_POST['CP'] ?? '')),
+    'Telefono'    => trim((string)($_POST['Telefono'] ?? '')),
+    'Email'       => trim((string)($_POST['Email'] ?? '')),
+    'CapacidadMax'=> safe_int_or_null($_POST['CapacidadMax'] ?? '') ?? 0,
+    'Latitud'     => safe_float_or_null($_POST['Latitud'] ?? ''),
+    'Longitud'    => safe_float_or_null($_POST['Longitud'] ?? ''),
+  ];
 
-      if ($t['Sala'] === '' || $t['Provincia'] === '' || $t['Municipio'] === '') {
-        throw new RuntimeException('Sala, Provincia y Municipio son obligatorios.');
-      }
-      if ($t['CapacidadMax'] <= 0) throw new RuntimeException('CapacidadMax debe ser > 0.');
+  if ($t['Sala'] === '' || $t['Provincia'] === '' || $t['Municipio'] === '') {
+    throw new RuntimeException('Sala, Provincia y Municipio son obligatorios.');
+  }
+  if ($t['CapacidadMax'] <= 0) throw new RuntimeException('CapacidadMax debe ser > 0.');
 
-      // normaliza vacíos a null (excepto CapacidadMax)
-      foreach (['Entidad','Direccion','CP','Telefono','Email'] as $k) {
-        if ($t[$k] === '') $t[$k] = null;
-      }
+  // normaliza vacíos a null (excepto CapacidadMax)
+  foreach (['Entidad','Direccion','CP','Telefono','Email'] as $k) {
+    if ($t[$k] === '') $t[$k] = null;
+  }
 
-      if ($isUpdate) {
-        if ($idTeatro <= 0) throw new RuntimeException('ID de teatro inválido.');
-        if (!$dao->updateTeatro($idTeatro, $t)) throw new RuntimeException('No se pudo actualizar el teatro.');
-        header('Location: ' . qs(['tab' => 'teatros', 'teatro_edit' => $idTeatro, 'ok' => '1']));
-        exit;
-      } else {
-        $newId = $dao->createTeatro($t);
-        if ($newId <= 0) throw new RuntimeException('No se pudo crear el teatro.');
-        header('Location: ' . qs(['tab' => 'teatros', 'teatro_edit' => $newId, 'ok' => '1']));
-        exit;
-      }
-    }
+  // ✅ CREA OBJETO TEATRO
+  $teatroObj = new Teatro(
+    sala: $t['Sala'],
+    provincia: $t['Provincia'],
+    municipio: $t['Municipio'],
+    capacidadMax: (int)$t['CapacidadMax'],
+    entidad: $t['Entidad'],
+    direccion: $t['Direccion'],
+    cp: $t['CP'],
+    telefono: $t['Telefono'],
+    email: $t['Email'],
+    latitud: $t['Latitud'],
+    longitud: $t['Longitud'],
+    idTeatro: $isUpdate ? $idTeatro : null
+  );
 
-    if ($action === 'teatro_delete') {
-      $id = (int)($_POST['idTeatro'] ?? 0);
-      if ($id <= 0) throw new RuntimeException('ID de teatro inválido.');
+  if ($isUpdate) {
+    if ($idTeatro <= 0) throw new RuntimeException('ID de teatro inválido.');
+    if (!$dao->updateTeatro($teatroObj)) throw new RuntimeException('No se pudo actualizar el teatro.');
+    header('Location: ' . qs(['tab' => 'teatros', 'teatro_edit' => $idTeatro, 'ok' => '1']));
+    exit;
+  } else {
+    $newId = $dao->createTeatro($teatroObj);
+    if ($newId <= 0) throw new RuntimeException('No se pudo crear el teatro.');
+    header('Location: ' . qs(['tab' => 'teatros', 'teatro_edit' => $newId, 'ok' => '1']));
+    exit;
+  }
+}
 
-      // borrar archivos físicos de sus imágenes
-      $imgs = $dao->listImagenesTeatro($id);
-      foreach ($imgs as $im) {
-        if (!empty($im['RutaImagen'])) delete_rel_file((string)$im['RutaImagen']);
-      }
 
-      if (!$dao->deleteTeatro($id)) throw new RuntimeException('No se pudo borrar el teatro.');
-      header('Location: ' . qs(['tab' => 'teatros', 'teatro_edit' => null, 'ok' => '1']));
-      exit;
-    }
+   
+if ($action === 'teatro_delete') {
+  $id = (int)($_POST['idTeatro'] ?? 0);
+  if ($id <= 0) throw new RuntimeException('ID de teatro inválido.');
+
+  $imgs = $dao->listImagenesTeatro($id);
+  foreach ($imgs as $im) {
+    if (!empty($im['RutaImagen'])) delete_rel_file((string)$im['RutaImagen']);
+  }
+
+  if (!$dao->deleteTeatro($id)) throw new RuntimeException('No se pudo borrar el teatro.');
+  header('Location: ' . qs(['tab' => 'teatros', 'teatro_edit' => null, 'ok' => '1']));
+  exit;
+}
+
+
+
+    
 
     if ($action === 'teatro_img_add') {
       $id = (int)($_POST['idTeatro'] ?? 0);
@@ -293,7 +338,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($idTeatro <= 0 || $idObra <= 0) throw new RuntimeException('Selecciona teatro y obra.');
       if (!$fecha) throw new RuntimeException('Fecha/Hora inválida.');
 
-      if (!$dao->createHorario($idTeatro, $idObra, $fecha)) throw new RuntimeException('No se pudo crear el horario.');
+      $precio = mt_rand(1200, 4000) / 100; // 12.00 - 40.00
+
+$horarioObj = new Horario(
+  idTeatro: $idTeatro,
+  idObra: $idObra,
+  fechaHora: $fecha,
+  precio: (float)$precio
+);
+
+if (!$dao->createHorario($horarioObj)) throw new RuntimeException('No se pudo crear el horario.');
+
       header('Location: ' . qs(['tab' => 'horarios', 'ok' => '1']));
       exit;
     }
@@ -309,7 +364,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($idTeatro <= 0 || $idObra <= 0) throw new RuntimeException('Selecciona teatro y obra.');
       if (!$fecha) throw new RuntimeException('Fecha/Hora inválida.');
 
-      if (!$dao->updateHorario($idHorario, $idTeatro, $idObra, $fecha)) throw new RuntimeException('No se pudo actualizar el horario.');
+      // Para no perder el precio, lo leemos de BD aquí:
+$old = $dao->getHorarioById($idHorario);
+$precio = $old && isset($old['Precio']) ? (float)$old['Precio'] : 0.0;
+
+$horarioObj = new Horario(
+  idTeatro: $idTeatro,
+  idObra: $idObra,
+  fechaHora: $fecha,
+  precio: $precio,
+  idHorario: $idHorario
+);
+
+if (!$dao->updateHorario($horarioObj)) throw new RuntimeException('No se pudo actualizar el horario.');
+
       header('Location: ' . qs(['tab' => 'horarios', 'hor_edit' => $idHorario, 'ok' => '1']));
       exit;
     }

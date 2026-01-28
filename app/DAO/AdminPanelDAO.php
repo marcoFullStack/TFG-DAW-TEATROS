@@ -2,6 +2,11 @@
 // app/DAO/AdminPanelDAO.php
 declare(strict_types=1);
 
+require_once __DIR__ . '/../models/Obra.php';
+require_once __DIR__ . '/../models/Teatro.php';
+require_once __DIR__ . '/../models/Horario.php';
+
+
 final class AdminPanelDAO {
   private PDO $pdo;
 
@@ -60,18 +65,41 @@ final class AdminPanelDAO {
     return $row ?: null;
   }
 
-  public function createObra(string $titulo, ?string $autor, ?string $subtitulo, ?int $anio, ?string $url): int {
-    $sql = "INSERT INTO obras (Titulo, Autor, Subtitulo, Anio, UrlDracor) VALUES (?, ?, ?, ?, ?)";
-    $st = $this->pdo->prepare($sql);
-    $ok = $st->execute([$titulo, $autor, $subtitulo, $anio, $url]);
-    return $ok ? (int)$this->pdo->lastInsertId() : 0;
-  }
+public function createObra(Obra $o): int {
+  $sql = "INSERT INTO obras (Titulo, Autor, Subtitulo, Anio, UrlDracor) VALUES (?, ?, ?, ?, ?)";
+  $st = $this->pdo->prepare($sql);
+  $ok = $st->execute([
+    $o->getTitulo(),
+    $o->getAutor(),
+    $o->getSubtitulo(),
+    $o->getAnio(),
+    $o->getUrlDracor()
+  ]);
 
-  public function updateObra(int $idObra, string $titulo, ?string $autor, ?string $subtitulo, ?int $anio, ?string $url): bool {
-    $sql = "UPDATE obras SET Titulo=?, Autor=?, Subtitulo=?, Anio=?, UrlDracor=? WHERE idObra=?";
-    $st = $this->pdo->prepare($sql);
-    return $st->execute([$titulo, $autor, $subtitulo, $anio, $url, $idObra]);
+  if ($ok) {
+    $id = (int)$this->pdo->lastInsertId();
+    $o->setIdObra($id);
+    return $id;
   }
+  return 0;
+}
+
+
+ public function updateObra(Obra $o): bool {
+  $id = (int)($o->getIdObra() ?? 0);
+  if ($id <= 0) return false;
+
+  $sql = "UPDATE obras SET Titulo=?, Autor=?, Subtitulo=?, Anio=?, UrlDracor=? WHERE idObra=?";
+  $st = $this->pdo->prepare($sql);
+  return $st->execute([
+    $o->getTitulo(),
+    $o->getAutor(),
+    $o->getSubtitulo(),
+    $o->getAnio(),
+    $o->getUrlDracor(),
+    $id
+  ]);
+}
 
   public function deleteObra(int $idObra): bool {
     $st = $this->pdo->prepare("DELETE FROM obras WHERE idObra=?");
@@ -153,29 +181,59 @@ final class AdminPanelDAO {
     return $row ?: null;
   }
 
-  public function createTeatro(array $t): int {
-    $sql = "INSERT INTO teatros
-      (Sala, Entidad, Provincia, Municipio, Direccion, CP, Telefono, Email, CapacidadMax, Latitud, Longitud)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $st = $this->pdo->prepare($sql);
-    $ok = $st->execute([
-      $t['Sala'], $t['Entidad'], $t['Provincia'], $t['Municipio'], $t['Direccion'],
-      $t['CP'], $t['Telefono'], $t['Email'], $t['CapacidadMax'], $t['Latitud'], $t['Longitud']
-    ]);
-    return $ok ? (int)$this->pdo->lastInsertId() : 0;
-  }
+ public function createTeatro(Teatro $t): int {
+  $sql = "INSERT INTO teatros
+    (Sala, Entidad, Provincia, Municipio, Direccion, CP, Telefono, Email, CapacidadMax, Latitud, Longitud)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-  public function updateTeatro(int $idTeatro, array $t): bool {
-    $sql = "UPDATE teatros SET
-      Sala=?, Entidad=?, Provincia=?, Municipio=?, Direccion=?, CP=?, Telefono=?, Email=?, CapacidadMax=?, Latitud=?, Longitud=?
-      WHERE idTeatro=?";
-    $st = $this->pdo->prepare($sql);
-    return $st->execute([
-      $t['Sala'], $t['Entidad'], $t['Provincia'], $t['Municipio'], $t['Direccion'],
-      $t['CP'], $t['Telefono'], $t['Email'], $t['CapacidadMax'], $t['Latitud'], $t['Longitud'],
-      $idTeatro
-    ]);
+  $st = $this->pdo->prepare($sql);
+  $ok = $st->execute([
+    $t->getSala(),
+    $t->getEntidad(),
+    $t->getProvincia(),
+    $t->getMunicipio(),
+    $t->getDireccion(),
+    $t->getCP(),
+    $t->getTelefono(),
+    $t->getEmail(),
+    $t->getCapacidadMax(),
+    $t->getLatitud(),
+    $t->getLongitud()
+  ]);
+
+  if ($ok) {
+    $id = (int)$this->pdo->lastInsertId();
+    $t->setIdTeatro($id);
+    return $id;
   }
+  return 0;
+}
+
+  public function updateTeatro(Teatro $t): bool {
+  $id = (int)($t->getIdTeatro() ?? 0);
+  if ($id <= 0) return false;
+
+  $sql = "UPDATE teatros SET
+    Sala=?, Entidad=?, Provincia=?, Municipio=?, Direccion=?, CP=?, Telefono=?, Email=?, CapacidadMax=?, Latitud=?, Longitud=?
+    WHERE idTeatro=?";
+
+  $st = $this->pdo->prepare($sql);
+  return $st->execute([
+    $t->getSala(),
+    $t->getEntidad(),
+    $t->getProvincia(),
+    $t->getMunicipio(),
+    $t->getDireccion(),
+    $t->getCP(),
+    $t->getTelefono(),
+    $t->getEmail(),
+    $t->getCapacidadMax(),
+    $t->getLatitud(),
+    $t->getLongitud(),
+    $id
+  ]);
+}
+
 
   public function deleteTeatro(int $idTeatro): bool {
     $st = $this->pdo->prepare("DELETE FROM teatros WHERE idTeatro=?");
@@ -323,16 +381,35 @@ public function listHorarios(int $page, int $perPage, int $idTeatro = 0): array 
     return $row ?: null;
   }
 
-public function createHorario(int $idTeatro, int $idObra, string $fechaHora): bool {
-  $precio = mt_rand(1200, 4000) / 100; // 12.00 - 40.00
+public function createHorario(Horario $h): bool {
   $st = $this->pdo->prepare("INSERT INTO horarios (idTeatro, idObra, FechaHora, Precio) VALUES (?, ?, ?, ?)");
-  return $st->execute([$idTeatro, $idObra, $fechaHora, $precio]);
+  $ok = $st->execute([
+    $h->getIdTeatro(),
+    $h->getIdObra(),
+    $h->getFechaHora(),
+    $h->getPrecio()
+  ]);
+
+  if ($ok) {
+    $h->setIdHorario((int)$this->pdo->lastInsertId());
+  }
+  return $ok;
 }
 
 
-public function updateHorario(int $idHorario, int $idTeatro, int $idObra, string $fechaHora): bool {
-  $st = $this->pdo->prepare("UPDATE horarios SET idTeatro=?, idObra=?, FechaHora=? WHERE idHorario=?");
-  return $st->execute([$idTeatro, $idObra, $fechaHora, $idHorario]);
+
+public function updateHorario(Horario $h): bool {
+  $id = (int)($h->getIdHorario() ?? 0);
+  if ($id <= 0) return false;
+
+  $st = $this->pdo->prepare("UPDATE horarios SET idTeatro=?, idObra=?, FechaHora=?, Precio=? WHERE idHorario=?");
+  return $st->execute([
+    $h->getIdTeatro(),
+    $h->getIdObra(),
+    $h->getFechaHora(),
+    $h->getPrecio(),
+    $id
+  ]);
 }
 
 
