@@ -64,6 +64,7 @@ if (!$errors) {
   <title>Registro Admin</title>
 
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
+  <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/register.css">
 </head>
 <body>
 <main>

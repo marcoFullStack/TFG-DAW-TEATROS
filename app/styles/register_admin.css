@@ -1,0 +1,50 @@
+/* Centrado del formulario de registro de admin */
+main {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Caja que contiene el formulario */
+.form-box {
+    width: 100%;
+    max-width: 420px; /* igual que login.css */
+    padding: 28px 26px;
+    border-radius: var(--r2);
+}
+
+/* Título del formulario */
+.form-box h1 {
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: 26px;
+    letter-spacing: .02em;
+}
+
+/* Mensajes de error */
+.notice {
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Cada fila del formulario */
+.form-row {
+    margin-bottom: 16px;
+}
+
+/* Botón submit */
+input[type="submit"] {
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+/* Link inferior */
+form a {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 14px;
+    opacity: .9;
+}
