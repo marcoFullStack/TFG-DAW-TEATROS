@@ -4,12 +4,12 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+       
         body {
             background-color: #F9F4E8; /* Crema */
             color: #1E1B18; /* Negro */
         }
-        
+       
         /* Header principal */
         .main-header {
             background-color: #630E16; /* Granate */
@@ -20,7 +20,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+       
         /* Contenedor del header */
         .header-container {
             max-width: 1200px;
@@ -30,19 +30,19 @@
             align-items: center;
             padding: 15px 0;
         }
-        
+       
         /* Logo y nombre del sitio */
         .logo-section {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
+       
         .logo{
             width: 80px;
             height: 80px;
         }
-        
+       
         .site-name {
             display: flex;
             align-items: center;
@@ -53,14 +53,14 @@
             text-decoration: none;
             letter-spacing: 0.5px;
         }
-        
+       
         /* Navegación principal */
         .main-nav ul {
             display: flex;
             list-style: none;
             gap: 30px;
         }
-        
+       
         .main-nav a {
             color: #F9F4E8; /* Crema */
             text-decoration: none;
@@ -71,16 +71,16 @@
             transition: all 0.3s ease;
             position: relative;
         }
-        
+       
         .main-nav a:hover {
             background-color: rgba(197, 160, 89, 0.2); /* Dorado con transparencia */
             color: #C5A059; /* Dorado */
         }
-        
+       
         .main-nav a.active {
             color: #C5A059; /* Dorado */
         }
-        
+       
         .main-nav a.active::after {
             content: '';
             position: absolute;
@@ -90,7 +90,7 @@
             height: 2px;
             background-color: #C5A059; /* Dorado */
         }
-        
+       
         /* Botón de acción */
         .header-action {
             padding: 10px 22px;
@@ -103,13 +103,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+       
         .header-action:hover {
             background-color: #F9F4E8; /* Crema */
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+       
         /* Menú hamburguesa para móviles */
         .menu-toggle {
             display: none;
@@ -117,7 +117,7 @@
             gap: 4px;
             cursor: pointer;
         }
-        
+       
         .menu-toggle span {
             width: 25px;
             height: 3px;
@@ -125,17 +125,17 @@
             border-radius: 2px;
             transition: 0.3s;
         }
-
+ 
         .mobile-only {
             display: none;
         }
-        
+       
         /* Responsive design */
         @media (max-width: 992px) {
             .menu-toggle {
                 display: flex;
             }
-            
+           
             .main-nav {
                 position: absolute;
                 top: 100%;
@@ -147,45 +147,45 @@
                 overflow: hidden;
                 transition: max-height 0.5s ease;
             }
-            
+           
             .main-nav.active {
                 max-height: 500px;
                 padding: 20px 0;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             }
-            
+           
             .main-nav ul {
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
             }
-            
+           
             .main-nav a {
                 display: block;
                 width: 100%;
                 text-align: center;
                 padding: 12px 20px;
             }
-
+ 
             .mobile-only {
                 display: block;
             }
-            
+           
             .mobile-only .header-action {
                 width: 100%;
                 margin-top: 5px;
             }
-            
+           
             .header-container > a {
                 display: none;
             }
         }
-        
+       
         @media (max-width: 576px) {
             .site-name {
                 font-size: 24px;
             }
-            
+           
             .logo {
                 height: 40px;
                 width: 40px;
