@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/../models/Obra.php';
 require_once __DIR__ . '/../models/Teatro.php';
 require_once __DIR__ . '/../models/Horario.php';
+require_once __DIR__ . '/../models/Usuario.php';
+
 
 
 final class AdminPanelDAO {
@@ -496,4 +498,191 @@ public function updateHorario(Horario $h): bool {
     $st = $this->pdo->prepare("DELETE FROM galeria_revision WHERE idImagen=?");
     return $st->execute([$idImagen]);
   }
+  /* ===================== PACK HELPERS (total + rows) ===================== */
+
+public function obrasPage(int $page, int $perPage, string $q=''): array {
+  $perPage = $this->clampPerPage($perPage);
+  $offset  = max(0, ($page - 1) * $perPage);
+
+  $where = '';
+  $params = [];
+  if ($q !== '') {
+    $where = "WHERE Titulo LIKE :q OR Autor LIKE :q";
+    $params[':q'] = '%'.$q.'%';
+  }
+
+  // MySQL 8+: COUNT(*) OVER() evita hacer count() aparte
+  $sql = "
+    SELECT
+      o.*,
+      COUNT(*) OVER() AS total_rows
+    FROM obras o
+    $where
+    ORDER BY o.idObra DESC
+    LIMIT :lim OFFSET :off
+  ";
+  $st = $this->pdo->prepare($sql);
+  foreach ($params as $k => $v) $st->bindValue($k, $v, PDO::PARAM_STR);
+  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+  $st->execute();
+
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $total = $rows ? (int)$rows[0]['total_rows'] : 0;
+
+  // limpiar columna extra
+  foreach ($rows as &$r) unset($r['total_rows']);
+
+  return ['total' => $total, 'rows' => $rows];
+}
+
+public function teatrosPage(int $page, int $perPage, string $q=''): array {
+  $perPage = $this->clampPerPage($perPage);
+  $offset  = max(0, ($page - 1) * $perPage);
+
+  $where = '';
+  $params = [];
+  if ($q !== '') {
+    $where = "WHERE Sala LIKE :q OR Provincia LIKE :q OR Municipio LIKE :q";
+    $params[':q'] = '%'.$q.'%';
+  }
+
+  $sql = "
+    SELECT
+      t.*,
+      COUNT(*) OVER() AS total_rows
+    FROM teatros t
+    $where
+    ORDER BY t.Provincia, t.Municipio, t.Sala
+    LIMIT :lim OFFSET :off
+  ";
+  $st = $this->pdo->prepare($sql);
+  foreach ($params as $k => $v) $st->bindValue($k, $v, PDO::PARAM_STR);
+  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+  $st->execute();
+
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $total = $rows ? (int)$rows[0]['total_rows'] : 0;
+  foreach ($rows as &$r) unset($r['total_rows']);
+
+  return ['total' => $total, 'rows' => $rows];
+}
+
+public function usuariosPage(int $page, int $perPage, string $q=''): array {
+  $perPage = $this->clampPerPage($perPage);
+  $offset  = max(0, ($page - 1) * $perPage);
+
+  $where = '';
+  $params = [];
+  if ($q !== '') {
+    $where = "WHERE Nombre LIKE :q OR Email LIKE :q";
+    $params[':q'] = '%'.$q.'%';
+  }
+
+  $sql = "
+    SELECT
+      idUsuario, Nombre, Email, FotoPerfil, Puntos, FechaAlta,
+      COUNT(*) OVER() AS total_rows
+    FROM usuarios
+    $where
+    ORDER BY idUsuario DESC
+    LIMIT :lim OFFSET :off
+  ";
+  $st = $this->pdo->prepare($sql);
+  foreach ($params as $k => $v) $st->bindValue($k, $v, PDO::PARAM_STR);
+  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+  $st->execute();
+
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $total = $rows ? (int)$rows[0]['total_rows'] : 0;
+  foreach ($rows as &$r) unset($r['total_rows']);
+
+  return ['total' => $total, 'rows' => $rows];
+}
+
+public function horariosPage(int $page, int $perPage, int $idTeatro=0): array {
+  $perPage = $this->clampPerPage($perPage);
+  $offset  = max(0, ($page - 1) * $perPage);
+
+  $where = '';
+  if ($idTeatro > 0) $where = "WHERE h.idTeatro = :idTeatro";
+
+  $sql = "
+    SELECT
+      h.idHorario, h.idTeatro, h.idObra, h.FechaHora,
+      t.Sala AS teatro, t.Provincia, t.Municipio,
+      o.Titulo AS obra, o.Autor AS autor,
+      COUNT(*) OVER() AS total_rows
+    FROM horarios h
+    INNER JOIN teatros t ON t.idTeatro = h.idTeatro
+    INNER JOIN obras o   ON o.idObra   = h.idObra
+    $where
+    ORDER BY h.FechaHora ASC
+    LIMIT :lim OFFSET :off
+  ";
+  $st = $this->pdo->prepare($sql);
+  if ($idTeatro > 0) $st->bindValue(':idTeatro', $idTeatro, PDO::PARAM_INT);
+  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+  $st->execute();
+
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $total = $rows ? (int)$rows[0]['total_rows'] : 0;
+  foreach ($rows as &$r) unset($r['total_rows']);
+
+  return ['total' => $total, 'rows' => $rows];
+}
+
+public function galeriaPage(int $page, int $perPage, ?string $estado='pendiente'): array {
+  $perPage = $this->clampPerPage($perPage);
+  $offset  = max(0, ($page - 1) * $perPage);
+
+  $where = '';
+  if ($estado !== null && $estado !== '') $where = "WHERE g.Estado = :estado";
+
+  $sql = "
+    SELECT
+      g.idImagen, g.RutaImagen, g.Estado, g.FechaSubida,
+      u.idUsuario, u.Nombre AS usuario, u.Email AS emailUsuario,
+      t.idTeatro, t.Sala AS teatro, t.Provincia, t.Municipio,
+      COUNT(*) OVER() AS total_rows
+    FROM galeria_revision g
+    INNER JOIN usuarios u ON u.idUsuario = g.idUsuario
+    INNER JOIN teatros  t ON t.idTeatro  = g.idTeatro
+    $where
+    ORDER BY g.FechaSubida DESC
+    LIMIT :lim OFFSET :off
+  ";
+  $st = $this->pdo->prepare($sql);
+  if ($where) $st->bindValue(':estado', $estado, PDO::PARAM_STR);
+  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+  $st->execute();
+
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $total = $rows ? (int)$rows[0]['total_rows'] : 0;
+  foreach ($rows as &$r) unset($r['total_rows']);
+
+  return ['total' => $total, 'rows' => $rows];
+}
+public function updateUsuarioObj(Usuario $u): bool {
+  $id = (int)($u->getIdUsuario() ?? 0);
+  if ($id <= 0) return false;
+
+  $sql = "UPDATE usuarios
+          SET Nombre = ?, Email = ?, Puntos = ?, FotoPerfil = ?
+          WHERE idUsuario = ?";
+  $st = $this->pdo->prepare($sql);
+
+  return $st->execute([
+    $u->getNombre(),
+    $u->getEmail(),
+    $u->getPuntos(),
+    $u->getFotoPerfil(),
+    $id
+  ]);
+}
+  
 }

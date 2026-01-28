@@ -16,6 +16,26 @@ final class UsuarioDAO {
   return $row ?: null;
 }
 
+  public function insertar(Usuario $u): int {
+  $sql = "INSERT INTO usuarios (Nombre, Email, PasswordHash, FotoPerfil, Puntos, FechaAlta)
+          VALUES (?, ?, ?, ?, ?, COALESCE(?, CURRENT_DATE))";
+
+  $st = $this->pdo->prepare($sql);
+  $ok = $st->execute([
+    $u->getNombre(),
+    $u->getEmail(),
+    $u->getPasswordHash(),
+    $u->getFotoPerfil(),           // null si no hay
+    $u->getPuntos(),
+    $u->getFechaAlta()             // null => CURRENT_DATE
+  ]);
+
+  if (!$ok) return 0;
+
+  $id = (int)$this->pdo->lastInsertId();
+  $u->setIdUsuario($id);
+  return $id;
+}
 
   public function obtenerPorId(int $idUsuario): ?Usuario {
     $sql = "SELECT idUsuario, Nombre, Email, PasswordHash, FotoPerfil, Puntos, FechaAlta

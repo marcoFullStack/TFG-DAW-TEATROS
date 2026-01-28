@@ -11,6 +11,7 @@ require_once __DIR__ . '/../../DAO/AdminPanelDAO.php';
 require_once __DIR__ . '/../../models/Obra.php';
 require_once __DIR__ . '/../../models/Teatro.php';
 require_once __DIR__ . '/../../models/Horario.php';
+require_once __DIR__ . '/../../models/Usuario.php';
 
 
 function h($s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
@@ -306,7 +307,25 @@ if ($action === 'teatro_delete') {
       if ($nombre === '') throw new RuntimeException('Nombre obligatorio.');
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) throw new RuntimeException('Email no válido.');
 
-      if (!$dao->updateUsuario($id, $nombre, $email, $puntos)) throw new RuntimeException('No se pudo actualizar el usuario.');
+      // necesitas tener el usuario actual para conservar PasswordHash y FotoPerfil
+$old = $dao->getUsuarioById($id);
+if (!$old) throw new RuntimeException('Usuario no existe.');
+
+$usuarioObj = new Usuario(
+  nombre: $nombre,
+  email: $email,
+  passwordHash: (string)($old['PasswordHash'] ?? ''),
+  fotoPerfil: $old['FotoPerfil'] ?? null,
+  idUsuario: $id,
+  puntos: $puntos,
+  fechaAlta: $old['FechaAlta'] ?? null
+);
+
+// ojo: este método lo tienes que crear en AdminPanelDAO (updateUsuarioObj)
+if (!$dao->updateUsuarioObj($usuarioObj)) {
+  throw new RuntimeException('No se pudo actualizar el usuario.');
+}
+
       header('Location: ' . qs(['tab' => 'usuarios', 'user_edit' => $id, 'ok' => '1']));
       exit;
     }
@@ -318,10 +337,11 @@ if ($action === 'teatro_delete') {
       $u = $dao->getUsuarioById($id);
       // opcional: borrar foto perfil si la guardas como ruta relativa desde app/
       if ($u && !empty($u['FotoPerfil'])) {
-        $rel = (string)$u['FotoPerfil'];
-        // si en tu BD guardas solo nombre, no borres nada aquí; si guardas ruta relativa, esto funcionará
-        if (str_contains($rel, '/')) delete_rel_file($rel);
-      }
+  // FotoPerfil en BD: "usuarios/archivo.jpg"
+  // Archivo real: /app/uploads/usuarios/archivo.jpg
+  delete_rel_file('uploads/' . (string)$u['FotoPerfil']);
+}
+
 
       if (!$dao->deleteUsuario($id)) throw new RuntimeException('No se pudo borrar el usuario.');
       header('Location: ' . qs(['tab' => 'usuarios', 'user_edit' => null, 'ok' => '1']));
@@ -452,40 +472,62 @@ $q_users   = trim((string)($_GET['usuarios_q'] ?? ''));
 $hor_idTeatro = (int)($_GET['hor_idTeatro'] ?? 0);
 $gal_estado   = (string)($_GET['gal_estado'] ?? 'pendiente');
 
+// Inicializa todo vacío (para que no pete el HTML)
+$obras_total=$teatros_total=$users_total=$hor_total=$gal_total=0;
+$obras_rows=$teatros_rows=$users_rows=$hor_rows=$gal_rows=[];
+$obra_edit=$teatro_edit=$user_edit=$hor_edit=null;
+$obra_imgs=$teatro_imgs=[];
+$sel_teatros=$sel_obras=[];
+
 try {
-  $obras_total = $dao->countObras($q_obras);
-  $obras_rows  = $dao->listObras($p_obras, $pp_obras, $q_obras);
-  $obra_edit   = $obra_edit_id > 0 ? $dao->getObraById($obra_edit_id) : null;
-  $obra_imgs   = ($obra_edit && $obra_edit_id > 0) ? $dao->listImagenesObra($obra_edit_id) : [];
+  if ($tab === 'obras') {
+    $pack = $dao->obrasPage($p_obras, $pp_obras, $q_obras);
+    $obras_total = (int)$pack['total'];
+    $obras_rows  = $pack['rows'];
 
-  $teatros_total = $dao->countTeatros($q_teatros);
-  $teatros_rows  = $dao->listTeatros($p_teatros, $pp_teatros, $q_teatros);
-  $teatro_edit   = $teatro_edit_id > 0 ? $dao->getTeatroById($teatro_edit_id) : null;
-  $teatro_imgs   = ($teatro_edit && $teatro_edit_id > 0) ? $dao->listImagenesTeatro($teatro_edit_id) : [];
+    $obra_edit = $obra_edit_id > 0 ? $dao->getObraById($obra_edit_id) : null;
+    $obra_imgs = ($obra_edit && $obra_edit_id > 0) ? $dao->listImagenesObra($obra_edit_id) : [];
+  }
 
-  $users_total = $dao->countUsuarios($q_users);
-  $users_rows  = $dao->listUsuarios($p_users, $pp_users, $q_users);
-  $user_edit   = $user_edit_id > 0 ? $dao->getUsuarioById($user_edit_id) : null;
+  if ($tab === 'teatros') {
+    $pack = $dao->teatrosPage($p_teatros, $pp_teatros, $q_teatros);
+    $teatros_total = (int)$pack['total'];
+    $teatros_rows  = $pack['rows'];
 
-  $hor_total = $dao->countHorarios($hor_idTeatro);
-  $hor_rows  = $dao->listHorarios($p_hor, $pp_hor, $hor_idTeatro);
-  $hor_edit  = $hor_edit_id > 0 ? $dao->getHorarioById($hor_edit_id) : null;
+    $teatro_edit = $teatro_edit_id > 0 ? $dao->getTeatroById($teatro_edit_id) : null;
+    $teatro_imgs = ($teatro_edit && $teatro_edit_id > 0) ? $dao->listImagenesTeatro($teatro_edit_id) : [];
+  }
 
-  $sel_teatros = $dao->listTeatrosSimple();
-  $sel_obras   = $dao->listObrasSimple();
+  if ($tab === 'usuarios') {
+    $pack = $dao->usuariosPage($p_users, $pp_users, $q_users);
+    $users_total = (int)$pack['total'];
+    $users_rows  = $pack['rows'];
 
-  $gal_total = $dao->countGaleria($gal_estado);
-  $gal_rows  = $dao->listGaleria($p_gal, $pp_gal, $gal_estado);
+    $user_edit = $user_edit_id > 0 ? $dao->getUsuarioById($user_edit_id) : null;
+  }
+
+  if ($tab === 'horarios') {
+    $pack = $dao->horariosPage($p_hor, $pp_hor, $hor_idTeatro);
+    $hor_total = (int)$pack['total'];
+    $hor_rows  = $pack['rows'];
+
+    $hor_edit  = $hor_edit_id > 0 ? $dao->getHorarioById($hor_edit_id) : null;
+
+    // selects SOLO cuando estás en horarios
+    $sel_teatros = $dao->listTeatrosSimple();
+    $sel_obras   = $dao->listObrasSimple();
+  }
+
+  if ($tab === 'galeria') {
+    $pack = $dao->galeriaPage($p_gal, $pp_gal, $gal_estado);
+    $gal_total = (int)$pack['total'];
+    $gal_rows  = $pack['rows'];
+  }
 
 } catch (Throwable $e) {
   $error = "ERROR BD: " . $e->getMessage();
-  // para no petar el HTML:
-  $obras_total=$teatros_total=$users_total=$hor_total=$gal_total=0;
-  $obras_rows=$teatros_rows=$users_rows=$hor_rows=$gal_rows=[];
-  $obra_edit=$teatro_edit=$user_edit=$hor_edit=null;
-  $obra_imgs=$teatro_imgs=[];
-  $sel_teatros=$sel_obras=[];
 }
+
 
 function pager(int $total, int $page, int $perPage, string $pageKey): array {
   $pages = (int)ceil(max(1, $total) / max(1, $perPage));
