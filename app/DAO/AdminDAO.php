@@ -1,8 +1,8 @@
 <?php
-// DAO/AdminDAO.php
+// app/DAO/AdminDAO.php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../config/db.php'; // deja $pdo disponible :contentReference[oaicite:5]{index=5}
+require_once __DIR__ . '/../models/Admin.php';
 
 final class AdminDAO {
   private PDO $pdo;
@@ -17,10 +17,21 @@ final class AdminDAO {
     return $row ?: null;
   }
 
-  public function insertar(string $nombre, string $email, string $passwordHash): bool {
+  public function insertar(Admin $a): bool {
     $sql = "INSERT INTO admins (Nombre, Email, PasswordHash) VALUES (?, ?, ?)";
     $st = $this->pdo->prepare($sql);
-    return $st->execute([$nombre, $email, $passwordHash]);
+
+    $ok = $st->execute([
+      $a->getNombre(),
+      $a->getEmail(),
+      $a->getPasswordHash()
+    ]);
+
+    if ($ok) {
+      $a->setIdAdmin((int)$this->pdo->lastInsertId());
+    }
+
+    return $ok;
   }
 
   public function actualizarUltimoLogin(int $idAdmin): void {

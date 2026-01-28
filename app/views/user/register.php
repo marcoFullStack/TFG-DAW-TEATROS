@@ -6,6 +6,8 @@ session_start();
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../DAO/UsuarioDAO.php';
+require_once __DIR__ . '/../../models/Usuario.php';
+
 
 $dao = new UsuarioDAO($pdo);
 $errors = [];
@@ -51,16 +53,25 @@ if (!empty($_POST['btnRegister'])) {
     }
   }
 
-  if (!$errors) {
+if (!$errors) {
     $hash = password_hash($Password, PASSWORD_DEFAULT);
-    $ok = $dao->insertar($Nombre, $Email, $hash, $fotoNombre);
+
+    $usuario = new Usuario(
+        nombre: $Nombre,
+        email: $Email,
+        passwordHash: $hash,
+        fotoPerfil: $fotoNombre
+    );
+
+    $ok = $dao->insertar($usuario);
 
     if (!$ok) $errors[] = "No se pudo registrar el usuario";
     else {
-      header('Location: ' . BASE_URL . 'views/user/login.php');
-      exit;
+        header('Location: ' . BASE_URL . 'views/user/login.php');
+        exit;
     }
-  }
+}
+
 }
 
 function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }

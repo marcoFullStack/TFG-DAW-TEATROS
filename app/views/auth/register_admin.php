@@ -7,6 +7,8 @@ session_start();
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../DAO/AdminDAO.php';
+require_once __DIR__ . '/../../models/Admin.php';
+
 
 function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
@@ -36,16 +38,23 @@ if (!empty($_POST['btnRegisterAdmin'])) {
     $errors[] = 'Ese email de admin ya existe';
   }
 
-  if (!$errors) {
-    $hash = password_hash($pass1, PASSWORD_DEFAULT);
+if (!$errors) {
+  $hash = password_hash($pass1, PASSWORD_DEFAULT);
 
-    if ($dao->insertar($nombre, $email, $hash)) {
-      header('Location: ' . BASE_URL . 'views/auth/login_admin.php');
-      exit;
-    } else {
-      $errors[] = 'No se pudo crear el admin';
-    }
+  $admin = new Admin(
+    nombre: $nombre,
+    email: $email,
+    passwordHash: $hash
+  );
+
+  if ($dao->insertar($admin)) {
+    header('Location: ' . BASE_URL . 'views/auth/login_admin.php');
+    exit;
+  } else {
+    $errors[] = 'No se pudo crear el admin';
   }
+}
+
 }
 ?>
 <!doctype html>
