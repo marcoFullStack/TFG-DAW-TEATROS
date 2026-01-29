@@ -42,11 +42,13 @@ input[type="submit"]{
 }
 
 /* Link inferior */
+form > div{
+  margin-top:12px;
+}
+
 form a{
-  display:block;
-  margin-top:14px;
-  text-align:center;
   font-size:14px;
   opacity:.9;
 }
+
 

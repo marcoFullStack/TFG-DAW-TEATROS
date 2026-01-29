@@ -56,6 +56,7 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
       <input type="submit" name="btnLogin" value="🔓 Entrar">
       <a href="<?= h(BASE_URL) ?>views/user/register.php">➕ Registrarme</a>
+      <a href="<?= h(BASE_URL) ?>index.php">🏠 Inicio</a>
     </form>
   </div>
 </main>
