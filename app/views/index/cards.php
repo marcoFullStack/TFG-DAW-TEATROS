@@ -37,7 +37,11 @@
                 <p class="meta"><?= h($t['Municipio'] ?? '') ?> · <?= h($t['Direccion'] ?? '') ?></p>
                 <div class="row">
                   <span class="pill2">Aforo: <?= h($t['CapacidadMax'] ?? '—') ?></span>
-                  <a class="link" href="index2.php?teatro=<?= (int)$t['id'] ?>">Ver detalles →</a>
+                  <a class="link" 
+                    style="cursor: pointer;" 
+                    onclick="buscarWiki('<?= h($t['Sala'] . ' ' . $t['Municipio']) ?>', 'teatro')">
+                    Ver detalles →
+                  </a>
                 </div>
               </div>
             </article>
@@ -72,7 +76,11 @@
                 <p class="meta2"><?= h($c['teatro'] ?? '') ?> · <?= h($c['Municipio'] ?? '') ?></p>
                 <div class="row">
                   <span class="pill2">🗓 <?= h($fecha) ?></span>
-                  <a class="link" href="<?= h($c['url'] ?? '#') ?>" target="_blank" rel="noopener">Ficha →</a>
+                  <a class="link" 
+                    style="cursor: pointer;" 
+                    onclick="buscarWiki('<?= h($c['titulo']) ?>', 'obra')">
+                    Saber más →
+                  </a>
                 </div>
               </div>
             </article>
@@ -105,3 +113,35 @@
       </div>
     </div>
   </section>
+
+  <script>
+/**
+ * Busca en la API de Wikipedia y redirige al usuario
+ * @param {string} texto - El nombre a buscar (ej: "Teatro Calderón Valladolid")
+ * @param {string} tipo - Para refinar la búsqueda ('teatro' o 'obra')
+ */
+async function buscarWiki(texto, tipo) {
+    // Añadimos una palabra clave para mejorar la puntería del buscador
+    const query = tipo === 'teatro' ? `${texto} teatro` : `${texto} obra de teatro`;
+    
+    // URL de la API de Wikipedia (OpenSearch)
+    const url = `https://es.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${encodeURIComponent(query)}&limit=1&format=json`;
+
+    try {
+        const respuesta = await fetch(url);
+        const datos = await respuesta.json();
+
+        // datos[3] contiene el array de enlaces directos
+        if (datos[3] && datos[3].length > 0) {
+            window.open(datos[3][0], '_blank');
+        } else {
+            // Si no encuentra nada con el texto específico, intenta una búsqueda general en Wiki
+            window.open(`https://es.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`, '_blank');
+        }
+    } catch (error) {
+        console.error("Error al conectar con Wikipedia:", error);
+        // Fallback: abrir búsqueda normal si la API falla
+        window.open(`https://es.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`, '_blank');
+    }
+}
+</script>

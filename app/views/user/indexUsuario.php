@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 session_start();
 
+
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../config/uploads.php';
@@ -208,8 +209,17 @@ if ($tab === 'subir') {
   <title>Área de usuario</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
+  <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/footer.css">
 
   <style>
+    .main-footer {
+        margin-top: 50px;
+    }
+
+    .logo{
+      display: none;
+    }
+
     body {
       padding: 14px;
     }
@@ -886,3 +896,7 @@ let currentPrice = 0;
 </body>
 
 </html>
+
+<?php 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/TFG-DAW-TEATROS/app/inc/footer.php'; 
+?>

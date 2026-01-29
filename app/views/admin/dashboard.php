@@ -551,8 +551,17 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
 
   <!-- Puedes cambiarlo por tu CSS admin si ya tienes uno -->
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
+  <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/footer.css">
 
   <style>
+    .main-footer {
+        margin-top: 50px;
+    }
+
+    .logo{
+      display: none;
+    }
+
     body{ padding: 14px; }
     .admin-top{
       display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
@@ -1429,3 +1438,7 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
 </body>
 </html>
 
+
+<?php 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/TFG-DAW-TEATROS/app/inc/footer.php'; 
+?>

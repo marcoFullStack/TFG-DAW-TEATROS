@@ -107,3 +107,18 @@ function dao_getGaleriaAleatoria(PDO $pdo, int $limit = 4): array {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function obtenerEnlaceWikipedia($busqueda) {
+    $busqueda = urlencode($busqueda);
+    $url = "https://es.wikipedia.org/w/api.php?action=opensearch&search=$busqueda&limit=1&format=json";
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'TuProyectoTFG/1.0'); // Wikipedia requiere un User-Agent
+    $resultado = curl_exec($ch);
+    curl_close($ch);
+
+    $datos = json_decode($resultado, true);
+    // El formato de opensearch devuelve: [término, [títulos], [descripciones], [enlaces]]
+    return $datos[3][0] ?? null; 
+}
