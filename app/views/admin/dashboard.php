@@ -731,7 +731,7 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
                       <td><b><?= h($r['Titulo'] ?? '') ?></b></td>
                       <td><?= h($r['Autor'] ?? '') ?></td>
                       <td><?= h($r['Anio'] ?? '') ?></td>
-                      <td class="actions">
+                      <td>
                         <a class="btn2 ok" href="<?= h(qs(['obra_edit' => (int)$r['idObra']])) ?>">Editar</a>
                       </td>
                     </tr>
@@ -888,7 +888,7 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
                       <td><b><?= h($r['Sala'] ?? '') ?></b></td>
                       <td><?= h($r['Provincia'] ?? '') ?></td>
                       <td><?= h($r['Municipio'] ?? '') ?></td>
-                      <td class="actions">
+                      <td>
                         <a class="btn2 ok" href="<?= h(qs(['teatro_edit' => (int)$r['idTeatro']])) ?>">Editar</a>
                         <a class="btn2" href="<?= h(qs(['tab' => 'horarios', 'hor_idTeatro' => (int)$r['idTeatro']])) ?>">Horarios</a>
                       </td>
@@ -1093,7 +1093,7 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
                         <b><?= h($r['obra'] ?? '') ?></b><br>
                         <small style="color:var(--muted);"><?= h($r['autor'] ?? '') ?></small>
                       </td>
-                      <td class="actions">
+                      <td>
                         <a class="btn2 ok" href="<?= h(qs(['hor_edit' => (int)$r['idHorario']])) ?>">Editar</a>
                       </td>
                     </tr>
@@ -1229,7 +1229,7 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
                       <td><b><?= h($r['Nombre'] ?? '') ?></b></td>
                       <td><?= h($r['Email'] ?? '') ?></td>
                       <td><?= (int)($r['Puntos'] ?? 0) ?></td>
-                      <td class="actions">
+                      <td>
                         <a class="btn2 ok" href="<?= h(qs(['user_edit' => (int)$r['idUsuario']])) ?>">Editar</a>
                       </td>
                     </tr>
@@ -1382,7 +1382,7 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
                       </td>
                       <td><span class="chipX"><?= h($r['Estado'] ?? '') ?></span></td>
                       <td><small style="color:var(--muted);"><?= h($r['FechaSubida'] ?? '') ?></small></td>
-                      <td class="actions">
+                      <td>
                         <form method="post" style="display:inline-flex; gap:8px; flex-wrap:wrap;">
                           <input type="hidden" name="action" value="galeria_set_estado">
                           <input type="hidden" name="idImagen" value="<?= (int)$r['idImagen'] ?>">
