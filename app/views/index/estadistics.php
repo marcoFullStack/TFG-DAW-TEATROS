@@ -1,4 +1,4 @@
-<section class="dash50">
+<section class="dash50" id="estadisticas">
   <!-- IZQUIERDA: gráfico -->
   <div class="dashCol">
     <h3 class="dashTitle">Épocas de las obras (cada 20 años)</h3>

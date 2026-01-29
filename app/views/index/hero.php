@@ -42,7 +42,7 @@
         <div class="divider"></div>
 
         <!-- Filtros -->
-        <div class="filters glass">
+        <div class="filters glass" id="filtro">
           <div class="f-group">
             <label for="provincia">Provincia</label>
             <select id="provincia">
