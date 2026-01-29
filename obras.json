@@ -1,0 +1,731 @@
+{
+  "description" : "Edited by [María Concepción Jiménez](https://www.unir.net/profesores/maria-concepcion-jimenez-fernandez/), [Teresa Santa María Fernández](https://www.unir.net/profesores/ma-teresa-santa-maria-fernandez/) and [José Calvo Tello](https://www.sub.uni-goettingen.de/kontakt/personen-a-z/personendetails/person/jose-calvo-tello/). Forked from the [BETTE corpus](https://github.com/GHEDI/BETTE) (Biblioteca Electrónica Textual del Teatro en Español de 1868–1936).",
+  "title" : "Spanish Drama Corpus",
+  "repository" : "https://github.com/dracor-org/spandracor",
+  "name" : "span",
+  "acronym" : "SpanDraCor",
+  "plays" : [ {
+    "wikidataId" : "Q63197172",
+    "subtitle" : "ensayo dramático en un acto y en prosa",
+    "yearPremiered" : "1895",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/clarin-teresa",
+    "yearWritten" : null,
+    "id" : "span000018",
+    "title" : "Teresa",
+    "networkSize" : 9,
+    "name" : "clarin-teresa",
+    "yearNormalized" : 1895,
+    "yearPrinted" : "1895",
+    "authors" : [ {
+      "alsoKnownAs" : [ "Leopoldo Alas" ],
+      "shortname" : "Clarín",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q312747"
+      }, {
+        "type" : "viaf",
+        "ref" : "17218138"
+      }, {
+        "type" : "bne",
+        "ref" : "XX922976"
+      } ],
+      "name" : "Clarín",
+      "fullname" : "Clarín"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/clarin-teresa/networkdata/csv"
+  }, {
+    "wikidataId" : "Q2914040",
+    "subtitle" : "drama en tres actos y en prosa",
+    "yearPremiered" : "1895",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/dicenta-juan-jose",
+    "yearWritten" : null,
+    "id" : "span000001",
+    "title" : "Juan José",
+    "networkSize" : 16,
+    "name" : "dicenta-juan-jose",
+    "yearNormalized" : 1895,
+    "yearPrinted" : "1895",
+    "authors" : [ {
+      "shortname" : "Dicenta",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q2450746"
+      }, {
+        "type" : "viaf",
+        "ref" : "68949187"
+      }, {
+        "type" : "bne",
+        "ref" : "XX2416036"
+      } ],
+      "name" : "Dicenta, Joaquín",
+      "fullname" : "Joaquín Dicenta"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/dicenta-juan-jose/networkdata/csv"
+  }, {
+    "wikidataId" : "Q19410894",
+    "subtitle" : "Un prólogo y tres actos, original",
+    "yearPremiered" : "1905",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/echegaray-arrastrarse",
+    "yearWritten" : null,
+    "id" : "span000003",
+    "title" : "A fuerza de arrastrarse: farsa cómica en prosa",
+    "networkSize" : 15,
+    "name" : "echegaray-arrastrarse",
+    "yearNormalized" : 1901,
+    "yearPrinted" : "1901",
+    "authors" : [ {
+      "shortname" : "Echegaray",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q127349"
+      }, {
+        "type" : "viaf",
+        "ref" : "79077383"
+      }, {
+        "type" : "bne",
+        "ref" : "XX910695"
+      } ],
+      "name" : "Echegaray, José",
+      "fullname" : "José Echegaray"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/echegaray-arrastrarse/networkdata/csv"
+  }, {
+    "wikidataId" : "Q2181378",
+    "subtitle" : "Drama trágico, en cuatro actos y en prosa",
+    "yearPremiered" : "1895",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/echegaray-mancha",
+    "yearWritten" : null,
+    "id" : "span000002",
+    "title" : "Mancha que limpia",
+    "networkSize" : 9,
+    "name" : "echegaray-mancha",
+    "yearNormalized" : 1895,
+    "yearPrinted" : "1895",
+    "authors" : [ {
+      "shortname" : "Echegaray",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q127349"
+      }, {
+        "type" : "viaf",
+        "ref" : "79077383"
+      }, {
+        "type" : "bne",
+        "ref" : "XX910695"
+      } ],
+      "name" : "Echegaray, José",
+      "fullname" : "José Echegaray"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/echegaray-mancha/networkdata/csv"
+  }, {
+    "wikidataId" : "Q5755730",
+    "subtitle" : "drama en cuatro actos, arreglo de la novela del mismo título",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/galdos-casandra",
+    "yearWritten" : null,
+    "id" : "span000005",
+    "title" : "Casandra",
+    "networkSize" : 16,
+    "name" : "galdos-casandra",
+    "yearNormalized" : 1910,
+    "yearPrinted" : "1910",
+    "authors" : [ {
+      "shortname" : "Galdós",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q189869"
+      }, {
+        "type" : "viaf",
+        "ref" : "71395987"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1014802"
+      } ],
+      "name" : "Galdós, Benito Pérez",
+      "fullname" : "Benito Pérez Galdós"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/galdos-casandra/networkdata/csv"
+  }, {
+    "wikidataId" : "Q924513",
+    "subtitle" : "drama en cinco actos",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/galdos-electra",
+    "yearWritten" : null,
+    "id" : "span000006",
+    "title" : "Electra",
+    "networkSize" : 15,
+    "name" : "galdos-electra",
+    "yearNormalized" : 1901,
+    "yearPrinted" : "1901",
+    "authors" : [ {
+      "shortname" : "Galdós",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q189869"
+      }, {
+        "type" : "viaf",
+        "ref" : "71395987"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1014802"
+      } ],
+      "name" : "Galdós, Benito Pérez",
+      "fullname" : "Benito Pérez Galdós"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/galdos-electra/networkdata/csv"
+  }, {
+    "wikidataId" : "Q42303072",
+    "subtitle" : "Drama en cuatro actos, arreglo teatral de la novela del mismo título",
+    "yearPremiered" : "1896",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/galdos-perfecta",
+    "yearWritten" : null,
+    "id" : "span000004",
+    "title" : "Doña Perfecta",
+    "networkSize" : 16,
+    "name" : "galdos-perfecta",
+    "yearNormalized" : 1896,
+    "yearPrinted" : "1896",
+    "authors" : [ {
+      "shortname" : "Galdós",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q189869"
+      }, {
+        "type" : "viaf",
+        "ref" : "71395987"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1014802"
+      } ],
+      "name" : "Galdós, Benito Pérez",
+      "fullname" : "Benito Pérez Galdós"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/galdos-perfecta/networkdata/csv"
+  }, {
+    "wikidataId" : "Q822850",
+    "subtitle" : "Drama de mujeres en los pueblos de España",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/lorca-bernarda",
+    "yearWritten" : null,
+    "id" : "span000042",
+    "title" : "La casa de Bernarda Alba",
+    "networkSize" : 18,
+    "name" : "lorca-bernarda",
+    "yearNormalized" : 1945,
+    "yearPrinted" : "1945",
+    "authors" : [ {
+      "shortname" : "Lorca",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q41408"
+      }, {
+        "type" : "viaf",
+        "ref" : "34456883"
+      }, {
+        "type" : "bne",
+        "ref" : "XX841898"
+      } ],
+      "name" : "Lorca, Federico García",
+      "fullname" : "Federico García Lorca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/lorca-bernarda/networkdata/csv"
+  }, {
+    "wikidataId" : "Q886624",
+    "subtitle" : "Tragedia en tres actos y siete cuadros",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/lorca-bodas",
+    "yearWritten" : null,
+    "id" : "span000041",
+    "title" : "Bodas de sangre",
+    "networkSize" : 25,
+    "name" : "lorca-bodas",
+    "yearNormalized" : 1938,
+    "yearPrinted" : "1938",
+    "authors" : [ {
+      "shortname" : "Lorca",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q41408"
+      }, {
+        "type" : "viaf",
+        "ref" : "34456883"
+      }, {
+        "type" : "bne",
+        "ref" : "XX841898"
+      } ],
+      "name" : "Lorca, Federico García",
+      "fullname" : "Federico García Lorca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/lorca-bodas/networkdata/csv"
+  }, {
+    "wikidataId" : "Q1987928",
+    "yearPremiered" : "1935",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/lorca-rosita",
+    "yearWritten" : null,
+    "id" : "span000007",
+    "title" : "Doña Rosita la soltera o el lenguaje de las flores",
+    "networkSize" : 20,
+    "name" : "lorca-rosita",
+    "yearNormalized" : 1935,
+    "yearPrinted" : "1938",
+    "authors" : [ {
+      "shortname" : "Lorca",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q41408"
+      }, {
+        "type" : "viaf",
+        "ref" : "34456883"
+      }, {
+        "type" : "bne",
+        "ref" : "XX841898"
+      } ],
+      "name" : "Lorca, Federico García",
+      "fullname" : "Federico García Lorca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/lorca-rosita/networkdata/csv"
+  }, {
+    "wikidataId" : "Q944112",
+    "subtitle" : "Poema trágico en tres actos y seis cuadros",
+    "yearPremiered" : "1934",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/lorca-yerma",
+    "yearWritten" : null,
+    "id" : "span000008",
+    "title" : "Yerma",
+    "networkSize" : 16,
+    "name" : "lorca-yerma",
+    "yearNormalized" : 1934,
+    "yearPrinted" : "1938",
+    "authors" : [ {
+      "shortname" : "Lorca",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q41408"
+      }, {
+        "type" : "viaf",
+        "ref" : "34456883"
+      }, {
+        "type" : "bne",
+        "ref" : "XX841898"
+      } ],
+      "name" : "Lorca, Federico García",
+      "fullname" : "Federico García Lorca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/lorca-yerma/networkdata/csv"
+  }, {
+    "wikidataId" : "Q2600796",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/lorca-zapatera",
+    "yearWritten" : null,
+    "id" : "span000040",
+    "title" : "La zapatera prodigiosa",
+    "networkSize" : 15,
+    "name" : "lorca-zapatera",
+    "yearNormalized" : 1938,
+    "yearPrinted" : "1938",
+    "authors" : [ {
+      "shortname" : "Lorca",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q41408"
+      }, {
+        "type" : "viaf",
+        "ref" : "34456883"
+      }, {
+        "type" : "bne",
+        "ref" : "XX841898"
+      } ],
+      "name" : "Lorca, Federico García",
+      "fullname" : "Federico García Lorca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/lorca-zapatera/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63200027",
+    "yearPremiered" : "1916",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/munoz-conferencia",
+    "yearWritten" : null,
+    "id" : "span000032",
+    "title" : "La conferencia de Algeciras",
+    "networkSize" : 10,
+    "name" : "munoz-conferencia",
+    "yearNormalized" : 1916,
+    "yearPrinted" : "1916",
+    "authors" : [ {
+      "shortname" : "Muñoz",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q3322907"
+      }, {
+        "type" : "viaf",
+        "ref" : "24776670"
+      }, {
+        "type" : "bne",
+        "ref" : "XX983355"
+      } ],
+      "name" : "Muñoz Seca, Pedro",
+      "fullname" : "Pedro Muñoz Seca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/munoz-conferencia/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63200349",
+    "subtitle" : "Caricatura superrealista, en tres actos",
+    "yearPremiered" : "1927",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/munoz-ortiz",
+    "yearWritten" : null,
+    "id" : "span000053",
+    "title" : "¡Usted es Ortiz!",
+    "networkSize" : 16,
+    "name" : "munoz-ortiz",
+    "yearNormalized" : 1927,
+    "yearPrinted" : "1927",
+    "authors" : [ {
+      "shortname" : "Muñoz",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q3322907"
+      }, {
+        "type" : "viaf",
+        "ref" : "24776670"
+      }, {
+        "type" : "bne",
+        "ref" : "XX983355"
+      } ],
+      "name" : "Muñoz Seca, Pedro",
+      "fullname" : "Pedro Muñoz Seca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/munoz-ortiz/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63199535",
+    "subtitle" : "Juguete cómico en tres actos y en prosa",
+    "yearPremiered" : "1918",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/munoz-pergaminos",
+    "yearWritten" : null,
+    "id" : "span000030",
+    "title" : "Los pergaminos",
+    "networkSize" : 26,
+    "name" : "munoz-pergaminos",
+    "yearNormalized" : 1918,
+    "yearPrinted" : "1918",
+    "authors" : [ {
+      "shortname" : "Muñoz",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q3322907"
+      }, {
+        "type" : "viaf",
+        "ref" : "24776670"
+      }, {
+        "type" : "bne",
+        "ref" : "XX983355"
+      } ],
+      "name" : "Muñoz Seca, Pedro",
+      "fullname" : "Pedro Muñoz Seca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/munoz-pergaminos/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63199873",
+    "subtitle" : "comedia en tres actos",
+    "yearPremiered" : "1933",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/munoz-refugio",
+    "yearWritten" : null,
+    "id" : "span000031",
+    "title" : "El refugio",
+    "networkSize" : 17,
+    "name" : "munoz-refugio",
+    "yearNormalized" : 1933,
+    "yearPrinted" : "1933",
+    "authors" : [ {
+      "shortname" : "Muñoz",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q3322907"
+      }, {
+        "type" : "viaf",
+        "ref" : "24776670"
+      }, {
+        "type" : "bne",
+        "ref" : "XX983355"
+      } ],
+      "name" : "Muñoz Seca, Pedro",
+      "fullname" : "Pedro Muñoz Seca"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/munoz-refugio/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63200581",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/unamuno-esfinge",
+    "yearWritten" : null,
+    "id" : "span000056",
+    "title" : "La esfinge",
+    "networkSize" : 12,
+    "name" : "unamuno-esfinge",
+    "yearNormalized" : 1898,
+    "yearPrinted" : "1898",
+    "authors" : [ {
+      "shortname" : "Unamuno",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q185085"
+      }, {
+        "type" : "viaf",
+        "ref" : "88844103"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1139151"
+      } ],
+      "name" : "Unamuno, Miguel de",
+      "fullname" : "Miguel de Unamuno"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/unamuno-esfinge/networkdata/csv"
+  }, {
+    "wikidataId" : "Q5857948",
+    "subtitle" : "Tragedia en tres actos",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/unamuno-fedra",
+    "yearWritten" : null,
+    "id" : "span000012",
+    "title" : "Fedra",
+    "networkSize" : 6,
+    "name" : "unamuno-fedra",
+    "yearNormalized" : 1924,
+    "yearPrinted" : "1924",
+    "authors" : [ {
+      "shortname" : "Unamuno",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q185085"
+      }, {
+        "type" : "viaf",
+        "ref" : "88844103"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1139151"
+      } ],
+      "name" : "Unamuno, Miguel de",
+      "fullname" : "Miguel de Unamuno"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/unamuno-fedra/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63197188",
+    "subtitle" : "Diálogo filosófico-amoroso",
+    "yearPremiered" : "1928",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valera-asclepigenia",
+    "yearWritten" : null,
+    "id" : "span000027",
+    "title" : "Asclepigenia",
+    "networkSize" : 8,
+    "name" : "valera-asclepigenia",
+    "yearNormalized" : 1878,
+    "yearPrinted" : "1878",
+    "authors" : [ {
+      "shortname" : "Valera",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q463630"
+      }, {
+        "type" : "viaf",
+        "ref" : "46770556"
+      }, {
+        "type" : "bne",
+        "ref" : "XX918093"
+      } ],
+      "name" : "Valera, Juan",
+      "fullname" : "Juan Valera"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valera-asclepigenia/networkdata/csv"
+  }, {
+    "wikidataId" : "Q63197197",
+    "subtitle" : "Leyenda dramática",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valera-atahualpa",
+    "yearWritten" : null,
+    "id" : "span000028",
+    "title" : "La venganza de Atahualpa",
+    "networkSize" : 12,
+    "name" : "valera-atahualpa",
+    "yearNormalized" : 1878,
+    "yearPrinted" : "1878",
+    "authors" : [ {
+      "shortname" : "Valera",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q463630"
+      }, {
+        "type" : "viaf",
+        "ref" : "46770556"
+      }, {
+        "type" : "bne",
+        "ref" : "XX918093"
+      } ],
+      "name" : "Valera, Juan",
+      "fullname" : "Juan Valera"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valera-atahualpa/networkdata/csv"
+  }, {
+    "wikidataId" : "Q6172602",
+    "subtitle" : "Comedias bárbaras - 2",
+    "yearPremiered" : "1907",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valle-aguila",
+    "yearWritten" : null,
+    "id" : "span000043",
+    "title" : "Águila de blasón",
+    "networkSize" : 71,
+    "name" : "valle-aguila",
+    "yearNormalized" : 1907,
+    "yearPrinted" : "1907",
+    "authors" : [ {
+      "shortname" : "Valle",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q311001"
+      }, {
+        "type" : "viaf",
+        "ref" : "197999653"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1055436"
+      } ],
+      "name" : "Valle Inclán, Ramón María del",
+      "fullname" : "Ramón María del Valle Inclán"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valle-aguila/networkdata/csv"
+  }, {
+    "wikidataId" : "Q5748755",
+    "subtitle" : "Comedias bárbaras, 1",
+    "yearPremiered" : "1967",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valle-cara",
+    "yearWritten" : null,
+    "id" : "span000045",
+    "title" : "Cara de Plata",
+    "networkSize" : 45,
+    "name" : "valle-cara",
+    "yearNormalized" : 1922,
+    "yearPrinted" : "1922",
+    "authors" : [ {
+      "shortname" : "Valle",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q311001"
+      }, {
+        "type" : "viaf",
+        "ref" : "68936773"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1055436"
+      } ],
+      "name" : "Valle Inclán, Ramón María del",
+      "fullname" : "Ramón María del Valle Inclán"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valle-cara/networkdata/csv"
+  }, {
+    "wikidataId" : "Q8561242",
+    "subtitle" : "Tragicomedia de aldea",
+    "yearPremiered" : "1933",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valle-divinas-palabras",
+    "yearWritten" : null,
+    "id" : "span000013",
+    "title" : "Divinas Palabras",
+    "networkSize" : 37,
+    "name" : "valle-divinas-palabras",
+    "yearNormalized" : 1920,
+    "yearPrinted" : "1920",
+    "authors" : [ {
+      "shortname" : "Valle",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q311001"
+      }, {
+        "type" : "viaf",
+        "ref" : "197999653"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1055436"
+      } ],
+      "name" : "Valle Inclán, Ramón María del",
+      "fullname" : "Ramón María del Valle Inclán"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valle-divinas-palabras/networkdata/csv"
+  }, {
+    "wikidataId" : "Q3312512",
+    "subtitle" : "Esperpento",
+    "yearPremiered" : null,
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valle-luces",
+    "yearWritten" : null,
+    "id" : "span000014",
+    "title" : "Luces de bohemia",
+    "networkSize" : 55,
+    "name" : "valle-luces",
+    "yearNormalized" : 1924,
+    "yearPrinted" : "1924",
+    "authors" : [ {
+      "shortname" : "Valle",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q311001"
+      }, {
+        "type" : "viaf",
+        "ref" : "197999653"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1055436"
+      } ],
+      "name" : "Valle Inclán, Ramón María del",
+      "fullname" : "Ramón María del Valle Inclán"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valle-luces/networkdata/csv"
+  }, {
+    "wikidataId" : "Q6111385",
+    "subtitle" : "Comedia bárbara",
+    "yearPremiered" : "1970",
+    "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f",
+    "uri" : "https://dracor.org/api/v1/corpora/span/plays/valle-romance",
+    "yearWritten" : null,
+    "id" : "span000044",
+    "title" : "Romance de lobos",
+    "networkSize" : 47,
+    "name" : "valle-romance",
+    "yearNormalized" : 1908,
+    "yearPrinted" : "1908",
+    "authors" : [ {
+      "shortname" : "Valle",
+      "refs" : [ {
+        "type" : "wikidata",
+        "ref" : "Q311001"
+      }, {
+        "type" : "viaf",
+        "ref" : "68936773"
+      }, {
+        "type" : "bne",
+        "ref" : "XX1055436"
+      } ],
+      "name" : "Valle Inclán, Ramón María del",
+      "fullname" : "Ramón María del Valle Inclán"
+    } ],
+    "networkdataCsvUrl" : "https://dracor.org/api/v1/corpora/span/plays/valle-romance/networkdata/csv"
+  } ],
+  "commit" : "184ebf975ad9cd674ff37cab44a181fa7ed8d85f"
+}

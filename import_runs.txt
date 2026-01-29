@@ -1,0 +1,127 @@
+[2026-01-29 11:47:54] Ejecutando provisionalSql.sql ...
+[2026-01-29 11:47:54] ✅ provisionalSql.sql ejecutado.
+
+[2026-01-29 11:47:54] Importando teatros y generando galerías...
+[2026-01-29 11:47:54] ✅ Teatros cargados desde API: 31
+[2026-01-29 11:47:54] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 11:47:55] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 11:47:55] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 11:47:55] ==============================
+[2026-01-29 11:47:55] IMPORTACIÓN FINALIZADA (SIN DUPLICADOS + CARTELERA ACTUALIZADA)
+[2026-01-29 11:47:55] Teatros upsert: 31
+[2026-01-29 11:47:55] Imágenes teatros nuevas: 30
+[2026-01-29 11:47:55] Obras upsert: 25
+[2026-01-29 11:47:55] Imágenes obras nuevas: 0
+[2026-01-29 11:47:55] Horarios nuevos hoy: 109
+[2026-01-29 11:47:55] ==============================
+[2026-01-29 11:48:20] Ejecutando provisionalSql.sql ...
+[2026-01-29 11:48:20] ✅ provisionalSql.sql ejecutado.
+
+[2026-01-29 11:48:20] Importando teatros y generando galerías...
+[2026-01-29 11:48:20] ✅ Teatros cargados desde API: 31
+[2026-01-29 11:48:20] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 11:48:21] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 11:48:21] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 11:48:21] ==============================
+[2026-01-29 11:48:21] IMPORTACIÓN FINALIZADA (SIN DUPLICADOS + CARTELERA ACTUALIZADA)
+[2026-01-29 11:48:21] Teatros upsert: 31
+[2026-01-29 11:48:21] Imágenes teatros nuevas: 0
+[2026-01-29 11:48:21] Obras upsert: 25
+[2026-01-29 11:48:21] Imágenes obras nuevas: 0
+[2026-01-29 11:48:21] Horarios nuevos hoy: 105
+[2026-01-29 11:48:21] ==============================
+[2026-01-29 11:51:27] ==== INICIO EJECUCIÓN ====
+[2026-01-29 11:51:27] Ejecutando provisionalSql.sql ...
+[2026-01-29 11:51:27] ✅ provisionalSql.sql ejecutado.
+[2026-01-29 11:51:27] Importando teatros y generando galerías...
+[2026-01-29 11:51:27] ✅ Teatros cargados desde API: 31
+[2026-01-29 11:51:27] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 11:51:28] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 11:51:28] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 11:51:28] ===================================
+[2026-01-29 11:51:28] IMPORTACIÓN FINALIZADA
+[2026-01-29 11:51:28] Teatros INSERT: 31 | UPDATE: 0 | TOTAL DB: 31
+[2026-01-29 11:51:28] Teatros SKIP sin sala: 0 | sin provincia: 0
+[2026-01-29 11:51:28] Imágenes teatros nuevas: 31
+[2026-01-29 11:51:28] Obras INSERT: 25 | UPDATE: 0
+[2026-01-29 11:51:28] Imágenes obras nuevas: 25
+[2026-01-29 11:51:28] Horarios nuevos hoy: 186
+[2026-01-29 11:51:28] Logs: import_runs.txt (ejecución) | import_changes.txt (cambios)
+[2026-01-29 11:51:28] ===================================
+[2026-01-29 11:51:28] ==== FIN EJECUCIÓN ====
+[2026-01-29 11:51:47] ==== INICIO EJECUCIÓN ====
+[2026-01-29 11:51:47] Ejecutando provisionalSql.sql ...
+[2026-01-29 11:51:47] ✅ provisionalSql.sql ejecutado.
+[2026-01-29 11:51:47] Importando teatros y generando galerías...
+[2026-01-29 11:51:48] ✅ Teatros cargados desde API: 31
+[2026-01-29 11:51:48] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 11:51:48] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 11:51:48] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 11:51:48] ===================================
+[2026-01-29 11:51:48] IMPORTACIÓN FINALIZADA
+[2026-01-29 11:51:48] Teatros INSERT: 0 | UPDATE: 31 | TOTAL DB: 31
+[2026-01-29 11:51:48] Teatros SKIP sin sala: 0 | sin provincia: 0
+[2026-01-29 11:51:48] Imágenes teatros nuevas: 0
+[2026-01-29 11:51:48] Obras INSERT: 0 | UPDATE: 25
+[2026-01-29 11:51:48] Imágenes obras nuevas: 0
+[2026-01-29 11:51:48] Horarios nuevos hoy: 186
+[2026-01-29 11:51:48] Logs: import_runs.txt (ejecución) | import_changes.txt (cambios)
+[2026-01-29 11:51:48] ===================================
+[2026-01-29 11:51:48] ==== FIN EJECUCIÓN ====
+[2026-01-29 16:10:55] ==== INICIO EJECUCIÓN ====
+[2026-01-29 16:10:55] Ejecutando provisionalSql.sql ...
+[2026-01-29 16:10:55] ✅ provisionalSql.sql ejecutado.
+[2026-01-29 16:10:55] Importando teatros y generando galerías...
+[2026-01-29 16:10:56] ✅ Teatros cargados desde API: 31
+[2026-01-29 16:10:56] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 16:10:57] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 16:10:57] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 16:10:57] ===================================
+[2026-01-29 16:10:57] IMPORTACIÓN FINALIZADA
+[2026-01-29 16:10:57] Teatros INSERT: 31 | UPDATE: 0 | TOTAL DB: 31
+[2026-01-29 16:10:57] Teatros SKIP sin sala: 0 | sin provincia: 0
+[2026-01-29 16:10:57] Imágenes teatros nuevas: 31
+[2026-01-29 16:10:57] Obras INSERT: 25 | UPDATE: 0
+[2026-01-29 16:10:57] Imágenes obras nuevas: 25
+[2026-01-29 16:10:57] Horarios nuevos hoy: 186
+[2026-01-29 16:10:57] Logs: import_runs.txt (ejecución) | import_changes.txt (cambios)
+[2026-01-29 16:10:57] ===================================
+[2026-01-29 16:10:57] ==== FIN EJECUCIÓN ====
+[2026-01-29 16:13:34] ==== INICIO EJECUCIÓN ====
+[2026-01-29 16:13:34] Ejecutando provisionalSql.sql ...
+[2026-01-29 16:13:35] ✅ provisionalSql.sql ejecutado.
+[2026-01-29 16:13:35] Importando teatros y generando galerías...
+[2026-01-29 16:13:35] ✅ Teatros cargados desde API: 31
+[2026-01-29 16:13:35] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 16:13:36] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 16:13:36] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 16:13:36] ===================================
+[2026-01-29 16:13:36] IMPORTACIÓN FINALIZADA
+[2026-01-29 16:13:36] Teatros INSERT: 31 | UPDATE: 0 | TOTAL DB: 31
+[2026-01-29 16:13:36] Teatros SKIP sin sala: 0 | sin provincia: 0
+[2026-01-29 16:13:36] Imágenes teatros nuevas: 31
+[2026-01-29 16:13:36] Obras INSERT: 25 | UPDATE: 0
+[2026-01-29 16:13:36] Imágenes obras nuevas: 25
+[2026-01-29 16:13:36] Horarios nuevos hoy: 186
+[2026-01-29 16:13:36] Logs: import_runs.txt (ejecución) | import_changes.txt (cambios)
+[2026-01-29 16:13:36] ===================================
+[2026-01-29 16:13:36] ==== FIN EJECUCIÓN ====
+[2026-01-29 16:14:42] ==== INICIO EJECUCIÓN ====
+[2026-01-29 16:14:42] Ejecutando provisionalSql.sql ...
+[2026-01-29 16:14:42] ✅ provisionalSql.sql ejecutado.
+[2026-01-29 16:14:42] Importando teatros y generando galerías...
+[2026-01-29 16:14:43] ✅ Teatros cargados desde API: 31
+[2026-01-29 16:14:43] Descargando obras de Dracor (fallback a obras.json si falla) y asignando posters...
+[2026-01-29 16:14:44] ✅ Obras cargadas desde API Dracor: 25
+[2026-01-29 16:14:44] 🧹 Reseteando cartelera de HOY y regenerando...
+[2026-01-29 16:14:44] ===================================
+[2026-01-29 16:14:44] IMPORTACIÓN FINALIZADA
+[2026-01-29 16:14:44] Teatros INSERT: 0 | UPDATE: 31 | TOTAL DB: 31
+[2026-01-29 16:14:44] Teatros SKIP sin sala: 0 | sin provincia: 0
+[2026-01-29 16:14:44] Imágenes teatros nuevas: 0
+[2026-01-29 16:14:44] Obras INSERT: 0 | UPDATE: 25
+[2026-01-29 16:14:44] Imágenes obras nuevas: 0
+[2026-01-29 16:14:44] Horarios nuevos hoy: 186
+[2026-01-29 16:14:44] Logs: import_runs.txt (ejecución) | import_changes.txt (cambios)
+[2026-01-29 16:14:44] ===================================
+[2026-01-29 16:14:44] ==== FIN EJECUCIÓN ====
