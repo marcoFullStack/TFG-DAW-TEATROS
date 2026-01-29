@@ -62,6 +62,28 @@ $jsonUrl = BASE_URL . "../red_teatros.json";
   <?php include_once __DIR__ . '/views/index/maps.php'; ?>
 
   <?php include_once __DIR__ . '/views/index/maps.php'; ?>
+<!-- Chat bubble -->
+<button id="chatFab" aria-label="Abrir chat">💬</button>
+
+<div id="chatBox" class="chat-hidden" role="dialog" aria-label="Asistente IA">
+  <div class="chat-header">
+    <div>
+      <strong>Asistente Red Teatros</strong><br>
+      <small>Pregúntame por teatros, obras, horarios, ranking…</small>
+    </div>
+    <button id="chatClose" aria-label="Cerrar">✕</button>
+  </div>
+
+  <div id="chatMessages" class="chat-messages"></div>
+
+  <form id="chatForm" class="chat-form" autocomplete="off">
+    <input id="chatInput" type="text" placeholder="Ej: teatros en Valladolid" required />
+    <button type="submit">Enviar</button>
+  </form>
+</div>
+
+<link rel="stylesheet" href="./styles/chat.css">
+<script defer src="./js/chatbot.js"></script>
 
   <button class="toTop" id="toTop" aria-label="Volver arriba">↑</button>
 </main>
