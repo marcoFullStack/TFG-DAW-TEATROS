@@ -25,7 +25,7 @@ try {
 
 } catch (Throwable $e) {
   error_log("Chat error: " . $e->getMessage());
-  echo json_encode(['reply' => 'Ha ocurrido un error en el servidor.'], JSON_UNESCAPED_UNICODE);
+  echo json_encode(['reply' => help_text()], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
@@ -47,6 +47,15 @@ function detect_intent(string $msg): array {
   if (preg_match('/^precio\s+(?:de\s+)?obra\s+(.+)$/iu', $msg, $ma)) {
     return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
   }
+  // ✅ NUEVO: "precios <titulo>" (plural)
+if (preg_match('/^precios\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
+}
+
+  // ✅ NUEVO: "precio <titulo>"
+if (preg_match('/^precio\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
+}
 
   // --- TEATROS ---
   if (preg_match('/^teatros?\s+(en|de)\s+([a-záéíóúñ\s]+)$/iu', $msg, $ma)) {
@@ -65,47 +74,48 @@ function detect_intent(string $msg): array {
   if (preg_match('/^municipios$/iu', $msg)) return ['type' => 'listar_municipios'];
 
   // --- OBRAS ---
-  // "obra <titulo>"
-  if (preg_match('/^obra\s+(.+)$/iu', $msg, $ma)) {
-    return ['type' => 'obra_por_titulo', 'titulo' => trim($ma[1])];
-  }
+  // --- OBRAS ---
+// "obra <titulo>"
+if (preg_match('/^obra\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'obra_por_titulo', 'titulo' => trim($ma[1])];
+}
 
-  // primero año y década, antes que "obras de <autor>"
-  if (preg_match('/^obras?\s+(?:del|de)\s+año\s+(\d{4})$/iu', $msg, $ma)) {
-    return ['type' => 'obras_por_anio', 'anio' => (int)$ma[1]];
-  }
+// primero año y década, antes que "obras de <autor>"
+if (preg_match('/^obras?\s+(?:del|de)\s+año\s+(\d{4})$/iu', $msg, $ma)) {
+  return ['type' => 'obras_por_anio', 'anio' => (int)$ma[1]];
+}
 
-  // "obras de 1930s" / "obras del 1930s"
-  if (preg_match('/^obras?\s+(?:de|del)\s+(\d{4})s$/iu', $msg, $ma)) {
-    return ['type' => 'obras_por_decada', 'decada' => (int)$ma[1]];
-  }
+// "obras de 1930s" / "obras del 1930s"
+if (preg_match('/^obras?\s+(?:de|del)\s+(\d{4})s$/iu', $msg, $ma)) {
+  return ['type' => 'obras_por_decada', 'decada' => (int)$ma[1]];
+}
 
-  // "obras 1930s" (sin "de")
-  if (preg_match('/^obras?\s+(\d{4})s$/iu', $msg, $ma)) {
-    return ['type' => 'obras_por_decada', 'decada' => (int)$ma[1]];
-  }
+// "obras 1930s"
+if (preg_match('/^obras?\s+(\d{4})s$/iu', $msg, $ma)) {
+  return ['type' => 'obras_por_decada', 'decada' => (int)$ma[1]];
+}
 
-  // "obras de <autor>" (pero NO permitir "1930s" como autor)
-  if (preg_match('/^obras?\s+de\s+(?!\d{4}s\b)(.+)$/iu', $msg, $ma)) {
-    return ['type' => 'obras_por_autor', 'autor' => trim($ma[1])];
-  }
+// "obras de <autor>" (pero NO permitir "1930s" como autor)
+if (preg_match('/^obras?\s+de\s+(?!\d{4}s\b)(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'obras_por_autor', 'autor' => trim($ma[1])];
+}
 
-  // "obras en teatro <nombre>"
-  if (preg_match('/^obras?\s+en\s+teatro\s+(.+)$/iu', $msg, $ma)) {
-    return ['type' => 'obras_en_teatro', 'teatro' => trim($ma[1])];
-  }
+// "obras en teatro <nombre>"
+if (preg_match('/^obras?\s+en\s+teatro\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'obras_en_teatro', 'teatro' => trim($ma[1])];
+}
 
-  // "obras en <provincia>"
-  if (preg_match('/^obras?\s+en\s+([a-záéíóúñ\s]+)$/iu', $msg, $ma)) {
-    return ['type' => 'obras_en_provincia', 'provincia' => title_case_es(trim($ma[1]))];
-  }
+// "obras en <provincia>"
+if (preg_match('/^obras?\s+en\s+([a-záéíóúñ\s]+)$/iu', $msg, $ma)) {
+  return ['type' => 'obras_en_provincia', 'provincia' => title_case_es(trim($ma[1]))];
+}
 
-  // "obras <teatro>" (ej: "obras lope de vega")
-  if (preg_match('/^obras?\s+(.+)$/iu', $msg, $ma)) {
-    return ['type' => 'obras_en_teatro', 'teatro' => trim($ma[1])];
-  }
+// "obras <teatro>" (ej: "obras lope de vega")
+if (preg_match('/^obras?\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'obras_en_teatro', 'teatro' => trim($ma[1])];
+}
 
-  if (preg_match('/^autores$/iu', $msg)) return ['type' => 'listar_autores'];
+if (preg_match('/^autores$/iu', $msg)) return ['type' => 'listar_autores'];
 
   // --- HORARIOS / CARTELERA ---
   if (preg_match('/^(cartelera\s+hoy|horarios\s+hoy)$/iu', $msg)) {
@@ -119,14 +129,25 @@ function detect_intent(string $msg): array {
   }
 
   // "horario(s) teatro <nombre>"
-  if (preg_match('/^horarios?\s+teatro\s+(.+)$/iu', $msg, $ma)) {
-    return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
-  }
+if (preg_match('/^horarios?\s+teatro\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
+}
 
-  // "horarios del teatro <nombre>"
-  if (preg_match('/^horarios?\s+del\s+teatro\s+(.+)$/iu', $msg, $ma)) {
-    return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
-  }
+
+// "horarios del teatro <nombre>"
+if (preg_match('/^horarios?\s+del\s+teatro\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
+}
+// ✅ NUEVO: "horarios del <nombre>" (sin 'teatro')
+if (preg_match('/^horarios?\s+del\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
+}
+
+// ✅ "horarios <nombre_teatro>" (sin 'teatro')
+if (preg_match('/^horarios?\s+(.+)$/iu', $msg, $ma)) {
+  return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
+}
+
 
   if (preg_match('/^horarios?\s+en\s+provincia\s+(.+)$/iu', $msg, $ma)) {
     return ['type' => 'horarios_por_provincia', 'provincia' => title_case_es(trim($ma[1]))];
@@ -177,8 +198,24 @@ function handle_intent(PDO $pdo, array $intent, string $userMsg): string {
       $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       if (!$rows) {
-        return "No encuentro precios (horarios futuros) para la obra \"$obra\".\n\nPrueba: \"horarios para obra $obra\".";
-      }
+  // ✅ Fallback: buscar también pasados si no hay futuros
+  $stmt2 = $pdo->prepare("
+    SELECT h.FechaHora, h.Precio, t.Sala AS Teatro, t.Provincia, t.Municipio, o.Titulo AS Obra
+    FROM horarios h
+    JOIN teatros t ON t.idTeatro = h.idTeatro
+    JOIN obras   o ON o.idObra   = h.idObra
+    WHERE LOWER(o.Titulo) LIKE LOWER(:o)
+    ORDER BY h.FechaHora DESC
+    LIMIT 40
+  ");
+  $stmt2->execute([':o' => "%$obra%"]);
+  $rows = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!$rows) {
+    return "No encuentro ningún horario (ni pasado ni futuro) para la obra \"$obra\".\n\nPrueba: \"horarios para obra $obra\".";
+  }
+}
+
 
       $precios = array_values(array_filter(array_map(
         fn($r) => is_numeric($r['Precio']) ? (float)$r['Precio'] : null,
@@ -329,7 +366,7 @@ function handle_intent(PDO $pdo, array $intent, string $userMsg): string {
 
     case 'obra_por_titulo': {
       $titulo = $intent['titulo'];
-      $stmt = $pdo->prepare("SELECT idObra, Titulo, Autor, Subtitulo, Anio, UrlDracor
+      $stmt = $pdo->prepare("SELECT idObra, Titulo, Autor, Subtitulo, Anio
                              FROM obras
                              WHERE Titulo LIKE :t
                              ORDER BY Anio IS NULL, Anio DESC
@@ -341,7 +378,7 @@ function handle_intent(PDO $pdo, array $intent, string $userMsg): string {
 
     case 'obras_por_autor': {
       $autor = $intent['autor'];
-      $stmt = $pdo->prepare("SELECT idObra, Titulo, Autor, Subtitulo, Anio, UrlDracor
+      $stmt = $pdo->prepare("SELECT idObra, Titulo, Autor, Subtitulo, Anio
                              FROM obras
                              WHERE LOWER(REPLACE(Autor, ',', '')) LIKE LOWER(:a)
                              ORDER BY Anio IS NULL, Anio DESC
@@ -545,7 +582,7 @@ function help_text(): string {
     "",
     "Ejemplos de preguntas:",
     "• teatros en Salamanca",
-    "• teatros en municipio Salamanca",
+    
     "• teatro Principal",
     "• capacidad mayor que 300",
     "• obra El refugio",
@@ -563,70 +600,147 @@ function help_text(): string {
     "Si escribes algo suelto, también hago búsqueda general."
   ]);
 }
-
-function reply_teatros(string $title, array $rows, bool $showProv = false, bool $detailed = false): string {
-  if (!$rows) return "$title:\nNo he encontrado resultados.";
-
-  $out = ["🎭 $title (" . count($rows) . "):"];
-  foreach ($rows as $t) {
-    $base = "• {$t['Sala']}";
-    if ($showProv && !empty($t['Provincia'])) $base .= " — {$t['Municipio']} ({$t['Provincia']})";
-    else $base .= " — {$t['Municipio']}";
-    if (!empty($t['CapacidadMax'])) $base .= " · Capacidad {$t['CapacidadMax']}";
-
-    $out[] = $base;
-
-    if ($detailed) {
-      if (!empty($t['Direccion'])) $out[] = "  📍 {$t['Direccion']}";
-      if (!empty($t['Telefono'])) $out[] = "  ☎️ {$t['Telefono']}";
-      if (!empty($t['Email'])) $out[] = "  ✉️ {$t['Email']}";
-    }
-  }
-  return implode("\n", $out);
+function pad_right(string $s, int $len): string {
+  $s = trim($s);
+  $w = mb_strlen($s);
+  if ($w >= $len) return $s;
+  return $s . str_repeat(' ', $len - $w);
+}
+function e(string $s): string {
+  return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+function p(string $text): string {
+  // párrafo: separa cada registro con línea en blanco
+  return rtrim($text) . "\n\n";
+}
+
+function h2(string $text): string {
+  // título + salto
+  return rtrim($text) . "\n";
+}
+
+function hr_small(): string {
+  // separador sencillo
+  return "------------------------------\n\n";
+}
+
+
+function reply_teatros(string $title, array $rows, bool $showProv = false, bool $detailed = false): string {
+  if (!$rows) {
+    return h2("🎭 $title") . p("No he encontrado resultados.");
+  }
+
+  $out = [];
+  $out[] = h2("🎭 $title (" . count($rows) . ")");
+  $out[] = "";
+
+  $i = 1;
+  foreach ($rows as $t) {
+    $name = (string)($t['Sala'] ?? '');
+    $mun  = (string)($t['Municipio'] ?? '');
+    $prov = (string)($t['Provincia'] ?? '');
+    $cap  = !empty($t['CapacidadMax']) ? (string)$t['CapacidadMax'] : '';
+
+    $loc = $mun;
+    if ($showProv && $prov !== '') $loc .= " ($prov)";
+
+    $para = "{$i}. $name\n📍 $loc";
+    if ($cap !== '') $para .= " · 👥 $cap";
+
+    if ($detailed) {
+      if (!empty($t['Direccion'])) $para .= "\n🧭 " . $t['Direccion'];
+      if (!empty($t['Telefono']))  $para .= "\n☎️ " . $t['Telefono'];
+      if (!empty($t['Email']))     $para .= "\n✉️ " . $t['Email'];
+    }
+
+    $out[] = p($para);
+    $i++;
+  }
+
+  return rtrim(implode("", $out));
+}
+
+
 function reply_obras(string $title, array $rows): string {
-  if (!$rows) return "No he encontrado obras que coincidan.\n\nPrueba: \"obra El refugio\" o \"obras de Federico García Lorca\".";
+  if (!$rows) {
+    return h2("📚 " . e($title)) . p("No he encontrado obras que coincidan.<br><br>Prueba: <code>obra El refugio</code> o <code>obras de Federico García Lorca</code>.");
+  }
 
   if (count($rows) === 1) {
     $o = $rows[0];
     $out = [];
-    $out[] = "🎭 **{$o['Titulo']}**";
-    $out[] = "👤 Autor: {$o['Autor']}";
-    if (!empty($o['Anio'])) $out[] = "📅 Año: {$o['Anio']}";
-    if (!empty($o['Subtitulo'])) $out[] = "📝 {$o['Subtitulo']}";
-    if (!empty($o['UrlDracor'])) $out[] = "🔗 {$o['UrlDracor']}";
-    return implode("\n", $out);
+    $out[] = h2("🎭 " . e((string)$o['Titulo']));
+    $out[] = p("👤 Autor: " . e((string)($o['Autor'] ?? '-')));
+    if (!empty($o['Anio']))      $out[] = p("📅 Año: " . e((string)$o['Anio']));
+    if (!empty($o['Subtitulo'])) $out[] = p("📝 " . e((string)$o['Subtitulo']));
+    return implode("", $out);
   }
 
   return reply_obras_list($title, $rows);
 }
 
 function reply_obras_list(string $title, array $rows): string {
-  $out = ["📚 $title (" . count($rows) . "):"];
+  $out = [];
+  $out[] = h2("📚 $title (" . count($rows) . ")");
+  $out[] = "";
+
+  $i = 1;
   foreach ($rows as $o) {
-    $y = !empty($o['Anio']) ? " ({$o['Anio']})" : "";
-    $out[] = "• {$o['Titulo']}{$y}";
+    $titulo = (string)($o['Titulo'] ?? '');
+    $anio   = !empty($o['Anio']) ? " (" . $o['Anio'] . ")" : "";
+    $autor  = !empty($o['Autor']) ? " — " . $o['Autor'] : "";
+    $out[] = p("$i. $titulo$anio$autor");
+    $i++;
   }
-  return implode("\n", $out);
+
+  return rtrim(implode("", $out));
 }
+
+
 
 function reply_horarios(string $title, array $rows): string {
-  if (!$rows) return "📅 $title:\nNo hay funciones registradas.";
-
-  $out = ["📅 $title (" . count($rows) . "):"];
-  foreach ($rows as $h) {
-    $out[] = "• {$h['FechaHora']} — {$h['Obra']} — {$h['Teatro']} ({$h['Municipio']}, {$h['Provincia']}) · {$h['Precio']}€";
+  if (!$rows) {
+    return h2("📅 $title") . p("No hay funciones registradas.");
   }
-  return implode("\n", $out);
+
+  $out = [];
+  $out[] = h2("📅 $title (" . count($rows) . ")");
+  $out[] = "";
+
+  foreach ($rows as $h) {
+    $fh     = (string)($h['FechaHora'] ?? '');
+    $obra   = (string)($h['Obra'] ?? '');
+    $teatro = (string)($h['Teatro'] ?? '');
+    $mun    = (string)($h['Municipio'] ?? '');
+    $prov   = (string)($h['Provincia'] ?? '');
+    $precio = (string)($h['Precio'] ?? '');
+
+   $out[] = p("$fh\n🎭 $obra\n🏛️ $teatro ($mun, $prov)\n💶 {$precio}€");
+
+  }
+
+  return rtrim(implode("", $out));
 }
+
 
 function reply_simple_list(string $title, array $rows, callable $fmt): string {
-  if (!$rows) return "$title:\nNo hay resultados.";
-  $out = ["$title (" . count($rows) . "):"];
-  foreach ($rows as $r) $out[] = $fmt($r);
-  return implode("\n", $out);
+  if (!$rows) {
+    return h2("📌 $title") . p("No hay resultados.");
+  }
+
+  $out = [];
+  $out[] = h2("📌 $title (" . count($rows) . ")");
+  $out[] = "";
+
+  foreach ($rows as $r) {
+    $out[] = p((string)$fmt($r));
+  }
+
+  return rtrim(implode("", $out));
 }
+
+
 
 /* =========================================================
    BÚSQUEDA GENERAL (teatros + obras + horarios)
