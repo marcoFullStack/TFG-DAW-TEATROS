@@ -34,8 +34,8 @@
                 <h3 class="footer-heading">Enlaces Rápidos</h3>
                 <ul class="footer-links">
                     <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
-                    <li><a href="http://iesgalileo.centros.educa.jcyl.es/sitio/" target="_blank"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
-                    <li><a href="https://www.w3schools.com/" target="_blank"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li><a href="<?= h(BASE_URL) ?>servicios.php"><i class="fas fa-concierge-bell"></i> Servicios</a></li>
+                    <li><a href="<?= h(BASE_URL) ?>nosotros.php"><i class="fas fa-users"></i> Sobre Nosotros</a></li>
                     <li><a href="http://iesgalileo.centros.educa.jcyl.es/sitio/index.cgi?wid_form=1" target="_blank"><i class="fas fa-envelope"></i> Contacto</a></li>
                 </ul>
             </div>
