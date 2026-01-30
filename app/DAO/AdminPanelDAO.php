@@ -507,11 +507,12 @@ public function obrasPage(int $page, int $perPage, string $q=''): array {
   $where = '';
   $params = [];
   if ($q !== '') {
-    $where = "WHERE Titulo LIKE :q OR Autor LIKE :q";
-    $params[':q'] = '%'.$q.'%';
+    $where = "WHERE o.Titulo LIKE :q1 OR o.Autor LIKE :q2";
+    $like = '%'.$q.'%';
+    $params[':q1'] = $like;
+    $params[':q2'] = $like;
   }
 
-  // MySQL 8+: COUNT(*) OVER() evita hacer count() aparte
   $sql = "
     SELECT
       o.*,
@@ -521,16 +522,19 @@ public function obrasPage(int $page, int $perPage, string $q=''): array {
     ORDER BY o.idObra DESC
     LIMIT :lim OFFSET :off
   ";
+
   $st = $this->pdo->prepare($sql);
-  foreach ($params as $k => $v) $st->bindValue($k, $v, PDO::PARAM_STR);
-  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
-  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+
+  foreach ($params as $k => $v) {
+    $st->bindValue($k, $v, PDO::PARAM_STR);
+  }
+  $st->bindValue(':lim', (int)$perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', (int)$offset, PDO::PARAM_INT);
+
   $st->execute();
 
-  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $rows  = $st->fetchAll(PDO::FETCH_ASSOC);
   $total = $rows ? (int)$rows[0]['total_rows'] : 0;
-
-  // limpiar columna extra
   foreach ($rows as &$r) unset($r['total_rows']);
 
   return ['total' => $total, 'rows' => $rows];
@@ -543,8 +547,11 @@ public function teatrosPage(int $page, int $perPage, string $q=''): array {
   $where = '';
   $params = [];
   if ($q !== '') {
-    $where = "WHERE Sala LIKE :q OR Provincia LIKE :q OR Municipio LIKE :q";
-    $params[':q'] = '%'.$q.'%';
+    $where = "WHERE t.Sala LIKE :q1 OR t.Provincia LIKE :q2 OR t.Municipio LIKE :q3";
+    $like = '%'.$q.'%';
+    $params[':q1'] = $like;
+    $params[':q2'] = $like;
+    $params[':q3'] = $like;
   }
 
   $sql = "
@@ -556,13 +563,18 @@ public function teatrosPage(int $page, int $perPage, string $q=''): array {
     ORDER BY t.Provincia, t.Municipio, t.Sala
     LIMIT :lim OFFSET :off
   ";
+
   $st = $this->pdo->prepare($sql);
-  foreach ($params as $k => $v) $st->bindValue($k, $v, PDO::PARAM_STR);
-  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
-  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+
+  foreach ($params as $k => $v) {
+    $st->bindValue($k, $v, PDO::PARAM_STR);
+  }
+  $st->bindValue(':lim', (int)$perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', (int)$offset, PDO::PARAM_INT);
+
   $st->execute();
 
-  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $rows  = $st->fetchAll(PDO::FETCH_ASSOC);
   $total = $rows ? (int)$rows[0]['total_rows'] : 0;
   foreach ($rows as &$r) unset($r['total_rows']);
 
@@ -576,8 +588,10 @@ public function usuariosPage(int $page, int $perPage, string $q=''): array {
   $where = '';
   $params = [];
   if ($q !== '') {
-    $where = "WHERE Nombre LIKE :q OR Email LIKE :q";
-    $params[':q'] = '%'.$q.'%';
+    $where = "WHERE Nombre LIKE :q1 OR Email LIKE :q2";
+    $like = '%'.$q.'%';
+    $params[':q1'] = $like;
+    $params[':q2'] = $like;
   }
 
   $sql = "
@@ -589,18 +603,24 @@ public function usuariosPage(int $page, int $perPage, string $q=''): array {
     ORDER BY idUsuario DESC
     LIMIT :lim OFFSET :off
   ";
+
   $st = $this->pdo->prepare($sql);
-  foreach ($params as $k => $v) $st->bindValue($k, $v, PDO::PARAM_STR);
-  $st->bindValue(':lim', $perPage, PDO::PARAM_INT);
-  $st->bindValue(':off', $offset, PDO::PARAM_INT);
+
+  foreach ($params as $k => $v) {
+    $st->bindValue($k, $v, PDO::PARAM_STR);
+  }
+  $st->bindValue(':lim', (int)$perPage, PDO::PARAM_INT);
+  $st->bindValue(':off', (int)$offset, PDO::PARAM_INT);
+
   $st->execute();
 
-  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+  $rows  = $st->fetchAll(PDO::FETCH_ASSOC);
   $total = $rows ? (int)$rows[0]['total_rows'] : 0;
   foreach ($rows as &$r) unset($r['total_rows']);
 
   return ['total' => $total, 'rows' => $rows];
 }
+
 
 public function horariosPage(int $page, int $perPage, int $idTeatro=0): array {
   $perPage = $this->clampPerPage($perPage);
