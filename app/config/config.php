@@ -11,6 +11,6 @@ define('DB_PASS', ''); // Tu contraseña de MySQL
 define('DB_CHARSET', 'utf8mb4');
  define('BASE_URL', '/TFG-DAW-TEATROS/app/');
 
-// Configuración de rutas (opcional pero recomendado)
+// Configuración de rutas
 
 define('APP_NAME', 'Red de Teatros Regional');

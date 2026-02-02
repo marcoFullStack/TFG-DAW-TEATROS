@@ -1,5 +1,5 @@
 <?php
-// app/api/ranking.php
+
 declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
@@ -18,15 +18,15 @@ try {
   $q = trim((string)($_GET['q'] ?? ''));
   $page = clamp_int($_GET['page'] ?? 1, 1, 9999);
 
-  // LIKE seguro
+ 
   $like = '%' . $q . '%';
 
-  // Total usuarios (con filtro)
+  // Total usuarios
   $stCount = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE Nombre LIKE :like");
   $stCount->execute([':like' => $like]);
   $total = (int)$stCount->fetchColumn();
 
-  // Top 3 (con filtro)
+  // Top 3
   $stTop = $pdo->prepare("
     SELECT idUsuario, Nombre, Puntos, FotoPerfil
     FROM usuarios
@@ -38,8 +38,6 @@ try {
   $top3 = $stTop->fetchAll(PDO::FETCH_ASSOC);
 
   // Paginación del RESTO
-  // Página 1: offset=3, limit=7
-  // Página 2+: offset=(page-1)*10, limit=10  (así la página 2 arranca en posición 11)
   if ($page === 1) {
     $offset = 3;
     $limit = 7;
@@ -48,7 +46,7 @@ try {
     $limit = 10;
   }
 
-  // Si hay menos de 3 usuarios, offset debe ser ese número (para no saltarnos de más)
+  // Si hay menos de 3 usuarios, offset debe ser ese número
   $skip = min(3, $total);
   if ($page === 1) $offset = $skip;
 
@@ -76,7 +74,7 @@ try {
     $top3[$i]['Puntos'] = (int)$top3[$i]['Puntos'];
   }
 
-  // Total pages (con regla especial 7 en la primera)
+  // Total pages
   $remaining = max($total - $skip, 0);
   if ($remaining <= 7) {
     $total_pages = 1;

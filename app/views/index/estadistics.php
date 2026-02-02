@@ -1,5 +1,5 @@
 <section class="dash50" id="estadisticas">
-  <!-- IZQUIERDA: gráfico -->
+  <!-- gráfico -->
   <div class="dashCol">
     <h3 class="dashTitle">Épocas de las obras (cada 20 años)</h3>
     <div class="dashBox">
@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <!-- DERECHA: ranking -->
+  <!-- ranking -->
   <div class="dashCol">
     <h3 class="dashTitle">Ranking (Top 3)</h3>
 

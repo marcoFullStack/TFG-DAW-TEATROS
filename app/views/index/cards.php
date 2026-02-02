@@ -115,23 +115,19 @@
   </section>
 
   <script>
-/**
- * Busca en la API de Wikipedia y redirige al usuario
- * @param {string} texto - El nombre a buscar (ej: "Teatro Calderón Valladolid")
- * @param {string} tipo - Para refinar la búsqueda ('teatro' o 'obra')
- */
+
 async function buscarWiki(texto, tipo) {
     // Añadimos una palabra clave para mejorar la puntería del buscador
     const query = tipo === 'teatro' ? `${texto} teatro` : `${texto} obra de teatro`;
     
-    // URL de la API de Wikipedia (OpenSearch)
+    // URL de la API de Wikipedia
     const url = `https://es.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${encodeURIComponent(query)}&limit=1&format=json`;
 
     try {
         const respuesta = await fetch(url);
         const datos = await respuesta.json();
 
-        // datos[3] contiene el array de enlaces directos
+        // contiene el array de enlaces directos
         if (datos[3] && datos[3].length > 0) {
             window.open(datos[3][0], '_blank');
         } else {
@@ -140,7 +136,7 @@ async function buscarWiki(texto, tipo) {
         }
     } catch (error) {
         console.error("Error al conectar con Wikipedia:", error);
-        // Fallback: abrir búsqueda normal si la API falla
+        // abrir búsqueda normal si la API falla
         window.open(`https://es.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`, '_blank');
     }
 }

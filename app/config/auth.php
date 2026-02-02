@@ -1,5 +1,5 @@
 <?php
-// config/auth.php
+
 declare(strict_types=1);
 
 function require_user(): void {

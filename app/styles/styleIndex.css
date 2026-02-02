@@ -1,4 +1,4 @@
-/* styles/styleIndex.css */
+
 :root{
   --bg: #0c0b10;
   --paper: #14111a;
@@ -35,7 +35,7 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liber
 .page{ position:relative; min-height:100vh; }
 .container{ width:min(var(--max), calc(100% - 32px)); margin:0 auto; }
 
-/* Background theatrical */
+
 .bg{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
 .curtain{
   position:absolute; top:-40px; bottom:-40px; width:40vw; max-width:520px;
@@ -61,7 +61,7 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liber
   mix-blend-mode: overlay;
 }
 
-/* Shared */
+
 .glass{
   background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
   border:1px solid var(--stroke);
@@ -72,7 +72,6 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liber
 .reveal{ opacity:0; transform: translateY(18px); transition: .8s cubic-bezier(.2,.8,.2,1); }
 .reveal.in{ opacity:1; transform: translateY(0); }
 
-/* HERO */
 .hero{ position:relative; padding: 34px 0 24px; }
 .hero-grid{
   display:grid;
@@ -165,7 +164,7 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liber
   background: linear-gradient(90deg, transparent, rgba(214,181,109,.35), transparent);
 }
 
-/* Filters */
+
 .filters{
   display:grid;
   grid-template-columns: 1fr 1.2fr auto;
@@ -193,7 +192,7 @@ select:focus, input:focus{
   color: black;
 }
 
-/* Right panel */
+
 .panel{ padding: 16px; }
 .panel-head h2{ margin:0; font-size: 18px; letter-spacing:.01em; }
 .panel-head p{ margin:6px 0 0; color:var(--muted); font-size: 13px; }
@@ -249,7 +248,7 @@ select:focus, input:focus{
 .empty.big{ grid-column: 1 / -1; padding: 18px; }
 .empty span{ display:block; margin-top:6px; }
 
-/* Cards section */
+
 .cards{ padding: 26px 0 54px; }
 .section-head h2{ margin:0; font-size: 22px; }
 .section-head p{ margin:6px 0 0; color:var(--muted); }
@@ -341,7 +340,7 @@ select:focus, input:focus{
 }
 .link:hover{ color: var(--gold2); }
 
-/* Info section */
+
 .info{
   margin-top: 18px;
   display:grid;
@@ -354,7 +353,7 @@ select:focus, input:focus{
 .info-card h3{ margin:0 0 6px; font-size: 15px; }
 .info-card p{ margin:0; color: var(--muted); line-height:1.5; font-size: 13.5px; }
 
-/* To Top */
+
 .toTop{
   position:fixed;
   right: 16px;
@@ -373,18 +372,18 @@ select:focus, input:focus{
 }
 .toTop.show{ opacity:1; transform: translateY(0); }
 .toTop:hover{ border-color: rgba(241,212,138,.45); }
-/* ===== DASHBOARD (Gráfico + Ranking) ===== */
 
-/* Contenedor padre al 80% */
+
+
 .dash50{
   width: min(80%, var(--max));
-  margin: 18px auto;          /* centrado */
+  margin: 18px auto;          
   display:flex;
   gap:16px;
   align-items:stretch;
 }
 
-/* Columnas 50/50 */
+
 .dashCol{
   flex: 0 0 50%;
   min-width: 0;
@@ -395,33 +394,33 @@ select:focus, input:focus{
   font-size: 1.05rem;
 }
 
-/* Caja del gráfico */
+
 .dashBox{
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 14px;
   padding: 14px;
-  overflow: hidden;          /* evita que el canvas “se salga” */
+  overflow: hidden;         
 }
 
-/* Canvas del gráfico: control de tamaño */
+
 #chartEpocas{
-  width: 100% !important;     /* Chart.js respeta responsive, pero esto ayuda */
-  max-width: 360px;           /* ajusta aquí si lo quieres aún más pequeño */
+  width: 100% !important;     
+  max-width: 360px;           
   height: auto !important;
   display: block;
-  margin: 0 auto;             /* centrado */
-  aspect-ratio: 1 / 1;        /* mantiene circular y evita deformaciones */
+  margin: 0 auto;             
+  aspect-ratio: 1 / 1;        
 }
 
-/* Hint */
+
 .dashHint{
   margin: 10px 0 0 0;
   opacity: .85;
   font-size: .92rem;
 }
 
-/* ===== Podium ===== */
+
 .podium{
   display:flex;
   align-items:flex-end;
@@ -482,7 +481,7 @@ select:focus, input:focus{
   line-height: 1.25;
 }
 
-/* ===== Tools (buscador + botones) ===== */
+
 .rankTools{
   display:flex;
   gap:10px;
@@ -520,7 +519,7 @@ select:focus, input:focus{
   cursor: not-allowed;
 }
 
-/* ===== Tabla ===== */
+
 .rankTableWrap{
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
@@ -556,7 +555,7 @@ select:focus, input:focus{
   padding: 14px 12px;
 }
 
-/* ===== Pager ===== */
+
 .rankPager{
   display:flex;
   align-items:center;
@@ -570,22 +569,22 @@ select:focus, input:focus{
   font-size: .92rem;
 }
 
-/* ===== Responsive ===== */
+
 @media (max-width: 900px){
   .dash50{
-    width: min(92%, var(--max)); /* en móvil más ancho */
+    width: min(92%, var(--max)); 
     flex-direction:column;
   }
   .dashCol{ flex-basis:auto; }
   .podiumCol.first{ transform:none; }
 
   #chartEpocas{
-    max-width: 320px; /* un pelín más pequeño en móvil */
+    max-width: 320px; 
   }
 }
 
 
-/* Responsive */
+
 @media (max-width: 980px){
   .hero-grid{ grid-template-columns: 1fr; }
   .grid{ grid-template-columns: repeat(2, 1fr); }

@@ -1,4 +1,4 @@
-/* Centrado del login */
+
 main{
   min-height:100vh;
   display:flex;
@@ -6,15 +6,15 @@ main{
   align-items:center;
 }
 
-/* Caja que CONTIENE el formulario */
+
 .form-box{
   width:100%;
-  max-width: 420px;   /* ← aquí se controla lo estrecho */
+  max-width: 420px;   
   padding: 28px 26px;
   border-radius: var(--r2);
 }
 
-/* Título */
+
 .form-box h1{
   margin:0 0 20px;
   text-align:center;
@@ -22,7 +22,7 @@ main{
   letter-spacing:.02em;
 }
 
-/* Error */
+
 .notice{
   margin-bottom:16px;
   text-align:center;
@@ -30,18 +30,18 @@ main{
   font-weight:600;
 }
 
-/* Espaciado del formulario */
+
 .form-row{
   margin-bottom:16px;
 }
 
-/* Botón submit (usa el MISMO input global) */
+
 input[type="submit"]{
   margin-top:8px;
   cursor:pointer;
 }
 
-/* Link inferior */
+
 form > div{
   margin-top:12px;
 }

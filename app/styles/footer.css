@@ -34,20 +34,20 @@
     .footer-logo-icon {
         height: 50px;
         width: 50px;
-        background-color: #C5A059; /* Dorado */
+        background-color: #C5A059; 
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
-        color: #630E16; /* Granate */
+        color: #630E16; 
         font-size: 24px;
     }
     
     .footer-site-name {
         font-size: 24px;
         font-weight: 700;
-        color: #F9F4E8; /* Crema */
+        color: #F9F4E8; 
         text-decoration: none;
         display: flex;
         align-items: center;
@@ -64,7 +64,7 @@
     .footer-heading {
         font-size: 20px;
         font-weight: 600;
-        color: #C5A059; /* Dorado */
+        color: #C5A059; 
         margin-bottom: 20px;
         padding-bottom: 10px;
         border-bottom: 2px solid rgba(197, 160, 89, 0.3);
@@ -79,7 +79,7 @@
     }
     
     .footer-links a {
-        color: #F9F4E8; /* Crema */
+        color: #F9F4E8; 
         text-decoration: none;
         font-size: 16px;
         transition: all 0.3s ease;
@@ -89,7 +89,7 @@
     }
     
     .footer-links a:hover {
-        color: #C5A059; /* Dorado */
+        color: #C5A059; 
         transform: translateX(5px);
     }
     
@@ -119,8 +119,8 @@
     }
     
     .social-link:hover {
-        background-color: #C5A059; /* Dorado */
-        color: #630E16; /* Granate */
+        background-color: #C5A059; 
+        color: #630E16; 
         transform: translateY(-3px);
     }
     
@@ -141,7 +141,7 @@
     }
     
     .legal-links a:hover {
-        color: #C5A059; /* Dorado */
+        color: #C5A059; 
         text-decoration: underline;
     }
     
@@ -159,8 +159,8 @@
         left: 20px;
         right: 20px;
         max-width: 400px;
-        background-color: #630E16; /* Granate */
-        color: #F9F4E8; /* Crema */
+        background-color: #630E16; 
+        color: #F9F4E8; 
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
@@ -194,17 +194,17 @@
     }
     
     .cookie-accept {
-        background-color: #C5A059; /* Dorado */
-        color: #630E16; /* Granate */
+        background-color: #C5A059; 
+        color: #630E16; 
     }
     
     .cookie-accept:hover {
-        background-color: #F9F4E8; /* Crema */
+        background-color: #F9F4E8; 
     }
     
     .cookie-reject {
         background-color: transparent;
-        color: #F9F4E8; /* Crema */
+        color: #F9F4E8; 
         border: 1px solid rgba(249, 244, 232, 0.3);
     }
     
@@ -212,7 +212,7 @@
         background-color: rgba(249, 244, 232, 0.1);
     }
     
-    /* Responsive design para footer */
+    
     @media (max-width: 768px) {
         .footer-content {
             flex-direction: column;
@@ -234,7 +234,7 @@
         }
     }
 
-    /* Estilos para el Modal de Términos */
+    
 .modal-terminos {
     display: none; 
     position: fixed;
