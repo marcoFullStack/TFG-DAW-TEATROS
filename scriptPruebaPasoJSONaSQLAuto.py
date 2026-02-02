@@ -132,18 +132,31 @@ def cargar_teatros(api_url: str, fallback_json_path: str):
     return data_local
 
 def cargar_obras(api_url: str, fallback_json_path: str):
-    try:
-        r = requests.get(api_url, timeout=12)
-        r.raise_for_status()
-        payload = r.json()
-        plays = payload.get("plays", [])
-        if isinstance(plays, list) and plays:
-            log(f"✅ Obras cargadas desde API Dracor: {len(plays)}")
-            return plays
-        log("⚠️ API Dracor sin plays útiles. Usando JSON local...")
-    except Exception as e:
-        log(f"⚠️ Falló API Dracor ({e}). Usando JSON local...")
+    # Reintentos con backoff
+    for intento in range(3):
+        try:
+            r = requests.get(
+                api_url,
+                timeout=(5, 30),  # (connect timeout, read timeout)
+                headers={"User-Agent": "TFG-DAW-Teatros/1.0"}
+            )
+            r.raise_for_status()
+            payload = r.json()
+            plays = payload.get("plays", [])
+            if isinstance(plays, list) and plays:
+                log(f"✅ Obras cargadas desde API Dracor: {len(plays)}")
+                return plays
+            log("⚠️ API Dracor sin plays útiles. Usando JSON local...")
+            break
+        except Exception as e:
+            log(f"⚠️ Falló API Dracor (intento {intento+1}/3): {e}")
+            if intento < 2:
+                import time
+                time.sleep(2 * (intento + 1))  # 2s, 4s
+            else:
+                log("⚠️ Agotados reintentos. Usando JSON local...")
 
+    # Fallback local
     if not os.path.exists(fallback_json_path):
         raise FileNotFoundError(f"No existe el archivo local de obras: {fallback_json_path}")
 
@@ -160,6 +173,7 @@ def cargar_obras(api_url: str, fallback_json_path: str):
         return plays
 
     raise ValueError("Formato no válido en obras.json (lista o {'plays': [...]})")
+
 
 # ===================== migración índice teatros (SIN AÑADIR CAMPOS) =====================
 
@@ -420,7 +434,18 @@ def importar_todo(json_teatros_path: str):
 
         # ---- CARTELERA: borrar HOY y regenerar ----
         log("🧹 Reseteando cartelera de HOY y regenerando...")
-        reset_cartelera_de_hoy(cursor)
+        log("🧹 Reseteando cartelera y regenerando...")
+
+# 1) borrar compras si quieres reset total (solo si en tu proyecto quieres “vaciar todo”)
+        cursor.execute("DELETE FROM compras_entradas")
+
+# 2) borrar horarios
+        cursor.execute("DELETE FROM horarios")
+
+# 3) reset autoincrement
+        cursor.execute("ALTER TABLE horarios AUTO_INCREMENT = 1")
+
+
 
         sql_horario = "INSERT IGNORE INTO horarios (idTeatro, idObra, FechaHora, Precio) VALUES (%s, %s, %s, %s)"
         horas = ["17:00:00", "18:30:00", "19:00:00", "20:30:00", "21:00:00", "22:00:00"]
