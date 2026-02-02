@@ -1,3 +1,5 @@
+/* The above code is a JavaScript script that fetches data from two different APIs and displays the
+information in a web page with two main sections: */
 (() => {
   // ====== CHART (izquierda) ======
   const API_DRACOR = "https://dracor.org/api/v1/corpora/span";

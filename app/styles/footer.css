@@ -1,9 +1,9 @@
 .main-footer {
-        background-color: #1E1B18; /* Negro */
-        color: #F9F4E8; /* Crema */
+        background-color: #1E1B18; 
+        color: #F9F4E8; 
         padding: 40px 20px 20px;
         margin-top: auto;
-        border-top: 4px solid #C5A059; /* Dorado */
+        border-top: 4px solid #C5A059; 
     }
     
     .footer-container {

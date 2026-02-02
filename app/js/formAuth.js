@@ -1,3 +1,6 @@
+/* This code snippet is creating an Immediately Invoked Function Expression (IIFE) in JavaScript. The
+purpose of this IIFE is to encapsulate the functions defined within it and prevent polluting the
+global scope. Here's a breakdown of what the code is doing: */
 (function () {
   function setFieldError(input, msg) {
     const row = input.closest(".form-row") || input.parentElement;
