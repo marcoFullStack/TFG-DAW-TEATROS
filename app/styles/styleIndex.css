@@ -573,14 +573,14 @@ select:focus, input:focus{
 /* ===== Responsive ===== */
 @media (max-width: 900px){
   .dash50{
-    width: min(92%, var(--max)); /* en móvil más ancho */
+    width: min(92%, var(--max)); 
     flex-direction:column;
   }
   .dashCol{ flex-basis:auto; }
   .podiumCol.first{ transform:none; }
 
   #chartEpocas{
-    max-width: 320px; /* un pelín más pequeño en móvil */
+    max-width: 320px; 
   }
 }
 

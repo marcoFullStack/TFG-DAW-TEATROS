@@ -12,6 +12,8 @@
                 </div>
                 <p class="footer-description">
                     Una plataforma innovadora diseñada para ofrecer la mejor experiencia de navegación y servicios digitales de calidad.
+                    <p>Contacto administrador : soporte@redteatros.es / ayuda@redteatros.es</p>
+
                 </p>
                 <div class="social-links">
                     <a href="#" class="social-link" title="Facebook">

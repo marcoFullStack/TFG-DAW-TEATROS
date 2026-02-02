@@ -61,7 +61,6 @@ $jsonUrl = BASE_URL . "../red_teatros.json";
 
   <?php include_once __DIR__ . '/views/index/maps.php'; ?>
 
-  <?php include_once __DIR__ . '/views/index/maps.php'; ?>
 <!-- Chat bubble -->
 <button id="chatFab" aria-label="Abrir chat">💬</button>
 
@@ -77,7 +76,7 @@ $jsonUrl = BASE_URL . "../red_teatros.json";
   <div id="chatMessages" class="chat-messages"></div>
 
   <form id="chatForm" class="chat-form" autocomplete="off">
-    <input id="chatInput" type="text" placeholder="Ej: teatros en Valladolid" required />
+    <input id="chatInput" type="text" aria-label="Escribe tu mensaje para el asistente" placeholder="Ej: teatros en Valladolid" required />
     <button type="submit">Enviar</button>
   </form>
 </div>

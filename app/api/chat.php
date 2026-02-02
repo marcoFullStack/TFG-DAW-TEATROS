@@ -47,7 +47,7 @@ function detect_intent(string $msg): array {
   if (preg_match('/^precio\s+(?:de\s+)?obra\s+(.+)$/iu', $msg, $ma)) {
     return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
   }
-  // ✅ NUEVO: "precios <titulo>" (plural)
+  //  "precios <titulo>" (plural)
 if (preg_match('/^precios\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
 }

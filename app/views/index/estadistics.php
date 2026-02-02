@@ -41,6 +41,7 @@
 
     <!-- Filtro -->
     <div class="rankTools">
+      <label for="rankSearch">Buscar usuario:</label>
       <input id="rankSearch" class="rankSearch" type="search" placeholder="Buscar por nombre…" autocomplete="off" />
       <button id="rankClear" class="rankBtn" type="button">Limpiar</button>
     </div>
