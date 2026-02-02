@@ -59,7 +59,6 @@
         <!-- Copyright -->
         <div class="copyright">
             <p>&copy; <?php echo date('Y'); ?> Naregador. Todos los derechos reservados.</p>
-            <p>Diseñado con los colores corporativos: Granate, Dorado, Crema y Negro.</p>
         </div>
     </div>
 </footer>

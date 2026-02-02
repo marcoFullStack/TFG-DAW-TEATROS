@@ -91,23 +91,21 @@
       <!-- Bloque info -->
       <div class="info reveal">
         <div class="info-card glass">
-          <h3>Experiencia “tradicional”</h3>
+          <h3>Teatros con Historia</h3>
           <p>
-            Inspirada en carteleras clásicas: tipografía elegante, tonos terciopelo y detalles dorados,
-            con transiciones suaves y filtros rápidos.
+            Visitar un teatro histórico es, en esencia, participar en un diálogo vivo entre el presente y los siglos que nos precedieron.
           </p>
         </div>
         <div class="info-card glass">
-          <h3>Interacción moderna</h3>
+          <h3>Acceso a la cultura desde bolsillo</h3>
           <p>
-            Filtrado instantáneo en cliente (sin recargar), animaciones al scroll y microinteracciones
-            en cards y botones.
+            Ya no hace falta "ir al teatro" para comprar una entrada; ahora, el teatro viene a ti para que tu única preocupación sea disfrutar de la función.
           </p>
         </div>
         <div class="info-card glass">
-          <h3>Lista para crecer</h3>
+          <h3>Mantente actualizado</h3>
           <p>
-            Puedes conectar un endpoint con <code>fetch()</code> para paginar o cargar más datos (cuando quieras te lo monto).
+            Ya no persigues la cultura; la cultura te encuentra a ti en el momento justo para que nunca te quedes fuera.
           </p>
         </div>
       </div>
