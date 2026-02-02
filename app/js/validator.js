@@ -1,3 +1,6 @@
+/* This JavaScript code snippet is adding an event listener to the `DOMContentLoaded` event of the
+document. When the DOM content is fully loaded, the function provided as the second argument will be
+executed. */
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('registerForm') || document.getElementById('loginForm');
   if (!form) return;

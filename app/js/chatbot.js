@@ -1,3 +1,12 @@
+/**
+ * The JavaScript code sets up a chat interface where users can send messages and receive responses
+ * from a server-side assistant.
+ * @param text - Text is the content of the message that will be displayed in the chat interface. It
+ * can be a user message or a response from the chatbot assistant.
+ * @param who - The `who` parameter in the `addMsg` function is used to determine whether the message
+ * is from the user or the chatbot. It is a string that can have two values: "user" or "bot". This
+ * value is used to style the message differently based on who sent it.
+ */
 const fab = document.getElementById("chatFab");
 const box = document.getElementById("chatBox");
 const closeBtn = document.getElementById("chatClose");

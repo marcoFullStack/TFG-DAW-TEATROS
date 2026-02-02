@@ -1,3 +1,5 @@
+/* This JavaScript code snippet is an immediately invoked function expression (IIFE) that contains
+various functionalities for a web page. Here is a breakdown of what it does: */
 (() => {
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
