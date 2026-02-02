@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<!-- Font Awesome para iconos (puedes usar CDN o descargarlo) -->
+<!-- Fuente Awesome para iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <script>
@@ -138,7 +138,7 @@
         const modalTerms = document.getElementById('modalTerminos');
         const closeTerms = document.getElementById('closeTerms');
         const acceptTerms = document.getElementById('acceptTerms');
-        // Buscamos el enlace que abre los términos (asegúrate de que tu <a> tenga este ID o clase)
+        // Buscamos el enlace que abre los términos
         const openTermsBtn = document.querySelector('.open-terms') || document.getElementById('openTerms');
 
         if (openTermsBtn && modalTerms) {
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.getElementById('closeTerms');
     const acceptBtn = document.getElementById('acceptTerms');
     
-    // Buscar el enlace de Términos en el footer (basado en el texto)
+    // Buscar el enlace de Términos
     const termsLink = document.querySelector('a[href*="terminos"]') || 
                       Array.from(document.querySelectorAll('a')).find(el => el.textContent.includes('Términos'));
 

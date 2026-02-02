@@ -4,7 +4,7 @@ ini_set('max_execution_time', '60');
 
 header('Content-Type: application/json; charset=utf-8');
 
-require_once __DIR__ . '/../config/db.php'; // debe exponer getConexion()
+require_once __DIR__ . '/../config/db.php'; 
 
 $raw = file_get_contents('php://input');
 $payload = json_decode($raw, true);
@@ -43,16 +43,20 @@ function detect_intent(string $msg): array {
   }
 
   // --- PRECIO OBRA ---
-  // "precio obra <titulo>" / "precio de obra <titulo>"
+ 
   if (preg_match('/^precio\s+(?:de\s+)?obra\s+(.+)$/iu', $msg, $ma)) {
     return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
   }
+<<<<<<< HEAD
   //  "precios <titulo>" (plural)
+=======
+
+>>>>>>> f790e01ed21f37b8bf3e8c4f993e542c110fad87
 if (preg_match('/^precios\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
 }
 
-  // ✅ NUEVO: "precio <titulo>"
+
 if (preg_match('/^precio\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'precio_obra', 'obra' => trim($ma[1])];
 }
@@ -73,44 +77,44 @@ if (preg_match('/^precio\s+(.+)$/iu', $msg, $ma)) {
   if (preg_match('/^provincias$/iu', $msg)) return ['type' => 'listar_provincias'];
   if (preg_match('/^municipios$/iu', $msg)) return ['type' => 'listar_municipios'];
 
+
   // --- OBRAS ---
-  // --- OBRAS ---
-// "obra <titulo>"
+// obra titulo
 if (preg_match('/^obra\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'obra_por_titulo', 'titulo' => trim($ma[1])];
 }
 
-// primero año y década, antes que "obras de <autor>"
+// primero año y década
 if (preg_match('/^obras?\s+(?:del|de)\s+año\s+(\d{4})$/iu', $msg, $ma)) {
   return ['type' => 'obras_por_anio', 'anio' => (int)$ma[1]];
 }
 
-// "obras de 1930s" / "obras del 1930s"
+// obras de 1930s
 if (preg_match('/^obras?\s+(?:de|del)\s+(\d{4})s$/iu', $msg, $ma)) {
   return ['type' => 'obras_por_decada', 'decada' => (int)$ma[1]];
 }
 
-// "obras 1930s"
+
 if (preg_match('/^obras?\s+(\d{4})s$/iu', $msg, $ma)) {
   return ['type' => 'obras_por_decada', 'decada' => (int)$ma[1]];
 }
 
-// "obras de <autor>" (pero NO permitir "1930s" como autor)
+// obras de autor
 if (preg_match('/^obras?\s+de\s+(?!\d{4}s\b)(.+)$/iu', $msg, $ma)) {
   return ['type' => 'obras_por_autor', 'autor' => trim($ma[1])];
 }
 
-// "obras en teatro <nombre>"
+// obras en teatro
 if (preg_match('/^obras?\s+en\s+teatro\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'obras_en_teatro', 'teatro' => trim($ma[1])];
 }
 
-// "obras en <provincia>"
+// obras en provincia
 if (preg_match('/^obras?\s+en\s+([a-záéíóúñ\s]+)$/iu', $msg, $ma)) {
   return ['type' => 'obras_en_provincia', 'provincia' => title_case_es(trim($ma[1]))];
 }
 
-// "obras <teatro>" (ej: "obras lope de vega")
+// obras <teatro>
 if (preg_match('/^obras?\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'obras_en_teatro', 'teatro' => trim($ma[1])];
 }
@@ -128,22 +132,22 @@ if (preg_match('/^autores$/iu', $msg)) return ['type' => 'listar_autores'];
     return ['type' => 'horarios_semana'];
   }
 
-  // "horario(s) teatro <nombre>"
+  // horario teatro nombre
 if (preg_match('/^horarios?\s+teatro\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
 }
 
 
-// "horarios del teatro <nombre>"
+// horarios del teatro <nombre>
 if (preg_match('/^horarios?\s+del\s+teatro\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
 }
-// ✅ NUEVO: "horarios del <nombre>" (sin 'teatro')
+
 if (preg_match('/^horarios?\s+del\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
 }
 
-// ✅ "horarios <nombre_teatro>" (sin 'teatro')
+
 if (preg_match('/^horarios?\s+(.+)$/iu', $msg, $ma)) {
   return ['type' => 'horarios_por_teatro', 'teatro' => trim($ma[1])];
 }
@@ -198,7 +202,7 @@ function handle_intent(PDO $pdo, array $intent, string $userMsg): string {
       $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       if (!$rows) {
-  // ✅ Fallback: buscar también pasados si no hay futuros
+
   $stmt2 = $pdo->prepare("
     SELECT h.FechaHora, h.Precio, t.Sala AS Teatro, t.Provincia, t.Municipio, o.Titulo AS Obra
     FROM horarios h
@@ -611,7 +615,7 @@ function e(string $s): string {
 }
 
 function p(string $text): string {
-  // párrafo: separa cada registro con línea en blanco
+  // separa cada registro con línea en blanco
   return rtrim($text) . "\n\n";
 }
 
@@ -750,7 +754,7 @@ function general_search(PDO $pdo, string $q): string {
   $qTrim = trim($q);
   if ($qTrim === '') return help_text();
 
-  // 1) busca teatro por nombre
+  // busca teatro por nombre
   $stmt = $pdo->prepare("SELECT Sala, Provincia, Municipio, CapacidadMax
                          FROM teatros
                          WHERE Sala LIKE :q
@@ -759,7 +763,7 @@ function general_search(PDO $pdo, string $q): string {
   $stmt->execute([':q' => "%$qTrim%"]);
   $teatros = $stmt->fetchAll();
 
-  // 2) busca obra por título o autor
+  // busca obra por título o autor
   $stmt = $pdo->prepare("SELECT Titulo, Autor, Anio
                          FROM obras
                          WHERE Titulo LIKE :q OR Autor LIKE :q
@@ -768,7 +772,7 @@ function general_search(PDO $pdo, string $q): string {
   $stmt->execute([':q' => "%$qTrim%"]);
   $obras = $stmt->fetchAll();
 
-  // 3) busca horarios próximos por obra o teatro
+  // busca horarios próximos por obra o teatro
   $stmt = $pdo->prepare("SELECT h.FechaHora, h.Precio, t.Sala AS Teatro, t.Provincia, t.Municipio, o.Titulo AS Obra
                          FROM horarios h
                          JOIN teatros t ON t.idTeatro = h.idTeatro

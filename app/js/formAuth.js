@@ -1,4 +1,3 @@
-// js/formAuth.js
 (function () {
   function setFieldError(input, msg) {
     const row = input.closest(".form-row") || input.parentElement;
@@ -27,7 +26,6 @@
   function enhanceForm(form, rules) {
     if (!form) return;
 
-    // Si el servidor devolvió .notice (errores PHP), le damos “mejor UX”
     const notice = document.querySelector(".notice");
     if (notice) {
       notice.scrollIntoView({ behavior: "smooth", block: "center" });

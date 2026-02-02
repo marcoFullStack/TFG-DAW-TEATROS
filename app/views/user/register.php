@@ -38,7 +38,7 @@ if (!empty($_POST['btnRegister'])) {
       if (!in_array($ext, $allowedExt, true)) {
         $errors[] = "Formato no permitido (solo jpg/png/webp)";
       } else {
-        // uploads cuelga de /app/uploads (NO de /views/uploads)
+        
         $dir = __DIR__ . "/../../uploads";
         if (!is_dir($dir)) mkdir($dir, 0777, true);
 

@@ -1,5 +1,4 @@
 <?php
-// app/views/auth/login_admin.php
 declare(strict_types=1);
 
 session_start();
@@ -10,7 +9,6 @@ require_once __DIR__ . '/../../DAO/AdminDAO.php';
 
 function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
-// Si ya está logeado como admin, fuera
 if (!empty($_SESSION['admin_id'])) {
   header('Location: ' . BASE_URL . 'views/admin/dashboard.php');
   exit;
@@ -44,7 +42,6 @@ if (!empty($_POST['btnLoginAdmin'])) {
   <meta charset="utf-8">
   <title>Login Admin</title>
 
-  <!-- Usa tu CSS real -->
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/login_admin.css?v=1">
 </head>

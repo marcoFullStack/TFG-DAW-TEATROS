@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggle.addEventListener('click', () => {
       mainNav.classList.toggle('active');
       
-      // Opcional: Animación de las barritas del menú
       menuToggle.classList.toggle('open');
     });
   });

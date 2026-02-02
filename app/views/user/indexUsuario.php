@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = (string)($_POST['action'] ?? '');
 
   try {
-    // ✅ CAMBIAR FOTO PERFIL (GUARDA EN /uploads/usuarios/)
+    
     if ($action === 'user_photo_update') {
       if (empty($_FILES['FotoPerfil'])) throw new RuntimeException('Falta la imagen.');
       $file = $_FILES['FotoPerfil'];
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $ext = strtolower(pathinfo((string)$file['name'], PATHINFO_EXTENSION));
       $finalName = slugify($usuario->getNombre()) . '__' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
 
-      // destino físico: /app/uploads/usuarios/
+   
       $absDir = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'usuarios';
       ensure_dir($absDir);
 
@@ -82,11 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         throw new RuntimeException('No se pudo guardar el archivo.');
       }
 
-      // en BD guardamos relativo a /uploads/
+      
       $nuevoRel = 'usuarios/' . $finalName;
 
-      // borrar anterior (si existe)
-      $anterior = $usuario->getFotoPerfil(); // ej "usuarios/old.jpg"
+      // borrar anterior 
+      $anterior = $usuario->getFotoPerfil();
       if ($anterior) {
         $absOld = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $anterior);
         if (is_file($absOld)) @unlink($absOld);
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
     }
 
-    // ✅ COMPRAR
+    // COMPRAR
     if ($action === 'buy_tickets') {
       $idHorario = (int)($_POST['idHorario'] ?? 0);
       $qty = (int)($_POST['qty'] ?? 0);
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
     }
 
-    // ✅ CANCELAR
+    // CANCELAR
     if ($action === 'cancel_ticket') {
       $idCompra = (int)($_POST['idCompra'] ?? 0);
       if ($idCompra <= 0) throw new RuntimeException('Compra inválida.');
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit;
     }
 
-    // ✅ SUBIR FOTO A GALERÍA (la foto NO va a uploads, va a fotosSubidasUsuarios como ya lo tenías)
+    // SUBIR FOTO A GALERÍA
     if ($action === 'upload_photo') {
       $idTeatro = (int)($_POST['idTeatro'] ?? 0);
       $idObra   = (int)($_POST['idObra'] ?? 0);
@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $ok = !empty($_GET['ok']);
 if ($ok && !$notice) $notice = 'Operación realizada correctamente.';
 
-// Foto perfil desde objeto (reload simple)
+// Foto perfil desde objeto
 $usuario = $usuarioDAO->obtenerPorId($idUsuario);
 $foto = (string)($usuario?->getFotoPerfil() ?? '');
 $fotoUrl = $foto !== '' ? (BASE_URL . 'uploads/' . $foto) : (BASE_URL . 'images/default_user.png');
@@ -183,7 +183,7 @@ $obras_page   = clamp_int($_GET['obras_page'] ?? 1, 1, 999999, 1);
 
 $obra_sel = (int)($_GET['obra_sel'] ?? 0);
 
-// ✅ Solo pedimos datos según tab (menos consultas)
+
 $teatros = $obras = $horarios = $mis = $sel_teatros = $sel_obras = [];
 
 if ($tab === 'teatros') {
@@ -873,7 +873,7 @@ let currentPrice = 0;
         return;
       }
 
-      // Loader simulado (bloquea 1.5s y luego envía)
+      // Loader simulado
       e.preventDefault();
 
       btnPay.disabled = true;

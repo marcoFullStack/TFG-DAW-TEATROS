@@ -1,8 +1,5 @@
 <?php
 // inc/header.php
- 
-// BASE_URL: ajusta SOLO esta línea si tu proyecto está en subcarpeta
-// Ejemplo típico en XAMPP: /TFG-DAW-TEATROS/
 require_once __DIR__ . '/../config/config.php';
 ?>
 <!DOCTYPE html>

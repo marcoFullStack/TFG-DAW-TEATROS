@@ -1,5 +1,4 @@
 <?php
-// app/models/Admin.php
 declare(strict_types=1);
 
 final class Admin
@@ -8,8 +7,8 @@ final class Admin
     private string $nombre;
     private string $email;
     private string $passwordHash;
-    private ?string $creadoEn;      // datetime en BD
-    private ?string $ultimoLogin;   // datetime en BD
+    private ?string $creadoEn;      
+    private ?string $ultimoLogin;   
 
     public function __construct(
         string $nombre,
