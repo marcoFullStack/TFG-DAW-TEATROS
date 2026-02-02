@@ -1,5 +1,5 @@
 <?php
-// app/config/uploads.php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
@@ -26,7 +26,7 @@ function save_uploaded_image(array $file, string $relativeBaseDir, string $subfo
   if (!is_allowed_image($file['name'])) return null;
 
   $size = (int)($file['size'] ?? 0);
-  if ($size <= 0 || $size > 5 * 1024 * 1024) return null; // 5MB
+  if ($size <= 0 || $size > 5 * 1024 * 1024) return null;
 
   $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
   $safeName = 'img_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
@@ -46,13 +46,13 @@ function save_uploaded_image(array $file, string $relativeBaseDir, string $subfo
   return preg_replace('#/+#', '/', $rel);
 }
 
-/** Convierte ruta relativa (desde app/) a URL web completa */
+/** Convierte ruta relativa a URL web completa */
 function rel_to_url(string $rel): string {
   $rel = ltrim($rel, '/');
   return BASE_URL . $rel;
 }
 
-/** Borra un archivo dado por ruta relativa desde app/ (si existe) */
+/** Borra un archivo dado por ruta relativa */
 function delete_rel_file(string $rel): void {
   $abs = rtrim(app_root_path(), '/\\') . DIRECTORY_SEPARATOR . ltrim($rel, '/\\');
   if (is_file($abs)) @unlink($abs);

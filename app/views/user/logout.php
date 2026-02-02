@@ -1,5 +1,5 @@
 <?php
-// app/views/user/logout.php
+
 declare(strict_types=1);
 
 session_start();

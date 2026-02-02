@@ -103,26 +103,26 @@
   background: #a1263b;
   color: #fff;
 }
-/* 1) El chat se reparte en columnas: header / mensajes / form */
+
 #chatBox{
   display: flex;
   flex-direction: column;
 }
 
-/* 2) Quita la altura fija de mensajes y haz que crezca/encoga */
+
 .chat-messages{
-  height: auto !important;   /* anula tu calc() */
-  flex: 1 1 auto;            /* ocupa el espacio disponible */
-  min-height: 0;             /* CLAVE para que el scroll funcione */
+  height: auto !important;   
+  flex: 1 1 auto;           
+  min-height: 0;             
 }
 
-/* 3) El formulario siempre visible y con un pelín más de aire */
+
 .chat-form{
   flex: 0 0 auto;
   padding: 12px;
 }
 
-/* 4) Input un poco más alto sin que se “coma” el chat */
+
 .chat-form input{
   height: 44px;
   line-height: 44px;
