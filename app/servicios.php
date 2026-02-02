@@ -1,5 +1,4 @@
 <?php
-// app/servicios.php
 
 require_once __DIR__ . '/config/db.php';
 
@@ -12,7 +11,6 @@ if (!defined('BASE_URL')) {
 <?php include_once __DIR__ . '/inc/header.php'; ?>
 
 <main class="page">
-  <!-- Fondo teatral -->
   <div class="bg" aria-hidden="true">
     <div class="curtain left"></div>
     <div class="curtain right"></div>
@@ -21,7 +19,6 @@ if (!defined('BASE_URL')) {
     <div class="grain"></div>
   </div>
 
-  <!-- HERO Servicios -->
   <section class="hero" id="inicio">
     <div class="container">
       <div class="hero-left reveal">

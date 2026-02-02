@@ -1,5 +1,4 @@
 <?php
-// app/views/auth/register_admin.php
 declare(strict_types=1);
 
 session_start();
@@ -11,14 +10,6 @@ require_once __DIR__ . '/../../models/Admin.php';
 
 
 function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
-
-// (Opcional) Si quieres que solo un admin ya logeado pueda crear otros admins,
-// descomenta esto:
-//
-// if (empty($_SESSION['admin_id'])) {
-//   header('Location: ' . BASE_URL . 'views/auth/login_admin.php');
-//   exit;
-// }
 
 $dao = new AdminDAO($pdo);
 $errors = [];

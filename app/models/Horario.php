@@ -5,7 +5,7 @@ final class Horario {
   private ?int $idHorario;
   private int $idTeatro;
   private int $idObra;
-  private string $fechaHora;   // "YYYY-MM-DD HH:MM:SS"
+  private string $fechaHora;   
   private float $precio;
 
   public function __construct(

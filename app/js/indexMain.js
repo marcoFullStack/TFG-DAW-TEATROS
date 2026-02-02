@@ -1,13 +1,9 @@
-// app/js/index2.js
-
 (() => {
-  // --- Reveal on scroll ---
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // --- Parallax suave (solo decor) ---
   const spots = document.querySelectorAll('.spot');
   window.addEventListener('mousemove', (ev) => {
     const x = (ev.clientX / window.innerWidth) - 0.5;
@@ -18,7 +14,6 @@
     });
   }, { passive: true });
 
-  // --- Contadores animados ---
   const counters = document.querySelectorAll('.num');
   const animateCount = (el) => {
     const target = parseInt(el.dataset.count || el.dataset.fallback || "0", 10);
@@ -89,7 +84,7 @@
   toggleTop();
   toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // --- MAPA Leaflet ---
+  // --- MAPA ---
   const mapEl = document.getElementById('mapTeatros');
   const jsonUrl = window.__TEATROS_JSON_URL__;
 
@@ -114,7 +109,6 @@
           const f = item?.fields || {};
           const coords = item?.geometry?.coordinates;
 
-          // geometry.coordinates = [lng, lat]
           if (!Array.isArray(coords) || coords.length < 2) return;
 
           const lng = Number(coords[0]);

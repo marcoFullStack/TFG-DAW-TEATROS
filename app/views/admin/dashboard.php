@@ -1,5 +1,4 @@
 <?php
-// app/views/admin/dashboard.php
 declare(strict_types=1);
 
 session_start();
@@ -42,11 +41,9 @@ function clamp_int($v, int $min, int $max, int $fallback): int {
 }
 
 function normalize_datetime_local_to_mysql(string $s): ?string {
-  // input type="datetime-local" => "YYYY-MM-DDTHH:MM"
   $s = trim($s);
   if ($s === '') return null;
   $s = str_replace('T', ' ', $s);
-  // añadir segundos si no vienen
   if (preg_match('/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}$/', $s)) $s .= ':00';
   if (!preg_match('/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/', $s)) return null;
   return $s;
@@ -147,7 +144,7 @@ if (!$dao->updateObra($obra)) {
       $id = (int)($_POST['idObra'] ?? 0);
       if ($id <= 0) throw new RuntimeException('ID de obra inválido.');
 
-      // borrar archivos físicos de sus imágenes (si RutaImagen es relativa desde /app/)
+      // borrar archivos físicos de sus imágenes 
       $imgs = $dao->listImagenesObra($id);
       foreach ($imgs as $im) {
         if (!empty($im['RutaImagen'])) delete_rel_file((string)$im['RutaImagen']);
@@ -213,12 +210,11 @@ if ($action === 'teatro_create' || $action === 'teatro_update') {
   }
   if ($t['CapacidadMax'] <= 0) throw new RuntimeException('CapacidadMax debe ser > 0.');
 
-  // normaliza vacíos a null (excepto CapacidadMax)
+  // normaliza vacíos a null 
   foreach (['Entidad','Direccion','CP','Telefono','Email'] as $k) {
     if ($t[$k] === '') $t[$k] = null;
   }
 
-  // ✅ CREA OBJETO TEATRO
   $teatroObj = new Teatro(
     sala: $t['Sala'],
     provincia: $t['Provincia'],
@@ -307,7 +303,6 @@ if ($action === 'teatro_delete') {
       if ($nombre === '') throw new RuntimeException('Nombre obligatorio.');
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) throw new RuntimeException('Email no válido.');
 
-      // necesitas tener el usuario actual para conservar PasswordHash y FotoPerfil
 $old = $dao->getUsuarioById($id);
 if (!$old) throw new RuntimeException('Usuario no existe.');
 
@@ -321,7 +316,6 @@ $usuarioObj = new Usuario(
   fechaAlta: $old['FechaAlta'] ?? null
 );
 
-// ojo: este método lo tienes que crear en AdminPanelDAO (updateUsuarioObj)
 if (!$dao->updateUsuarioObj($usuarioObj)) {
   throw new RuntimeException('No se pudo actualizar el usuario.');
 }
@@ -335,10 +329,7 @@ if (!$dao->updateUsuarioObj($usuarioObj)) {
       if ($id <= 0) throw new RuntimeException('ID de usuario inválido.');
 
       $u = $dao->getUsuarioById($id);
-      // opcional: borrar foto perfil si la guardas como ruta relativa desde app/
       if ($u && !empty($u['FotoPerfil'])) {
-  // FotoPerfil en BD: "usuarios/archivo.jpg"
-  // Archivo real: /app/uploads/usuarios/archivo.jpg
   delete_rel_file('uploads/' . (string)$u['FotoPerfil']);
 }
 
@@ -358,7 +349,7 @@ if (!$dao->updateUsuarioObj($usuarioObj)) {
       if ($idTeatro <= 0 || $idObra <= 0) throw new RuntimeException('Selecciona teatro y obra.');
       if (!$fecha) throw new RuntimeException('Fecha/Hora inválida.');
 
-      $precio = mt_rand(1200, 4000) / 100; // 12.00 - 40.00
+      $precio = mt_rand(1200, 4000) / 100; 
 
 $horarioObj = new Horario(
   idTeatro: $idTeatro,
@@ -384,7 +375,6 @@ if (!$dao->createHorario($horarioObj)) throw new RuntimeException('No se pudo cr
       if ($idTeatro <= 0 || $idObra <= 0) throw new RuntimeException('Selecciona teatro y obra.');
       if (!$fecha) throw new RuntimeException('Fecha/Hora inválida.');
 
-      // Para no perder el precio, lo leemos de BD aquí:
 $old = $dao->getHorarioById($idHorario);
 $precio = $old && isset($old['Precio']) ? (float)$old['Precio'] : 0.0;
 
@@ -428,7 +418,6 @@ if (!$dao->updateHorario($horarioObj)) throw new RuntimeException('No se pudo ac
 
       $it = $dao->getGaleriaItem($idImagen);
       if ($it && !empty($it['RutaImagen'])) {
-        // RutaImagen debería ser relativa desde app/ (idealmente fotosSubidasUsuarios/...)
         delete_rel_file((string)$it['RutaImagen']);
       }
       if (!$dao->deleteGaleriaItem($idImagen)) throw new RuntimeException('No se pudo borrar el item.');
@@ -472,7 +461,6 @@ $q_users   = trim((string)($_GET['usuarios_q'] ?? ''));
 $hor_idTeatro = (int)($_GET['hor_idTeatro'] ?? 0);
 $gal_estado   = (string)($_GET['gal_estado'] ?? 'pendiente');
 
-// Inicializa todo vacío (para que no pete el HTML)
 $obras_total=$teatros_total=$users_total=$hor_total=$gal_total=0;
 $obras_rows=$teatros_rows=$users_rows=$hor_rows=$gal_rows=[];
 $obra_edit=$teatro_edit=$user_edit=$hor_edit=null;
@@ -513,7 +501,6 @@ try {
 
     $hor_edit  = $hor_edit_id > 0 ? $dao->getHorarioById($hor_edit_id) : null;
 
-    // selects SOLO cuando estás en horarios
     $sel_teatros = $dao->listTeatrosSimple();
     $sel_obras   = $dao->listObrasSimple();
   }
@@ -549,7 +536,6 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
   <title>Dashboard admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Puedes cambiarlo por tu CSS admin si ya tienes uno -->
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/footer.css">
 
@@ -1123,7 +1109,6 @@ function pager(int $total, int $page, int $perPage, string $pageKey): array {
             <?php
               $dtValue = '';
               if ($hor_edit && !empty($hor_edit['FechaHora'])) {
-                // mysql datetime => datetime-local
                 $dtValue = str_replace(' ', 'T', substr((string)$hor_edit['FechaHora'], 0, 16));
               }
             ?>

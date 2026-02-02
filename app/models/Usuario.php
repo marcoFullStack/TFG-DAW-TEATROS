@@ -1,5 +1,4 @@
 <?php
-// app/models/Usuario.php
 declare(strict_types=1);
 
 final class Usuario
@@ -10,7 +9,7 @@ final class Usuario
     private string $passwordHash;
     private ?string $fotoPerfil;
     private int $puntos;
-    private ?string $fechaAlta; // o DateTimeImmutable si quieres
+    private ?string $fechaAlta; 
 
     public function __construct(
         string $nombre,
@@ -37,8 +36,8 @@ final class Usuario
     public function getFotoPerfil(): ?string { return $this->fotoPerfil; }
     public function getPuntos(): int { return $this->puntos; }
     public function getFechaAlta(): ?string { return $this->fechaAlta; }
-public function setFotoPerfil(?string $foto): void { $this->fotoPerfil = $foto; }
-public function setPuntos(int $p): void { $this->puntos = $p; }
+    public function setFotoPerfil(?string $foto): void { $this->fotoPerfil = $foto; }
+    public function setPuntos(int $p): void { $this->puntos = $p; }
 
     public function setIdUsuario(int $id): void { $this->idUsuario = $id; }
 }

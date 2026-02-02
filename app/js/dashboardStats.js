@@ -1,4 +1,3 @@
-// app/js/dashboardStats.js
 (() => {
   // ====== CHART (izquierda) ======
   const API_DRACOR = "https://dracor.org/api/v1/corpora/span";
@@ -43,7 +42,6 @@
       if (!canvas) return;
 
       // Chart.js
-      // eslint-disable-next-line no-undef
       new Chart(canvas, {
         type: "pie",
         data: { labels, datasets: [{ data }] },
@@ -65,7 +63,6 @@
   // ====== RANKING (derecha) ======
   const API_RANKING = "./api/ranking_top3.php";
 
-  // desde app/index2.php
   const UPLOADS_DIR = "uploads/";
   const DEFAULT_IMG = "images/default_user.png";
 
@@ -92,7 +89,6 @@
     if (fp.startsWith("http://") || fp.startsWith("https://")) return fp;
     if (fp.startsWith("uploads/") || fp.startsWith("images/") || fp.startsWith("/")) return fp;
 
-    // caso típico: "user_1769612054_8ab316a2.png"
     return UPLOADS_DIR + fp;
   }
 
@@ -195,7 +191,7 @@
 
       state.totalPages = Number(json.total_pages ?? 1) || 1;
 
-      // Podium (1-2-3)
+      // Podium 
       setPodiumCard(document.getElementById("podium1"), top3[0], "Sin datos", 1);
       setPodiumCard(document.getElementById("podium2"), top3[1], "Sin datos", 2);
       setPodiumCard(document.getElementById("podium3"), top3[2], "Sin datos", 3);
