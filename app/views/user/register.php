@@ -12,6 +12,8 @@ require_once __DIR__ . '/../../models/Usuario.php';
 $dao = new UsuarioDAO($pdo);
 $errors = [];
 
+/* This block of code is handling the form submission for user registration. Here's a breakdown of what
+it does: */
 if (!empty($_POST['btnRegister'])) {
   $Nombre = trim($_POST['Nombre'] ?? '');
   $Email = trim($_POST['Email'] ?? '');
@@ -129,6 +131,9 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
 <script src="<?= h(BASE_URL) ?>js/formAuth.js"></script>
 <script>
+/* The code `AuthForms.enhanceForm(document.getElementById("formUserRegister"), [...]);` is enhancing
+the form validation for the user registration form. It is setting up validation rules for specific
+input fields within the form. */
   AuthForms.enhanceForm(document.getElementById("formUserRegister"), [
     { selector: 'input[name="Nombre"]', required:true, message:"Nombre obligatorio" },
     { selector: 'input[name="Email"]', required:true, email:true, message:"Email no válido" },

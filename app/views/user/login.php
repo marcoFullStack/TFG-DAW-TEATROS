@@ -10,6 +10,8 @@ require_once __DIR__ . '/../../DAO/UsuarioDAO.php';
 $dao = new UsuarioDAO($pdo);
 $error = null;
 
+/* This block of code is handling the login functionality when the user submits the login form. Here's
+a breakdown of what each part of the code is doing: */
 if (!empty($_POST['btnLogin'])) {
   $Email = trim($_POST['Email'] ?? '');
   $Password = (string)($_POST['Password'] ?? '');
@@ -63,6 +65,9 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
 <script src="<?= h(BASE_URL) ?>js/formAuth.js"></script>
 <script>
+ /* The code `AuthForms.enhanceForm(document.getElementById("formUserLogin"), [...]);` is enhancing the
+ form validation for the login form with specific rules for the input fields. Here's a breakdown of
+ what each part of the code is doing: */
   AuthForms.enhanceForm(document.getElementById("formUserLogin"), [
     { selector: 'input[name="Email"]', required:true, email:true, message:"Email no válido" },
     { selector: 'input[name="Password"]', required:true, minLength:4, message:"Contraseña mínimo 4 caracteres" }
