@@ -52,6 +52,8 @@ if (!$errors) {
 <html lang="es">
 <head>
   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Registro Admin</title>
 
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">

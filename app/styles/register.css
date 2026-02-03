@@ -1,18 +1,33 @@
+html, body{
+  height: 100%;
+  margin: 0;
+}
 
-main {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+main{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;  /* clave */
 }
 
 
 .form-box {
-    width: 100%;
+    width: 90%;
     max-width: 420px; 
-    padding: 28px 26px;
+    padding: 28px 20px;
     border-radius: var(--r2);
+
+    /* Glass effect */
+    background: rgba(20, 17, 26, 0.90);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
 }
+
 
 
 .form-box h1 {
@@ -48,3 +63,87 @@ form a {
     font-size: 14px;
     opacity: .9;
 }
+/* ===== VIDEO DE FONDO ===== */
+/* ===== VIDEO DE FONDO (ROBUSTO) ===== */
+.video-bg{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.video-bg video{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.35) saturate(0.9);
+  pointer-events: none;
+}
+
+/* overlay oscuro para que siempre se lea el formulario */
+.video-bg::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+}
+
+
+@keyframes slowZoom{
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+@media (max-width: 768px){
+  main{
+    padding: 18px;
+  }
+
+  .form-box{
+    width: 100%;
+    max-width: 92vw;
+    padding: 28px 22px;
+    background: rgba(20, 17, 26, 0.94);
+    transform: scale(1.08);
+    transform-origin: center;
+  }
+
+  .form-box h1{
+    font-size: 28px;
+  }
+
+  .form-row label{
+    display:block;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .form-row input{
+    width: 100%;
+    font-size: 16px;
+    padding: 14px 14px;
+    border-radius: 14px;
+  }
+
+  input[type="submit"]{
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: 420px){
+  .form-box{
+    transform: scale(1.12);
+    padding: 26px 18px;
+  }
+}
+

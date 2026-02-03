@@ -82,11 +82,19 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 <html lang="es">
 <head>
   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro usuario</title>
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/register.css">
 </head>
 <body>
+  <!-- Video de fondo -->
+<div class="video-bg">
+  <video autoplay muted loop playsinline>
+    <source src="<?= h(BASE_URL) ?>video/vecteezy_kyiv-ukraine-29-may-2024-theater-actor-has-rehearsal_55074994.mp4" type="video/mp4">
+  </video>
+</div>
+
 <main>
   <div class="form-box">
     <h1>Registro usuario</h1>
