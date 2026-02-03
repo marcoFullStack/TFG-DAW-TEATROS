@@ -1,14 +1,29 @@
-/* The above code is a JavaScript script that fetches data from two different APIs and displays the
-information in a web page with two main sections: */
+
 (() => {
   // ====== CHART (izquierda) ======
   const API_DRACOR = "https://dracor.org/api/v1/corpora/span";
 
+ /**
+  * The function `bin20` takes a year as input and returns a string representing the 20-year bin that
+  * the year falls into.
+  * @param year - The `bin20` function takes a `year` as input and calculates the range of years that
+  * the input year falls into, considering bins of 20 years each.
+  * @returns The `bin20` function returns a string representing the range of years in multiples of 20
+  * that includes the input year.
+  */
   function bin20(year) {
     const start = Math.floor(year / 20) * 20;
     return `${start}-${start + 19}`;
   }
 
+  /**
+   * The function `loadEpocasPie` fetches data from an API, processes it to create a pie chart showing
+   * the distribution of plays by year ranges, and handles errors gracefully.
+   * @returns The `loadEpocasPie` function is an asynchronous function that fetches data from the
+   * API_DRACOR, processes the data to create a pie chart using Chart.js, and updates the UI with
+   * information about the loaded data. The function handles errors by logging them to the console and
+   * updating the UI with an error message if the data loading fails.
+   */
   async function loadEpocasPie() {
     const hint = document.getElementById("chartEpocasHint");
     try {
@@ -74,6 +89,16 @@ information in a web page with two main sections: */
     totalPages: 1
   };
 
+  /**
+   * The function `theaterVibe` assigns a theater-related vibe based on the number of points received.
+   * @param points - The `points` parameter in the `theaterVibe` function represents the number of
+   * points a person has earned related to their theater-going activities. The function evaluates the
+   * points and returns a corresponding message based on the points earned.
+   * @returns The function `theaterVibe` returns a string based on the points provided as input. The
+   * strings returned are as follows:
+   * - If points are greater than or equal to 250: "Vive por y para el teatro 🎭🔥"
+   * - If points are greater than or equal to 150: "Se sabe la cartelera de memoria 🎟️✨
+   */
   function theaterVibe(points) {
     const p = Number(points ?? 0);
     if (p >= 250) return "Vive por y para el teatro 🎭🔥";
@@ -160,6 +185,10 @@ information in a web page with two main sections: */
       .replaceAll("'", "&#039;");
   }
 
+  /**
+   * The function `updatePager` updates the pager elements on a webpage based on the current page and
+   * total number of pages in the state object.
+   */
   function updatePager() {
     const prev = document.getElementById("rankPrev");
     const next = document.getElementById("rankNext");
@@ -170,6 +199,10 @@ information in a web page with two main sections: */
     if (next) next.disabled = state.page >= state.totalPages;
   }
 
+ /**
+  * The function `fetchRanking` fetches ranking data from an API, updates the podium and table with the
+  * data, and handles errors gracefully.
+  */
   async function fetchRanking() {
     const hint = document.getElementById("podiumHint");
     const tbody = document.getElementById("rankTbody");
@@ -223,6 +256,10 @@ information in a web page with two main sections: */
     };
   }
 
+  /**
+   * The `initRankingUI` function sets up event listeners for search input, clear button, previous
+   * button, and next button to update the state and fetch ranking data accordingly.
+   */
   function initRankingUI() {
     const input = document.getElementById("rankSearch");
     const clear = document.getElementById("rankClear");

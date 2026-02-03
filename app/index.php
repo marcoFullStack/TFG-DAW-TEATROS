@@ -51,7 +51,7 @@ $jsonUrl = BASE_URL . "../red_teatros.json";
 
   <?php include_once __DIR__ . '/views/index/maps.php'; ?>
 
-  <?php include_once __DIR__ . '/views/index/maps.php'; ?>
+
 <button id="chatFab" aria-label="Abrir chat">💬</button>
 
 <div id="chatBox" class="chat-hidden" role="dialog" aria-label="Asistente IA">

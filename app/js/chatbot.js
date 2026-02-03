@@ -1,12 +1,4 @@
-/**
- * The JavaScript code sets up a chat interface where users can send messages and receive responses
- * from a server-side assistant.
- * @param text - Text is the content of the message that will be displayed in the chat interface. It
- * can be a user message or a response from the chatbot assistant.
- * @param who - The `who` parameter in the `addMsg` function is used to determine whether the message
- * is from the user or the chatbot. It is a string that can have two values: "user" or "bot". This
- * value is used to style the message differently based on who sent it.
- */
+
 const fab = document.getElementById("chatFab");
 const box = document.getElementById("chatBox");
 const closeBtn = document.getElementById("chatClose");
@@ -14,6 +6,15 @@ const form = document.getElementById("chatForm");
 const input = document.getElementById("chatInput");
 const messages = document.getElementById("chatMessages");
 
+/**
+ * The function `addMsg` creates a new `div` element with specified text and class, appends it to the
+ * `messages` container, and scrolls to the bottom of the container.
+ * @param text - The `text` parameter is the message content that you want to display in the chat
+ * interface.
+ * @param who - The `who` parameter in the `addMsg` function is used to specify the sender of the
+ * message. It is a class name that will be added to the created `div` element to differentiate between
+ * messages sent by different users or entities.
+ */
 function addMsg(text, who){
   const div = document.createElement("div");
   div.className = `msg ${who}`;
@@ -22,6 +23,9 @@ function addMsg(text, who){
   messages.scrollTop = messages.scrollHeight;
 }
 
+/* The `fab.addEventListener("click", ()=>{ ... })` code block is adding a click event listener to the
+element with the id "chatFab" (referred to as `fab`). When this element is clicked, the following
+actions are performed: */
 fab.addEventListener("click", ()=>{
   box.classList.toggle("chat-hidden");
   if (!box.classList.contains("chat-hidden") && messages.childElementCount === 0){
@@ -31,6 +35,10 @@ fab.addEventListener("click", ()=>{
 
 closeBtn.addEventListener("click", ()=> box.classList.add("chat-hidden"));
 
+/* The `form.addEventListener("submit", async (e) => { ... })` code block is adding an event listener
+to the form element with the id "chatForm" (referred to as `form`). This event listener is triggered
+when the form is submitted, typically by pressing the Enter key or clicking a submit button within
+the form. */
 form.addEventListener("submit", async (e)=>{
   e.preventDefault();
   const text = input.value.trim();

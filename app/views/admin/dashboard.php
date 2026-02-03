@@ -185,7 +185,7 @@ if (!$dao->updateObra($obra)) {
       exit;
     }
 
-    /* ---------- TEATROS CRUD ---------- */
+   
   /* ---------- TEATROS CRUD ---------- */
 if ($action === 'teatro_create' || $action === 'teatro_update') {
   $isUpdate = ($action === 'teatro_update');

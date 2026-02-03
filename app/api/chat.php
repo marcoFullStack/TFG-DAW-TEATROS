@@ -625,6 +625,28 @@ function hr_small(): string {
 }
 
 
+/**
+ * The function `reply_teatros` generates a formatted string containing information about theaters
+ * based on input data.
+ * @param {string} title - The `reply_teatros` function takes in four parameters:
+ * @param {array} rows - The `rows` parameter in the `reply_teatros` function is an array containing
+ * information about theaters. Each element in the array represents a theater and contains details such
+ * as the theater's name, location (municipality and province), maximum capacity, address, phone
+ * number, and email.
+ * @param {bool} [showProv] - The `showProv` parameter in the `reply_teatros` function is a boolean
+ * parameter that determines whether to include the province information along with the municipality
+ * information when displaying the location of a theater. If `showProv` is set to `true`, the province
+ * information will be included in the location
+ * @param {bool} [detailed] - The `detailed` parameter in the `reply_teatros` function is a boolean
+ * parameter that determines whether additional details about each theater should be included in the
+ * output. If `detailed` is set to `true`, the function will include extra information such as the
+ * theater's address, phone number
+ * @returns The function `reply_teatros` returns a formatted string containing information about
+ * theaters based on the input parameters provided. If there are no rows of data, it will return a
+ * message indicating no results were found. If there are rows of data, it will format and display
+ * information about each theater, including the theater name, location, capacity, and optionally
+ * detailed information such as address, phone number, and
+ */
 function reply_teatros(string $title, array $rows, bool $showProv = false, bool $detailed = false): string {
   if (!$rows) {
     return h2("🎭 $title") . p("No he encontrado resultados.");
@@ -661,6 +683,20 @@ function reply_teatros(string $title, array $rows, bool $showProv = false, bool 
 }
 
 
+/**
+ * The function `reply_obras` takes a title and an array of rows, then generates a formatted string
+ * response based on the data provided.
+ * @param {string} title - The `reply_obras` function takes a title and an array of rows as parameters.
+ * The title is a string that represents the title of the works being queried. The rows parameter is an
+ * array that contains information about the works, such as title, author, year, and subtitle.
+ * @param {array} rows - The `rows` parameter in the `reply_obras` function is an array containing
+ * information about works (obras). Each element in the array represents a work and is structured as an
+ * associative array with keys like 'Titulo' (title), 'Autor' (author), 'Anio' (year
+ * @returns The function `reply_obras` returns a string based on the input parameters. If the array
+ * `` is empty, it returns a message indicating no matching works were found. If there is only one
+ * row in the array, it constructs a string with details about that work (title, author, year,
+ * subtitle). Otherwise, it calls the function `reply_obras_list` to generate a list
+ */
 function reply_obras(string $title, array $rows): string {
   if (!$rows) {
     return h2("📚 " . e($title)) . p("No he encontrado obras que coincidan.<br><br>Prueba: <code>obra El refugio</code> o <code>obras de Federico García Lorca</code>.");
@@ -679,6 +715,21 @@ function reply_obras(string $title, array $rows): string {
   return reply_obras_list($title, $rows);
 }
 
+/**
+ * The function `reply_obras_list` generates a formatted list of works with titles, years, and authors
+ * based on input data.
+ * @param {string} title - The `reply_obras_list` function takes a title and an array of rows as
+ * parameters. The title is a string that represents the title of the list of works, and the rows
+ * parameter is an array containing information about each work.
+ * @param {array} rows - The `reply_obras_list` function takes a title and an array of rows as
+ * parameters. The rows array should contain information about different works such as title, year, and
+ * author. The function then generates a formatted list of these works with their titles, years, and
+ * authors (if available) and
+ * @returns The `reply_obras_list` function returns a formatted string containing a list of works
+ * (obras) with their titles, years, and authors. The list is generated based on the input parameters
+ * `` (title of the list) and `` (array of works data). The function constructs the list by
+ * iterating over each work in the `` array and formatting the title, year
+ */
 function reply_obras_list(string $title, array $rows): string {
   $out = [];
   $out[] = h2("📚 $title (" . count($rows) . ")");
@@ -698,6 +749,21 @@ function reply_obras_list(string $title, array $rows): string {
 
 
 
+/**
+ * The function `reply_horarios` generates a formatted string displaying information about scheduled
+ * events based on the provided title and rows of data.
+ * @param {string} title - The `reply_horarios` function takes a title and an array of rows as
+ * parameters. The title is a string that represents the title of the schedule, and the rows parameter
+ * is an array containing information about each scheduled event.
+ * @param {array} rows - The `reply_horarios` function takes a title and an array of rows as
+ * parameters. The rows parameter should be an array containing information about scheduled events or
+ * performances. Each row in the array should have the following keys:
+ * @returns The function `reply_horarios` returns a formatted string containing information about
+ * scheduled events (horarios) based on the provided title and rows of data. If there are no rows of
+ * data provided, it will return a message indicating that there are no registered functions. If there
+ * are rows of data, it will format and display the information for each event including date and time,
+ * play, theater, location,
+ */
 function reply_horarios(string $title, array $rows): string {
   if (!$rows) {
     return h2("📅 $title") . p("No hay funciones registradas.");

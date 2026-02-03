@@ -16,6 +16,7 @@ require_once __DIR__ . '/../config/config.php';
 <body>
  
 <header class="main-header">
+  <!-- contenedor header -->
   <div class="header-container">
     <div class="logo-section">
       <a href="<?= BASE_URL ?>index.php" class="site-name"><img src="images/logo/Logo.png" alt="logo" class="logo">Teatros Nova</a>
@@ -24,7 +25,7 @@ require_once __DIR__ . '/../config/config.php';
     <div class="menu-toggle" id="menuToggle">
       <span></span><span></span><span></span>
     </div>
- 
+    <!-- nav main -->
     <nav class="main-nav" id="mainNav">
       <ul>
         <li><a href="<?= BASE_URL ?>index.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>">Inicio</a></li>
@@ -34,7 +35,7 @@ require_once __DIR__ . '/../config/config.php';
         <li class="mobile-only"><a href="<?= BASE_URL ?>views/user/login.php"><button class="header-action">Acceso Usuario</button></a></li>
       </ul>
     </nav>
- 
+  <!-- botones para movil -->
     <!-- <a href="<?= BASE_URL ?>views/auth/login_admin.php"><button class="header-action" id="actionButton">Acceso Admin</button></a> -->
     <a href="<?= BASE_URL ?>views/user/login.php"><button class="header-action" id="actionButton">Acceso Usuario</button></a>
  

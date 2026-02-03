@@ -1,6 +1,9 @@
 /* This JavaScript code snippet is an immediately invoked function expression (IIFE) that contains
 various functionalities for a web page. Here is a breakdown of what it does: */
 (() => {
+  /* The code snippet `const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
+    }, { threshold: 0.12 });` is creating a new `IntersectionObserver` object named `io`. */
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
   }, { threshold: 0.12 });
@@ -17,6 +20,11 @@ various functionalities for a web page. Here is a breakdown of what it does: */
   }, { passive: true });
 
   const counters = document.querySelectorAll('.num');
+  /**
+   * The `animateCount` function animates counting up to a target number within a specified duration.
+   * @param el - The `el` parameter in the `animateCount` function represents the element (DOM element)
+   * that you want to animate the count for.
+   */
   const animateCount = (el) => {
     const target = parseInt(el.dataset.count || el.dataset.fallback || "0", 10);
     const start = 0;
@@ -30,6 +38,16 @@ various functionalities for a web page. Here is a breakdown of what it does: */
     };
     requestAnimationFrame(step);
   };
+/* The code snippet `const ioCount = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.done) {
+        e.target.dataset.done = "1";
+        animateCount(e.target);
+      }
+    });
+  }, { threshold: 0.6 });` is creating a new `IntersectionObserver` object named `ioCount`. This
+observer is set up to observe elements on the page and trigger a specific action when those elements
+intersect with a specified threshold (in this case, 0.6 of the element must be visible). */
   const ioCount = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting && !e.target.dataset.done) {
@@ -90,6 +108,8 @@ various functionalities for a web page. Here is a breakdown of what it does: */
   const mapEl = document.getElementById('mapTeatros');
   const jsonUrl = window.__TEATROS_JSON_URL__;
 
+  /* This code snippet is responsible for creating a map using Leaflet library to display theater
+  locations based on JSON data. Here is a breakdown of what it does: */
   if (mapEl && window.L && jsonUrl) {
     const map = L.map('mapTeatros', { scrollWheelZoom: false }).setView([41.8, -4.8], 7);
 

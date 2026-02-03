@@ -15,6 +15,11 @@ global scope. Here's a breakdown of what the code is doing: */
     err.textContent = msg;
   }
 
+/**
+ * The function clearFieldError removes error styling and messages from a form field.
+ * @param input - The `input` parameter in the `clearFieldError` function is a reference to the input
+ * field element that you want to clear the error for.
+ */
   function clearFieldError(input) {
     const row = input.closest(".form-row") || input.parentElement;
     input.classList.remove("is-invalid");
@@ -26,6 +31,16 @@ global scope. Here's a breakdown of what the code is doing: */
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
+  /**
+   * The `enhanceForm` function enhances a form by adding validation rules and error handling for form
+   * fields.
+   * @param form - The `form` parameter in the `enhanceForm` function is a reference to the HTML form
+   * element that you want to enhance with validation rules. This function adds validation logic to the
+   * form based on the provided rules.
+   * @param rules - The `rules` parameter is an array of objects that define validation rules for form
+   * fields. Each object in the array should have the following properties:
+   * @returns The `enhanceForm` function is returning `undefined`.
+   */
   function enhanceForm(form, rules) {
     if (!form) return;
 

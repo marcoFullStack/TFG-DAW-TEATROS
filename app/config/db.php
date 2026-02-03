@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+/**
+ * The function `getConexion` establishes a PDO database connection using the provided constants for
+ * host, database name, charset, user, and password, with error handling in case of connection failure.
+ * @returns The `getConexion` function is returning a new PDO (PHP Data Objects) instance that
+ * represents a connection to a MySQL database.
+ */
 function getConexion() {
     $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
 
