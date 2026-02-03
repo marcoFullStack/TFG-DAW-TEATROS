@@ -38,6 +38,13 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/login.css?v=1">
 </head>
 <body>
+  <!-- Video de fondo -->
+<div class="video-bg">
+  <video autoplay muted  playsinline>
+    <source src="<?= h(BASE_URL) ?>video/vecteezy_opening-doors-reveals-empty-seats-in-dark-theater-at-night_72007843.mp4" type="video/mp4">
+  </video>
+</div>
+
 <main>
   <div class="form-box">
     <h1>Login usuario</h1>
