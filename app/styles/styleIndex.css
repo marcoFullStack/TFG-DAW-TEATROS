@@ -356,7 +356,8 @@ select:focus, input:focus{
 
 .toTop{
   position:fixed;
-  right: 16px;
+  left: 16px;     /* <-- antes right */
+  right: auto;    /* <-- importante para anular right */
   bottom: 18px;
   width: 44px;
   height: 44px;
@@ -370,6 +371,7 @@ select:focus, input:focus{
   transform: translateY(10px);
   transition: .25s ease;
 }
+
 .toTop.show{ opacity:1; transform: translateY(0); }
 .toTop:hover{ border-color: rgba(241,212,138,.45); }
 

@@ -37,11 +37,13 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
   <title>Login usuario</title>
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/login.css?v=1">
+    <link rel="preload" as="image" href="<?= h(BASE_URL) ?>video/ImagenPosterLogin.webp">
+
 </head>
 <body>
   <!-- Video de fondo -->
-<div class="video-bg">
-  <video autoplay muted  playsinline>
+<div class="video-bg" >
+  <video autoplay muted  playsinline preload="metadata"  poster="<?= h(BASE_URL) ?>video/ImagenPosterLogin.webp">
     <source src="<?= h(BASE_URL) ?>video/vecteezy_opening-doors-reveals-empty-seats-in-dark-theater-at-night_72007843.mp4" type="video/mp4">
   </video>
 </div>
@@ -80,6 +82,14 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
     { selector: 'input[name="Email"]', required:true, email:true, message:"Email no válido" },
     { selector: 'input[name="Password"]', required:true, minLength:4, message:"Contraseña mínimo 4 caracteres" }
   ]);
+     const v = document.querySelector('.video-bg video');
+  if (v) {
+    const show = () => v.classList.add('ready');
+    v.addEventListener('canplay', show, { once:true });
+    v.addEventListener('loadeddata', show, { once:true });
+    // fallback por si el navegador no dispara eventos
+    setTimeout(show, 1500);
+  }
 </script>
 </body>
 </html>

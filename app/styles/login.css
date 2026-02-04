@@ -67,6 +67,7 @@ form a{
   inset: 0;
   z-index: -1;
   overflow: hidden;
+     background: url("../video/ImagenPosterLogin.webp") center/cover no-repeat;
 }
 
 .video-bg video{
@@ -90,3 +91,17 @@ main{
   position: relative;
   z-index: 2;
 }
+.video-bg video{
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.video-bg video.ready{
+  opacity: 1;
+}
+@media (max-width: 768px){
+  .video-bg video{ display:none; }
+  .video-bg{
+    background: url("../video/ImagenPosterLogin.webp") center/cover no-repeat;
+  }
+}
+

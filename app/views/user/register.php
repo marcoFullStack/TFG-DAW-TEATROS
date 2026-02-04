@@ -86,11 +86,14 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
   <title>Registro usuario</title>
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/styleIndex.css">
   <link rel="stylesheet" href="<?= h(BASE_URL) ?>styles/register.css">
+    <link rel="preload" as="image" href="<?= h(BASE_URL) ?>video/ImagenPosterRegister.webp">
+
 </head>
 <body>
   <!-- Video de fondo -->
 <div class="video-bg">
-  <video autoplay muted  playsinline>
+  <video autoplay muted  playsinline preload="metadata"
+>
     <source src="<?= h(BASE_URL) ?>video/vecteezy_kyiv-ukraine-29-may-2024-theater-actor-has-rehearsal_55074994.mp4" type="video/mp4">
   </video>
 </div>
@@ -148,6 +151,13 @@ input fields within the form. */
     { selector: 'input[name="Password"]', required:true, minLength:4, message:"Contraseña mínimo 4 caracteres" },
     { selector: 'input[name="Password2"]', required:true, minLength:4, message:"Repite la contraseña" }
   ]);
+     const v = document.querySelector('.video-bg video');
+  if (v) {
+    const show = () => v.classList.add('ready');
+    v.addEventListener('canplay', show, { once:true });
+    v.addEventListener('loadeddata', show, { once:true });
+    setTimeout(show, 2000);
+  }
 </script>
 </body>
 </html>
