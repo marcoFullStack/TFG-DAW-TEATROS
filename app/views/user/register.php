@@ -90,7 +90,7 @@ function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 <body>
   <!-- Video de fondo -->
 <div class="video-bg">
-  <video autoplay muted loop playsinline>
+  <video autoplay muted  playsinline>
     <source src="<?= h(BASE_URL) ?>video/vecteezy_kyiv-ukraine-29-may-2024-theater-actor-has-rehearsal_55074994.mp4" type="video/mp4">
   </video>
 </div>
